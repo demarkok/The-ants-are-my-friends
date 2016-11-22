@@ -1,0 +1,26 @@
+ant.png
+size: 63, 24
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ant
+  rotate: false
+  xy: 0, 0
+  size: 19, 22
+  orig: 19, 22
+  offset: 0, 0
+  index: 0
+ant
+  rotate: false
+  xy: 19, 0
+  size: 19, 22
+  orig: 19, 22
+  offset: 0, 0
+  index: 1
+ant
+  rotate: false
+  xy: 38, 0
+  size: 19, 22
+  orig: 19, 22
+  offset: 0, 0
+  index: 2
