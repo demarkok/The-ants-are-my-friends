@@ -15,10 +15,6 @@ public class AntWay {
     public void pushPoint(Vector2 point) {
         points.add(point);
     }
-    public void popPoint() {
-        points.remove(0);
-    }
-
 
     public void init() {
         points = new LinkedList<Vector2>();
