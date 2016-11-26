@@ -53,15 +53,24 @@ public class DragTheAntListener extends DragListener {
         ant.setSteeringBehavior(null);
         pathToFollow = new Array<Vector2>();
         ant.getAntWay().init();
+        world.setActiveRecovery(false);
+        //TODO make 0.1f Ant's field
+        world.setEnergy(world.getEnergy() - 0.1f);
     }
 
     @Override
     public void drag(InputEvent event, float x, float y, int pointer) {
-        if (!enabled) {
+        if (!enabled || world.getEnergy() <= 0) {
             return;
         }
-        pathToFollow.add(new Vector2(x, y));
-        ant.getAntWay().pushPoint(new Vector2(x, y));
+        Vector2 newPoint = new Vector2(x, y);
+        if (pathToFollow.size > 0) {
+            float segmentLen = newPoint.dst(pathToFollow.get(pathToFollow.size - 1));
+            //TODO make 0.0005 Ant's field
+            world.setEnergy(world.getEnergy() - 0.0005f * segmentLen);
+        }
+        pathToFollow.add(newPoint);
+        ant.getAntWay().pushPoint(newPoint);
     }
 
     @Override
@@ -80,5 +89,6 @@ public class DragTheAntListener extends DragListener {
         } catch (Exception e) {
         }
         enabled = false;
+        world.setActiveRecovery(true);
     }
 }

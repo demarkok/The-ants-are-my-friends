@@ -6,8 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.LinkedList;
 
-
-
 public class AntWay {
     private LinkedList<Vector2> points;
     private ShapeRenderer renderer;

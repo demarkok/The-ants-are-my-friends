@@ -25,10 +25,10 @@ public abstract class SteeringActor extends Actor implements Steerable<Vector2> 
     private float boundingRadius;
     private boolean tagged;
 
-    private float maxLinearSpeed = 300;
-    private float maxLinearAcceleration = 300;
-    private float maxAngularSpeed = 300;
-    private float maxAngularAcceleration = 300;
+    private float maxLinearSpeed = 120;
+    private float maxLinearAcceleration = 120;
+    private float maxAngularSpeed = 120;
+    private float maxAngularAcceleration = 120;
 
     private boolean independentFacing;
 
