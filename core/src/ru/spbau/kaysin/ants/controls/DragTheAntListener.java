@@ -1,20 +1,16 @@
 package ru.spbau.kaysin.ants.controls;
 
-import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import com.badlogic.gdx.ai.steer.behaviors.FollowPath;
 import com.badlogic.gdx.ai.steer.utils.paths.LinePath;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Array;
 
 import ru.spbau.kaysin.ants.entities.Ant;
+import ru.spbau.kaysin.ants.entities.AntWay;
 import ru.spbau.kaysin.ants.model.GameWorld;
-import ru.spbau.kaysin.ants.utils.Scene2dLocation;
 
 /**
  * Created by demarkok on 25-Nov-16.
@@ -56,6 +52,7 @@ public class DragTheAntListener extends DragListener {
         enabled = true;
         ant.setSteeringBehavior(null);
         pathToFollow = new Array<Vector2>();
+        ant.getAntWay().init();
     }
 
     @Override
@@ -64,7 +61,7 @@ public class DragTheAntListener extends DragListener {
             return;
         }
         pathToFollow.add(new Vector2(x, y));
-        world.getAntWay().addPoint(new Vector2(x, y));
+        ant.getAntWay().pushPoint(new Vector2(x, y));
     }
 
     @Override
@@ -73,13 +70,15 @@ public class DragTheAntListener extends DragListener {
             return;
         }
 //        System.out.println(pathToFollow);
-        ant.setSteeringBehavior(
-                new FollowPath<Vector2, LinePath.LinePathParam>(
-                        ant,
-                        new LinePath<Vector2>(pathToFollow, true), 10)
-                        .setArrivalTolerance(0)
-                        .setDecelerationRadius(5));
-
+        try {
+            ant.setSteeringBehavior(
+                    new FollowPath<Vector2, LinePath.LinePathParam>(
+                            ant,
+                            new LinePath<Vector2>(pathToFollow, true), 10)
+                            .setArrivalTolerance(0)
+                            .setDecelerationRadius(2));
+        } catch (Exception e) {
+        }
         enabled = false;
     }
 }

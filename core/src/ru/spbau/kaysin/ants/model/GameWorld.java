@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import ru.spbau.kaysin.ants.controls.DragTheAntListener;
@@ -14,20 +15,22 @@ public class GameWorld {
 
     private Stage stage;
 
-    AntWay antWay;
+    ArrayList<Ant> ants;
 
     public GameWorld(Stage stage) {
         this.stage = stage;
-        antWay = new AntWay(new ShapeRenderer());
         stage.getRoot().setBounds(0, 0, stage.getWidth(), stage.getHeight());
 
         // now the stage handle all the inputs
         Gdx.input.setInputProcessor(stage);
 
+        ants = new ArrayList<Ant>();
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
-            stage.addActor(new Ant(random.nextInt(Math.round(stage.getWidth())),
-                                   random.nextInt(Math.round(stage.getHeight()))));
+            Ant ant = new Ant(random.nextInt(Math.round(stage.getWidth())),
+                              random.nextInt(Math.round(stage.getHeight())));
+            ants.add(ant);
+            stage.addActor(ant);
         }
         stage.addListener(new DragTheAntListener(this));
     }
@@ -36,13 +39,11 @@ public class GameWorld {
         return stage;
     }
 
-    public AntWay getAntWay() {
-        return antWay;
-    }
-
     public void draw() {
         stage.draw();
-        antWay.draw();
+        for (Ant ant: ants) {
+            ant.getAntWay().draw();
+        }
     }
 
     public void update(float dt) {

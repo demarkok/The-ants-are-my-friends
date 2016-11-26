@@ -1,5 +1,7 @@
 package ru.spbau.kaysin.ants.entities;
 
+import com.badlogic.gdx.ai.steer.behaviors.FollowPath;
+import com.badlogic.gdx.ai.steer.utils.paths.LinePath;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -15,6 +17,7 @@ import com.badlogic.gdx.utils.Array;
 import java.util.Arrays;
 
 import ru.spbau.kaysin.ants.Ants;
+import ru.spbau.kaysin.ants.controls.DragTheAntListener;
 
 public class Ant extends SteeringActor {
 
@@ -22,6 +25,8 @@ public class Ant extends SteeringActor {
     private Animation animation;
     private TextureRegion animFrame;
     private float animTime = 0;
+
+    AntWay antWay;
 
     public Ant(float x, float y) {
         super(false);
@@ -37,6 +42,8 @@ public class Ant extends SteeringActor {
 
         setBoundingRadius((getHeight() + getWidth()) / 4);
         setTouchable(Touchable.enabled);
+
+        antWay = new AntWay();
     }
 
     @Override
@@ -45,6 +52,10 @@ public class Ant extends SteeringActor {
 
         float animSpeed = MathUtils.clamp(getLinearVelocity().len() / 100, 0, 100);
         animTime += delta * animSpeed;
+        if (getSteeringBehavior() instanceof FollowPath) {
+//            antWay.update(((FollowPath<Vector2, LinePath.LinePathParam>) getSteeringBehavior()).getInternalTargetPosition());
+            antWay.update(getPosition(), getBoundingRadius());
+        }
     }
 
     @Override
@@ -52,12 +63,15 @@ public class Ant extends SteeringActor {
         animFrame = animation.getKeyFrame(animTime);
         batch.draw(animFrame, getX(), getY(), getOriginX(), getOriginY(),
                 getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
-
     }
 
     @Override
     public Actor hit(float x, float y, boolean touchable) {
         if (touchable && getTouchable() != Touchable.enabled) return null;
-        return getPosition().len(x, y) < getBoundingRadius() * getScaleY() * 1.1 ? this : null;
+        return Vector2.len(x, y) < getBoundingRadius() * getScaleY() * 1.1 ? this : null;
+    }
+
+    public AntWay getAntWay() {
+        return antWay;
     }
 }
