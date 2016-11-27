@@ -22,10 +22,9 @@ public class DragTheAntListener extends DragListener {
         this.world = world;
     }
 
-    // TODO substitute it to touchDown
     @Override
     public void dragStart(InputEvent event, float x, float y, int pointer) {
-        Actor actor = world.getStage().hit(x, y, true);
+        Actor actor = world.getStage().hit(getTouchDownX(), getTouchDownY(), true);
         if (actor instanceof Ant) {
             init((Ant)actor);
         }
