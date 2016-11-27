@@ -32,13 +32,13 @@ public class EnergyBar extends Actor {
     // we don't know our parent in constructor
     // TODO: fix it, it's ugly
     public void init() {
-        setPosition(20, 20);
-        setSize(getParent().getWidth() - 2 * getX(), 10);
+        setPosition(20, 200);
+        setSize(7, getParent().getHeight() - 2 * getY());
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         loadingBarBackground.draw(batch, getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
-        loadingBar.draw(batch, getX(), getY(), world.getEnergy() * getWidth() * getScaleX(), getHeight() * getScaleY());
+        loadingBar.draw(batch, getX(), getY(), getWidth() * getScaleX(), world.getEnergy() * getHeight() * getScaleY());
     }
 }
