@@ -14,6 +14,7 @@ import ru.spbau.kaysin.ants.utils.MyMathUtils;
 import ru.spbau.kaysin.ants.utils.Scene2dLocation;
 
 
+// TODO simplify this class. There are a lot of useless things
 public abstract class SteeringActor extends Actor implements Steerable<Vector2> {
 
     private static final SteeringAcceleration<Vector2> steeringOutput = new SteeringAcceleration<Vector2>(new Vector2());

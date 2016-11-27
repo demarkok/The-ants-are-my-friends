@@ -66,6 +66,7 @@ public class DragTheAntListener extends DragListener {
         }
         try {
             ant.setSteeringBehavior(
+                    // TODO FollowPath algorithm have bug. Should substitute it to my own.
                     new FollowPath<Vector2, LinePath.LinePathParam>(
                             ant,
                             new LinePath<Vector2>(pathToFollow, true), 10)
