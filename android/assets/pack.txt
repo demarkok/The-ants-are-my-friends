@@ -44,5 +44,13 @@ default-round
   orig: 80, 13
   offset: 0, 0
   index: -1
+dot
+  rotate: false
+  xy: 32, 32
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+
 
 

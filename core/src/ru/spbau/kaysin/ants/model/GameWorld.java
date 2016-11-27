@@ -1,7 +1,6 @@
 package ru.spbau.kaysin.ants.model;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -10,19 +9,16 @@ import java.util.Random;
 
 import ru.spbau.kaysin.ants.controls.DragTheAntListener;
 import ru.spbau.kaysin.ants.entities.Ant;
-import ru.spbau.kaysin.ants.entities.AntWay;
 import ru.spbau.kaysin.ants.entities.EnergyBar;
 
 public class GameWorld {
 
+    ArrayList<Ant> ants;
     private float energy;
     private float energyRecoverySpeed = 0.1f;
     private boolean activeRecovery = true;
     private EnergyBar energyBar;
-
     private Stage stage;
-
-    ArrayList<Ant> ants;
 
     public GameWorld(Stage stage) {
         this.stage = stage;
@@ -38,6 +34,7 @@ public class GameWorld {
                               random.nextInt(Math.round(stage.getHeight())));
             ants.add(ant);
             stage.addActor(ant);
+            ant.init();
         }
         stage.addListener(new DragTheAntListener(this));
 
@@ -48,9 +45,6 @@ public class GameWorld {
 
     public void draw() {
         stage.draw();
-        for (Ant ant: ants) {
-            ant.getAntWay().draw();
-        }
     }
 
     public void update(float dt) {

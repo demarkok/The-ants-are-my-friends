@@ -1,32 +1,25 @@
 package ru.spbau.kaysin.ants.entities;
 
 import com.badlogic.gdx.ai.steer.behaviors.FollowPath;
-import com.badlogic.gdx.ai.steer.utils.paths.LinePath;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
-
-import java.util.Arrays;
 
 import ru.spbau.kaysin.ants.Ants;
-import ru.spbau.kaysin.ants.controls.DragTheAntListener;
 
 public class Ant extends SteeringActor {
 
+    AntWay antWay;
     // Animation
     private Animation animation;
     private TextureRegion animFrame;
     private float animTime = 0;
-
-    AntWay antWay;
 
     public Ant(float x, float y) {
         super(false);
@@ -73,5 +66,11 @@ public class Ant extends SteeringActor {
 
     public AntWay getAntWay() {
         return antWay;
+    }
+
+
+    //TODO so ugly!
+    public void init() {
+        getStage().addActor(antWay);
     }
 }

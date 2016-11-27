@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
@@ -31,6 +30,7 @@ public class EnergyBar extends Actor {
     }
 
     // we don't know our parent in constructor
+    // TODO: fix it, it's ugly
     public void init() {
         setPosition(20, 20);
         setSize(getParent().getWidth() - 2 * getX(), 10);
