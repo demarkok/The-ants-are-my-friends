@@ -26,18 +26,19 @@ public class AnthillSource extends Actor {
         setTouchable(Touchable.enabled);
     }
 
+    // TODO get rid of init
     public void init() {
         setBounds(0, 0, texture.getWidth(), texture.getHeight());
-//        setBounds(100, 100, texture.getWidth(), texture.getHeight());
         setOrigin(Align.bottomLeft);
 
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-//        batch.draw(texture, getX(), getY());
         batch.draw(texture, getX(), getY(), getOriginX(), getOriginY(),
                 getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+
+        // draw the text in the center of rectangle
         font.draw(batch, textLayout, getX(Align.center) - textLayout.width / 2,
                                      getY(Align.center));
 

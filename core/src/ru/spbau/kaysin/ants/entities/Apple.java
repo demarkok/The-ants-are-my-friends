@@ -3,15 +3,10 @@ package ru.spbau.kaysin.ants.entities;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
 
 import ru.spbau.kaysin.ants.Ants;
-
-/**
- * Created by demarkok on 23-Nov-16.
- */
 
 public class Apple extends Actor {
 

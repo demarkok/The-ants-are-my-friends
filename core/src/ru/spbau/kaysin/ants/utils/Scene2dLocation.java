@@ -3,10 +3,11 @@ package ru.spbau.kaysin.ants.utils;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 
+// for some behaviours
 public class Scene2dLocation implements Location<Vector2> {
 
-	Vector2 position;
-	float orientation;
+    private Vector2 position;
+    private float orientation;
 
 	public Scene2dLocation() {
 		this.position = new Vector2();

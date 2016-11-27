@@ -15,7 +15,7 @@ import ru.spbau.kaysin.ants.Ants;
 
 public class Ant extends SteeringActor {
 
-    AntWay antWay;
+    private AntWay antWay;
     // Animation
     private Animation animation;
     private TextureRegion animFrame;
@@ -42,10 +42,11 @@ public class Ant extends SteeringActor {
     public void act(float delta) {
         super.act(delta);
 
+        // update animTime to choose correct animFrame
         float animSpeed = MathUtils.clamp(getLinearVelocity().len() / 100, 0, 100);
         animTime += delta * animSpeed;
         if (getSteeringBehavior() instanceof FollowPath) {
-//            antWay.update(((FollowPath<Vector2, LinePath.LinePathParam>) getSteeringBehavior()).getInternalTargetPosition());
+            // erase near points from the antWay
             antWay.update(getPosition(), getBoundingRadius());
         }
     }
@@ -68,7 +69,7 @@ public class Ant extends SteeringActor {
     }
 
 
-    //TODO so ugly!
+    // TODO should fix it, init seems ugly
     public void init() {
         getStage().addActor(antWay);
     }

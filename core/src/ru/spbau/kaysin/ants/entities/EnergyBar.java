@@ -17,6 +17,7 @@ public class EnergyBar extends Actor {
     private NinePatchDrawable loadingBar;
 
     private static final float SHAKE_TIME = 0.1f;
+    private static final float SHAKE_DEVIATION = 3;
     private float defaultX; // to shake the bar varying super.x
     private float shakeTimer = 0;
 
@@ -31,7 +32,7 @@ public class EnergyBar extends Actor {
     }
 
     // we don't know our parent in constructor
-    // TODO: fix it, it's ugly
+    // TODO: get rid of init
     public void init() {
         setPosition(20, 200);
         setSize(7, getParent().getHeight() - 2 * getY());
@@ -54,7 +55,7 @@ public class EnergyBar extends Actor {
 
         if (shakeTimer > 0) {
             shakeTimer -= delta;
-            setX(defaultX + MathUtils.random(-1, 1));
+            setX(defaultX + MathUtils.random(-SHAKE_DEVIATION, SHAKE_DEVIATION));
         }
     }
 

@@ -17,7 +17,7 @@ import ru.spbau.kaysin.ants.entities.EnergyBar;
 
 public class GameWorld {
 
-    ArrayList<Ant> ants;
+    private ArrayList<Ant> ants;
 
     private float energy = 0.9f;
     private float energyRecoverySpeed = 0.1f;
@@ -29,11 +29,9 @@ public class GameWorld {
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private BitmapFont font12;
 
-
     private AnthillSource source;
 
     private Stage stage;
-
 
     public GameWorld(Stage stage) {
         this.stage = stage;
@@ -51,7 +49,6 @@ public class GameWorld {
         source = new AnthillSource(font12);
         stage.addActor(source);
         source.init();
-
 
         ants = new ArrayList<Ant>();
 
@@ -100,19 +97,8 @@ public class GameWorld {
         this.energy = MathUtils.clamp(energy, 0, 1);
     }
 
-    public boolean isActiveRecovery() {
-        return activeRecovery;
-    }
-
     public void setActiveRecovery(boolean activeRecovery) {
         this.activeRecovery = activeRecovery;
     }
 
-    public AnthillSource getSource() {
-        return source;
-    }
-
-    public void setSource(AnthillSource source) {
-        this.source = source;
-    }
 }

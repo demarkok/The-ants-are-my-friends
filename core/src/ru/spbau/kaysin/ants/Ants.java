@@ -8,6 +8,7 @@ import ru.spbau.kaysin.ants.screens.PlayScreen;
 
 public class Ants extends Game {
 
+    // virtual size
     public static final int WIDTH = 540;
     public static final int HEIGHT = 960;
 	public static final String TITLE = "Ants";

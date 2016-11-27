@@ -11,20 +11,18 @@ import com.badlogic.gdx.utils.Array;
 import ru.spbau.kaysin.ants.entities.Ant;
 import ru.spbau.kaysin.ants.model.GameWorld;
 
-/**
- * Created by demarkok on 25-Nov-16.
- */
-
 public class DragTheAntListener extends DragListener {
-    Array<Vector2> pathToFollow;
     private GameWorld world;
     private Ant ant;
+
+    private Array<Vector2> pathToFollow;
     private boolean enabled = false;
 
     public DragTheAntListener(GameWorld world) {
         this.world = world;
     }
 
+    // TODO substitute it to touchDown
     @Override
     public void dragStart(InputEvent event, float x, float y, int pointer) {
         Actor actor = world.getStage().hit(x, y, true);
@@ -37,11 +35,12 @@ public class DragTheAntListener extends DragListener {
     private void init(Ant ant) {
         this.ant = ant;
         enabled = true;
+        // stop the ant if he had any movements
         ant.setSteeringBehavior(null);
         pathToFollow = new Array<Vector2>();
         ant.getAntWay().init();
         world.setActiveRecovery(false);
-        //TODO make 0.2f Ant's field
+        // TODO make 0.2f Ant's field
         world.setEnergy(world.getEnergy() - 0.2f);
     }
 
@@ -65,7 +64,6 @@ public class DragTheAntListener extends DragListener {
         if (!enabled) {
             return;
         }
-
         try {
             ant.setSteeringBehavior(
                     new FollowPath<Vector2, LinePath.LinePathParam>(
@@ -74,6 +72,7 @@ public class DragTheAntListener extends DragListener {
                             .setArrivalTolerance(0)
                             .setDecelerationRadius(2));
         } catch (Exception e) {
+            // < 2 points in the path
         }
         world.setActiveRecovery(true);
         enabled = false;

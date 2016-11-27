@@ -7,9 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import ru.spbau.kaysin.ants.entities.AnthillSource;
 import ru.spbau.kaysin.ants.model.GameWorld;
 
-/**
- * Created by demarkok on 27-Nov-16.
- */
 
 public class TouchSourceListener extends ClickListener {
     private GameWorld world;
@@ -23,8 +20,6 @@ public class TouchSourceListener extends ClickListener {
         Actor actor = world.getStage().hit(x, y, true);
         if (actor instanceof AnthillSource) {
             world.addAnt(x, y);
-        } else {
-//            world.addAnt(x, y);
         }
         return super.touchDown(event, x, y, pointer, button);
     }

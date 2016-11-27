@@ -9,11 +9,12 @@ public class PlayScreen implements Screen {
 
     private WorldRenderer renderer;
 
+    // Logic
     private GameWorld gameWorld;
 
     private float fixedTimeStepAccumulator = 0f;
     private final float MAX_ACCUMULATED_TIME = 1.0f;
-    public static final float TIME_STEP = 1/60f;
+    private static final float TIME_STEP = 1 / 60f;
 
 
     public PlayScreen() {
