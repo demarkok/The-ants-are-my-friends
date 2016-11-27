@@ -32,6 +32,7 @@ public class MenuScreen implements Screen {
     private Viewport viewport;
 
     public MenuScreen() {
+        //TODO change viewport
         cam = new OrthographicCamera(Ants.WIDTH, Ants.HEIGHT);
         viewport = new ExtendViewport(Ants.WIDTH, Ants.HEIGHT, cam);
 
