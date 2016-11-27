@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.ArrayList;
 
+import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.controls.DragTheAntListener;
 import ru.spbau.kaysin.ants.controls.TouchSourceListener;
 import ru.spbau.kaysin.ants.entities.Ant;
@@ -38,12 +39,12 @@ public class GameWorld {
         stage.getRoot().setBounds(0, 0, stage.getWidth(), stage.getHeight());
 
         // FONTS
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("FONTS/visitor1.ttf"));
+        generator = Ants.getGenerator();
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 21;
         parameter.color = Color.BLACK;
         font12 = generator.generateFont(parameter);
-        generator.dispose();
+//        generator.dispose();
 
 
         source = new AnthillSource(font12);
