@@ -62,7 +62,7 @@ public class MenuScreen implements Screen {
         cam.update();
         batch.setProjectionMatrix(cam.combined);
 
-        Gdx.gl.glClearColor(0.6f, 0.4f, 0.3f, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         batch.draw(bg, 0, 0, Ants.WIDTH, Ants.HEIGHT);
