@@ -10,18 +10,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import ru.spbau.kaysin.ants.model.GameWorld;
 
-/**
- * Created by demarkok on 26-Nov-16.
- */
-
 public class EnergyBar extends Actor {
 
-    private static final float SHAKE_TIME = 0.1f;
     private GameWorld world;
     private NinePatchDrawable loadingBarBackground;
     private NinePatchDrawable loadingBar;
+
+    private static final float SHAKE_TIME = 0.1f;
     private float defaultX; // to shake the bar varying super.x
     private float shakeTimer = 0;
+
 
     public EnergyBar(GameWorld world) {
         this.world = world;

@@ -1,6 +1,9 @@
 package ru.spbau.kaysin.ants.model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -21,15 +24,31 @@ public class GameWorld {
     private boolean activeRecovery = true;
     private EnergyBar energyBar;
 
+    // FONTS
+    private FreeTypeFontGenerator generator;
+    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+    private BitmapFont font12;
+
+
     private AnthillSource source;
 
     private Stage stage;
+
 
     public GameWorld(Stage stage) {
         this.stage = stage;
         stage.getRoot().setBounds(0, 0, stage.getWidth(), stage.getHeight());
 
-        source = new AnthillSource();
+        // FONTS
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("FONTS/visitor1.ttf"));
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 21;
+        parameter.color = Color.BLACK;
+        font12 = generator.generateFont(parameter);
+        generator.dispose();
+
+
+        source = new AnthillSource(font12);
         stage.addActor(source);
         source.init();
 

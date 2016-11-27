@@ -1,6 +1,8 @@
 package ru.spbau.kaysin.ants.entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -9,14 +11,17 @@ import com.badlogic.gdx.utils.Align;
 
 import ru.spbau.kaysin.ants.Ants;
 
-/**
- * Created by demarkok on 27-Nov-16.
- */
 
 public class AnthillSource extends Actor {
     private Sprite texture;
 
-    public AnthillSource() {
+    private GlyphLayout textLayout;
+    private BitmapFont font;
+    private final String text = "NEW ANT";
+
+    public AnthillSource(BitmapFont font) {
+        this.font = font;
+        textLayout = new GlyphLayout(font, text);
         texture = new Sprite(Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegion("source"));
         setTouchable(Touchable.enabled);
     }
@@ -24,8 +29,8 @@ public class AnthillSource extends Actor {
     public void init() {
         setBounds(0, 0, texture.getWidth(), texture.getHeight());
 //        setBounds(100, 100, texture.getWidth(), texture.getHeight());
-        setOrigin(Align.center);
-        setScale(7);
+        setOrigin(Align.bottomLeft);
+
     }
 
     @Override
@@ -33,6 +38,9 @@ public class AnthillSource extends Actor {
 //        batch.draw(texture, getX(), getY());
         batch.draw(texture, getX(), getY(), getOriginX(), getOriginY(),
                 getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+        font.draw(batch, textLayout, getX(Align.center) - textLayout.width / 2,
+                                     getY(Align.center));
+
     }
 
     @Override

@@ -53,9 +53,9 @@ dot
   index: -1
 source
   rotate: false
-  xy: 7, 79
-  size: 34, 34
-  orig: 34, 34
+  xy: 97, 3
+  size: 102, 102
+  orig: 102, 102
   offset: 0, 0
   index: -1
 
