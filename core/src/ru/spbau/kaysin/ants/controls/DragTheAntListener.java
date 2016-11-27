@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Array;
 
 import ru.spbau.kaysin.ants.entities.Ant;
-import ru.spbau.kaysin.ants.entities.AntWay;
 import ru.spbau.kaysin.ants.model.GameWorld;
 
 /**
@@ -17,34 +16,22 @@ import ru.spbau.kaysin.ants.model.GameWorld;
  */
 
 public class DragTheAntListener extends DragListener {
+    Array<Vector2> pathToFollow;
     private GameWorld world;
     private Ant ant;
     private boolean enabled = false;
-
- //    private FollowPath <Vector2, LinePath.LinePathParam> pathToFollow;
-    Array<Vector2> pathToFollow;
 
     public DragTheAntListener(GameWorld world) {
         this.world = world;
     }
 
-//    @Override
-//    public void dragStart(InputEvent event, float x, float y, int pointer) {
-//        Actor actor = world.getStage().hit(x, y, true);
-//        if (actor instanceof Ant) {
-//            init((Ant)actor);
-//        } else {
-//            System.out.println(":(");
-//        }
-//    }
-
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public void dragStart(InputEvent event, float x, float y, int pointer) {
         Actor actor = world.getStage().hit(x, y, true);
         if (actor instanceof Ant) {
             init((Ant)actor);
         }
-        return super.touchDown(event, x, y, pointer, button);
+        super.dragStart(event, x, y, pointer);
     }
 
     private void init(Ant ant) {
@@ -54,8 +41,8 @@ public class DragTheAntListener extends DragListener {
         pathToFollow = new Array<Vector2>();
         ant.getAntWay().init();
         world.setActiveRecovery(false);
-        //TODO make 0.1f Ant's field
-        world.setEnergy(world.getEnergy() - 0.1f);
+        //TODO make 0.2f Ant's field
+        world.setEnergy(world.getEnergy() - 0.2f);
     }
 
     @Override
@@ -78,7 +65,7 @@ public class DragTheAntListener extends DragListener {
         if (!enabled) {
             return;
         }
-//        System.out.println(pathToFollow);
+
         try {
             ant.setSteeringBehavior(
                     new FollowPath<Vector2, LinePath.LinePathParam>(
@@ -88,7 +75,7 @@ public class DragTheAntListener extends DragListener {
                             .setDecelerationRadius(2));
         } catch (Exception e) {
         }
-        enabled = false;
         world.setActiveRecovery(true);
+        enabled = false;
     }
 }
