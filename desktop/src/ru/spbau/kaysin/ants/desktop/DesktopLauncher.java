@@ -2,6 +2,7 @@ package ru.spbau.kaysin.ants.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+
 import ru.spbau.kaysin.ants.Ants;
 
 public class DesktopLauncher {
@@ -10,7 +11,7 @@ public class DesktopLauncher {
 		config.width = Ants.WIDTH;
 		config.height = Ants.HEIGHT;
 		config.title = Ants.TITLE;
-		new LwjglApplication(new Ants(), config);
+		new LwjglApplication(Ants.getInstance(), config);
 
 	}
 }

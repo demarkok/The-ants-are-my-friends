@@ -4,9 +4,23 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-import ru.spbau.kaysin.ants.screens.PlayScreen;
+import ru.spbau.kaysin.ants.screens.MenuScreen;
 
 public class Ants extends Game {
+
+    // SINGLETON
+    private static Ants instance = null;
+
+    private Ants() {
+    }
+
+    public static Ants getInstance() {
+        if (instance != null) {
+            return instance;
+        } else {
+            return new Ants();
+        }
+    }
 
     // virtual size
     public static final int WIDTH = 540;
@@ -22,12 +36,14 @@ public class Ants extends Game {
 	
 	@Override
 	public void create () {
+        instance = this;
 
         assets.load("pack.txt", TextureAtlas.class);
         assets.finishLoading();
         assets.update();
 
-        setScreen(new PlayScreen());
+        setScreen(new MenuScreen());
+
 	}
 
 	@Override
@@ -39,4 +55,5 @@ public class Ants extends Game {
         super.dispose();
         assets.dispose();
     }
+
 }
