@@ -36,7 +36,7 @@ public class WorldRenderer {
     }
 
     public void render() {
-        Gdx.gl.glClearColor(176 / 255f, 196 / 248f, 200 / 222f, 1);
+        Gdx.gl.glClearColor(189 / 255f, 194 / 248f, 155 / 222f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         gameWorld.draw();

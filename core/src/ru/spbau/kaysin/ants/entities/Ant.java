@@ -29,7 +29,6 @@ public class Ant extends SteeringActor {
         animFrame = animation.getKeyFrame(animTime);
 
         setBounds(x, y, animFrame.getRegionWidth(), animFrame.getRegionHeight());
-        setPosition(x, y);
         setOrigin(Align.center);
         setScale(2);
 

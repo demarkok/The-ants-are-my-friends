@@ -51,6 +51,14 @@ dot
   orig: 8, 8
   offset: 0, 0
   index: -1
+source
+  rotate: false
+  xy: 7, 79
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: -1
+
 
 
 

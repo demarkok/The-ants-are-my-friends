@@ -5,42 +5,53 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import ru.spbau.kaysin.ants.controls.DragTheAntListener;
+import ru.spbau.kaysin.ants.controls.TouchSourceListener;
 import ru.spbau.kaysin.ants.entities.Ant;
+import ru.spbau.kaysin.ants.entities.AnthillSource;
 import ru.spbau.kaysin.ants.entities.EnergyBar;
 
 public class GameWorld {
 
     ArrayList<Ant> ants;
-    private float energy;
+
+    private float energy = 0.9f;
     private float energyRecoverySpeed = 0.1f;
     private boolean activeRecovery = true;
     private EnergyBar energyBar;
+
+    private AnthillSource source;
+
     private Stage stage;
 
     public GameWorld(Stage stage) {
         this.stage = stage;
         stage.getRoot().setBounds(0, 0, stage.getWidth(), stage.getHeight());
 
-        // now the stage handle all the inputs
-        Gdx.input.setInputProcessor(stage);
+        source = new AnthillSource();
+        stage.addActor(source);
+        source.init();
+
 
         ants = new ArrayList<Ant>();
-        Random random = new Random();
-        for (int i = 0; i < 5; i++) {
-            Ant ant = new Ant(random.nextInt(Math.round(stage.getWidth())),
-                              random.nextInt(Math.round(stage.getHeight())));
-            ants.add(ant);
-            stage.addActor(ant);
-            ant.init();
-        }
-        stage.addListener(new DragTheAntListener(this));
 
         energyBar = new EnergyBar(this);
         stage.addActor(energyBar);
         energyBar.init();
+
+        // now the stage handle all the inputs
+        Gdx.input.setInputProcessor(stage);
+
+        stage.addListener(new DragTheAntListener(this));
+        stage.addListener(new TouchSourceListener(this));
+    }
+
+    public void addAnt(float x, float y) {
+        Ant ant = new Ant(x, y);
+        ants.add(ant);
+        stage.addActor(ant);
+        ant.init();
     }
 
     public void draw() {
@@ -51,6 +62,10 @@ public class GameWorld {
         stage.act(dt);
         if (activeRecovery) {
             setEnergy(energy + energyRecoverySpeed * dt);
+        }
+
+        if (energy == 0) {
+            energyBar.shake();
         }
     }
 
@@ -72,5 +87,13 @@ public class GameWorld {
 
     public void setActiveRecovery(boolean activeRecovery) {
         this.activeRecovery = activeRecovery;
+    }
+
+    public AnthillSource getSource() {
+        return source;
+    }
+
+    public void setSource(AnthillSource source) {
+        this.source = source;
     }
 }

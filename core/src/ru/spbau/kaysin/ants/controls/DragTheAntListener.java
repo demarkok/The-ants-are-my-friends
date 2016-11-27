@@ -53,8 +53,8 @@ public class DragTheAntListener extends DragListener {
         Vector2 newPoint = new Vector2(x, y);
         if (pathToFollow.size > 0) {
             float segmentLen = newPoint.dst(pathToFollow.get(pathToFollow.size - 1));
-            //TODO make 0.0005 Ant's field
-            world.setEnergy(world.getEnergy() - 0.0005f * segmentLen);
+            //TODO make 0.001 Ant's field
+            world.setEnergy(world.getEnergy() - 0.001f * segmentLen);
         }
         pathToFollow.add(newPoint);
         ant.getAntWay().pushPoint(newPoint);
