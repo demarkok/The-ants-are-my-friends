@@ -14,8 +14,8 @@ licenses:
   
 before_script:
   - wget http://services.gradle.org/distributions/gradle-3.2.1-bin.zip
-  - unzip gradle-2.10-bin.zip
-  - export GRADLE_HOME=$PWD/gradle-2.1
+  - unzip gradle-3.2.1-bin.zip
+  - export GRADLE_HOME=$PWD/gradle-3.2.1
   - export PATH=$GRADLE_HOME/bin:$PATH
 
  
