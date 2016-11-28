@@ -12,8 +12,8 @@ Game for android (educational project)
 
 * Setup gradle. Firstly add the environment variable `GRADLE_HOME`. This should point to the unpacked files from the Gradle website. Next add `GRADLE_HOME/bin` to your `PATH` environment variable.
 
-* `gradle build`
-
 * Don't forget to define your SDK location with `ANDROID_HOME` environment variable or in the `local.properties` file.
+
+* `gradle build`
 
 * The `.apk` file will be in `./android/build/outputs/apk/`
