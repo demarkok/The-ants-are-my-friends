@@ -1,5 +1,5 @@
 language: android
-script: ./gradlew
+script: gradle build
 jdk: oraclejdk8
 android:
   components:
@@ -12,7 +12,4 @@ licenses:
   - 'android-sdk-license-.+'
   - 'google-gdk-license-.+'
 
-before_install:
- - chmod +x gradlew
- - gradle wrapper
  
