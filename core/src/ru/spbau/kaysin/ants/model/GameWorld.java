@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -18,6 +19,7 @@ import ru.spbau.kaysin.ants.entities.Ant;
 import ru.spbau.kaysin.ants.entities.AnthillCodomain;
 import ru.spbau.kaysin.ants.entities.AnthillDomain;
 import ru.spbau.kaysin.ants.entities.Apple;
+import ru.spbau.kaysin.ants.entities.Blueberry;
 import ru.spbau.kaysin.ants.entities.EnergyBar;
 
 public class GameWorld {
@@ -46,7 +48,7 @@ public class GameWorld {
 
     private Stage stage;
 
-    private long lastAppleAppearingTime = 0;
+    private long lastBonusAppearingTime = 0;
 
     public GameWorld(Stage stage) {
         this.stage = stage;
@@ -121,6 +123,12 @@ public class GameWorld {
         apple.init();
     }
 
+    public void addBlueberry(float x, float y) {
+        Blueberry blueberry = new Blueberry(x, y, this);
+        bonuses.addActor(blueberry);
+        blueberry.init();
+    }
+
     public void draw() {
         stage.draw();
     }
@@ -137,10 +145,15 @@ public class GameWorld {
         processContacts();
 
         // Just for demonstration
-        if (System.currentTimeMillis() - lastAppleAppearingTime > 10000) { // 10 seconds
+        if (System.currentTimeMillis() - lastBonusAppearingTime > 10000) { // 10 seconds
 //            System.out.println("FOO");
-            lastAppleAppearingTime = System.currentTimeMillis();
-            addApple(MathUtils.random(bonuses.getWidth()), MathUtils.random(bonuses.getHeight()));
+            lastBonusAppearingTime = System.currentTimeMillis();
+            Vector2 pos = new Vector2(MathUtils.random(bonuses.getWidth()), MathUtils.random(bonuses.getHeight()));
+            if (MathUtils.randomBoolean()) {
+                addApple(pos.x, pos.y);
+            } else {
+                addBlueberry(pos.x, pos.y);
+            }
         }
     }
 
@@ -154,6 +167,14 @@ public class GameWorld {
 
     public void setEnergy(float energy) {
         this.energy = MathUtils.clamp(energy, 0, 1);
+    }
+
+    public float getEnergyRecoverySpeed() {
+        return energyRecoverySpeed;
+    }
+
+    public void setEnergyRecoverySpeed(float energyRecoverySpeed) {
+        this.energyRecoverySpeed = energyRecoverySpeed;
     }
 
     public void setActiveRecovery(boolean activeRecovery) {

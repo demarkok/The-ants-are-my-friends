@@ -65,6 +65,13 @@ apple2
   orig: 12, 13
   offset: 0, 0
   index: -1
+blueberry
+  rotate: false
+  xy: 19, 79
+  size: 14, 12
+  orig: 14, 12
+  offset: 0, 0
+  index: -1
 
 
 

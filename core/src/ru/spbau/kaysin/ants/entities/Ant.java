@@ -84,10 +84,14 @@ public class Ant extends SteeringActor implements HandlingContact {
         world.addHandling(this);
     }
 
+    // TODO double dispatch
     @Override
     public void processContact(HandlingContact actor) {
         if (actor instanceof Apple) {
             setMaxLinearSpeed(getMaxLinearSpeed() + 20);
+        }
+        if (actor instanceof Blueberry) {
+            world.setEnergyRecoverySpeed(world.getEnergyRecoverySpeed() * 1.5f);
         }
     }
 
