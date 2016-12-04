@@ -15,6 +15,7 @@ import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.controls.DragTheAntListener;
 import ru.spbau.kaysin.ants.controls.TouchSourceListener;
 import ru.spbau.kaysin.ants.entities.Ant;
+import ru.spbau.kaysin.ants.entities.AnthillCodomain;
 import ru.spbau.kaysin.ants.entities.AnthillDomain;
 import ru.spbau.kaysin.ants.entities.Apple;
 import ru.spbau.kaysin.ants.entities.EnergyBar;
@@ -23,6 +24,7 @@ public class GameWorld {
 
     private ArrayList<HandlingContact> handlingObjects;
 
+    private Group anthills;
     private Group ants;
     private Group hud;
     private Group bonuses;
@@ -39,7 +41,8 @@ public class GameWorld {
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private BitmapFont font12;
 
-    private AnthillDomain source;
+    private AnthillDomain domain;
+    private AnthillCodomain codomain;
 
     private Stage stage;
 
@@ -52,15 +55,27 @@ public class GameWorld {
         // FONTS
         generator = Ants.getGenerator();
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 21;
+        parameter.size = 18;
         parameter.color = Color.BLACK;
         font12 = generator.generateFont(parameter);
 //        generator.dispose();
 
 
-        source = new AnthillDomain(font12);
-        stage.addActor(source);
-        source.init();
+        anthills = new Group();
+        anthills.setBounds(0, 0, stage.getWidth(), stage.getHeight());
+        anthills.setTouchable(Touchable.childrenOnly);
+        stage.addActor(anthills);
+
+        domain = new AnthillDomain(font12);
+        anthills.addActor(domain);
+        domain.init();
+
+        codomain = new AnthillCodomain(font12);
+        anthills.addActor(codomain);
+        codomain.init();
+
+
+
 
         bonuses = new Group();
         bonuses.setBounds(0, 0, stage.getWidth(), stage.getHeight());

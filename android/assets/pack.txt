@@ -51,7 +51,7 @@ dot
   orig: 8, 8
   offset: 0, 0
   index: -1
-source
+anthill
   rotate: false
   xy: 97, 3
   size: 102, 102

@@ -11,26 +11,29 @@ import com.badlogic.gdx.utils.Align;
 
 import ru.spbau.kaysin.ants.Ants;
 
+/**
+ * Created by demarkok on 04-Dec-16.
+ */
 
-public class AnthillDomain extends Actor {
+public class AnthillCodomain extends Actor {
     private Sprite texture;
 
     private GlyphLayout textLayout;
     private BitmapFont font;
-    private final String text = "DOMAIN";
+    private final String text = "CODOMAIN";
 
-    public AnthillDomain(BitmapFont font) {
+
+    public AnthillCodomain(BitmapFont font) {
         this.font = font;
         textLayout = new GlyphLayout(font, text);
         texture = new Sprite(Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegion("anthill"));
         setTouchable(Touchable.enabled);
     }
 
-    // TODO get rid of init
     public void init() {
-        setBounds(0, 0, texture.getWidth(), texture.getHeight());
-        setOrigin(Align.bottomLeft);
-
+        setSize(texture.getWidth(), texture.getHeight());
+        setPosition(getParent().getWidth() - getWidth(), 0);
+        setOrigin(Align.bottomRight);
     }
 
     @Override
@@ -40,12 +43,8 @@ public class AnthillDomain extends Actor {
 
         // draw the text in the center of rectangle
         font.draw(batch, textLayout, getX(Align.center) - textLayout.width / 2,
-                                     getY(Align.center));
+                getY(Align.center));
 
     }
 
-    @Override
-    public Actor hit(float x, float y, boolean touchable) {
-        return super.hit(x, y, touchable);
-    }
 }
