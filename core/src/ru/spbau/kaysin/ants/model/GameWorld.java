@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -16,7 +15,7 @@ import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.controls.DragTheAntListener;
 import ru.spbau.kaysin.ants.controls.TouchSourceListener;
 import ru.spbau.kaysin.ants.entities.Ant;
-import ru.spbau.kaysin.ants.entities.AnthillSource;
+import ru.spbau.kaysin.ants.entities.AnthillDomain;
 import ru.spbau.kaysin.ants.entities.Apple;
 import ru.spbau.kaysin.ants.entities.EnergyBar;
 
@@ -40,7 +39,7 @@ public class GameWorld {
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private BitmapFont font12;
 
-    private AnthillSource source;
+    private AnthillDomain source;
 
     private Stage stage;
 
@@ -59,7 +58,7 @@ public class GameWorld {
 //        generator.dispose();
 
 
-        source = new AnthillSource(font12);
+        source = new AnthillDomain(font12);
         stage.addActor(source);
         source.init();
 

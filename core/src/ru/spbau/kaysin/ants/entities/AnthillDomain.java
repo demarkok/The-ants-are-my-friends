@@ -12,14 +12,14 @@ import com.badlogic.gdx.utils.Align;
 import ru.spbau.kaysin.ants.Ants;
 
 
-public class AnthillSource extends Actor {
+public class AnthillDomain extends Actor {
     private Sprite texture;
 
     private GlyphLayout textLayout;
     private BitmapFont font;
     private final String text = "NEW ANT";
 
-    public AnthillSource(BitmapFont font) {
+    public AnthillDomain(BitmapFont font) {
         this.font = font;
         textLayout = new GlyphLayout(font, text);
         texture = new Sprite(Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegion("source"));
