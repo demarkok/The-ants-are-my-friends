@@ -1,6 +1,5 @@
 package ru.spbau.kaysin.ants.entities;
 
-import com.badlogic.gdx.ai.steer.behaviors.Alignment;
 import com.badlogic.gdx.ai.steer.behaviors.FollowPath;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -8,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Align;
@@ -88,7 +86,9 @@ public class Ant extends SteeringActor implements HandlingContact {
 
     @Override
     public void processContact(HandlingContact actor) {
-//        System.out.println("ANT HERE!");
+        if (actor instanceof Apple) {
+            setMaxLinearSpeed(getMaxLinearSpeed() + 20);
+        }
     }
 
     @Override
