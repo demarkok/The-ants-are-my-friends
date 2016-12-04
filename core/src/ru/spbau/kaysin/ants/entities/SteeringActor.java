@@ -26,10 +26,7 @@ public abstract class SteeringActor extends Actor implements Steerable<Vector2> 
     private float boundingRadius;
     private boolean tagged;
 
-    private float maxLinearSpeed = 120;
-    private float maxLinearAcceleration = 120;
-    private float maxAngularSpeed = 120;
-    private float maxAngularAcceleration = 120;
+    private float speed = 120;
 
     private boolean independentFacing;
 
@@ -110,42 +107,39 @@ public abstract class SteeringActor extends Actor implements Steerable<Vector2> 
 
     @Override
     public float getMaxLinearSpeed () {
-        return maxLinearSpeed;
+        return speed;
     }
 
     @Override
     public void setMaxLinearSpeed (float maxLinearSpeed) {
-        this.maxLinearSpeed = maxLinearSpeed;
+        this.speed = maxLinearSpeed;
     }
 
     @Override
     public float getMaxLinearAcceleration () {
-        return maxLinearAcceleration;
+        return speed;
     }
 
     @Override
     public void setMaxLinearAcceleration (float maxLinearAcceleration) {
-        this.maxLinearAcceleration = maxLinearAcceleration;
     }
 
     @Override
     public float getMaxAngularSpeed () {
-        return maxAngularSpeed;
+        return speed;
     }
 
     @Override
     public void setMaxAngularSpeed (float maxAngularSpeed) {
-        this.maxAngularSpeed = maxAngularSpeed;
     }
 
     @Override
     public float getMaxAngularAcceleration () {
-        return maxAngularAcceleration;
+        return 1;
     }
 
     @Override
     public void setMaxAngularAcceleration (float maxAngularAcceleration) {
-        this.maxAngularAcceleration = maxAngularAcceleration;
     }
 
     @Override
