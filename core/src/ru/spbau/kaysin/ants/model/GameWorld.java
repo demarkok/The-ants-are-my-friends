@@ -5,7 +5,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 import java.util.ArrayList;
 
@@ -21,7 +24,9 @@ public class GameWorld {
 
     private ArrayList<HandlingContact> handlingObjects;
 
-    private ArrayList<Ant> ants;
+    private Group ants;
+    private Group hud;
+    private Group bonuses;
 
     private ArrayList<Apple> apples;
 
@@ -58,11 +63,28 @@ public class GameWorld {
         stage.addActor(source);
         source.init();
 
-        ants = new ArrayList<Ant>();
+        bonuses = new Group();
+        bonuses.setBounds(0, 0, stage.getWidth(), stage.getHeight());
+        bonuses.setTouchable(Touchable.disabled);
+        stage.addActor(bonuses);
+
+
+        ants = new Group();
+        ants.setBounds(0, 0, stage.getWidth(), stage.getHeight());
+        ants.setTouchable(Touchable.childrenOnly);
+        stage.addActor(ants);
+
+
+
+        hud = new Group();
+        hud.setBounds(0, 0, stage.getWidth(), stage.getHeight());
+        hud.setTouchable(Touchable.disabled);
+        stage.addActor(hud);
 
         energyBar = new EnergyBar(this);
-        stage.addActor(energyBar);
+        hud.addActor(energyBar);
         energyBar.init();
+
 
         // now the stage handle all the inputs
         Gdx.input.setInputProcessor(stage);
@@ -75,9 +97,14 @@ public class GameWorld {
 
     public void addAnt(float x, float y) {
         Ant ant = new Ant(x, y, this);
-        ants.add(ant);
-        stage.addActor(ant);
+        ants.addActor(ant);
         ant.init();
+    }
+
+    public void addApple(float x, float y) {
+        Apple apple = new Apple(x, y, this);
+        bonuses.addActor(apple);
+        apple.init();
     }
 
     public void draw() {
@@ -96,13 +123,10 @@ public class GameWorld {
         processContacts();
 
         // Just for demonstration
-        if (System.currentTimeMillis() - lastAppleAppearingTime > 10000) {
+        if (System.currentTimeMillis() - lastAppleAppearingTime > 10000) { // 10 seconds
 //            System.out.println("FOO");
             lastAppleAppearingTime = System.currentTimeMillis();
-            Apple apple = new Apple(MathUtils.random(stage.getWidth()), MathUtils.random(stage.getHeight()), this);
-            stage.addActor(apple);
-            apple.init();
-
+            addApple(MathUtils.random(bonuses.getWidth()), MathUtils.random(bonuses.getHeight()));
         }
     }
 
