@@ -18,10 +18,10 @@ public class Apple extends Actor implements HandlingContact {
 
     public Apple(float x, float y, GameWorld world) {
         this.world = world;
-        texture = new Sprite(Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegion("apple"));
+        texture = new Sprite(Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegion("apple2"));
         setBounds(x, y, texture.getWidth(), texture.getHeight());
         setOrigin(Align.center);
-        setScale(1);
+        setScale(2);
     }
 
     public void init() {
@@ -47,7 +47,7 @@ public class Apple extends Actor implements HandlingContact {
             Vector2 centerFirst = new Vector2(getX(Align.center), getY(Align.center));
             Vector2 centerSecond = new Vector2(actor.getX(Align.center), actor.getY(Align.center));
             float distance = centerFirst.dst(centerSecond);
-            return distance <= getWidth();
+            return distance <= getWidth() * getScaleX();
         }
         else {
             return false;
