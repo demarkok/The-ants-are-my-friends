@@ -55,4 +55,8 @@ public abstract class Bonus extends Actor implements HandlingContact {
     private float getContactDistance() {
         return getWidth() * getScaleX();
     }
+
+    public GameWorld getWorld() {
+        return world;
+    }
 }

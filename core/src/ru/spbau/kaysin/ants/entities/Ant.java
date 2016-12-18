@@ -23,7 +23,7 @@ public class Ant extends SteeringActor {
     public static final float START_MOVEMENT_FINE = 0.2f; // decrease the energy when the dragging starts
     public static final float ENERGY_CONSUMPTION = 0.001f;
 
-    private ArrayList<Bonus> globalBonuses; // bonuses that should be brought to the codomain for activation
+    private ArrayList<DeferredBonus> deferredBonuses;
     private GameWorld world;
     private AntWay antWay;
     // Animation
@@ -33,6 +33,9 @@ public class Ant extends SteeringActor {
 
     public Ant(float x, float y, GameWorld world) {
         super(false);
+
+        deferredBonuses = new ArrayList<DeferredBonus>();
+
         this.world = world;
 
         animation = new Animation(0.08f, Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegions("ant"));
@@ -91,12 +94,16 @@ public class Ant extends SteeringActor {
     }
 
     public void processContact(Blueberry blueberry) {
-        world.setEnergyRecoverySpeed(world.getEnergyRecoverySpeed() * 1.5f);
+        deferredBonuses.add(blueberry);
     }
 
     public void processContact(AnthillCodomain anthillCodomain) {
         this.remove();
         antWay.remove();
+        for (DeferredBonus bonus: deferredBonuses) {
+            bonus.activate();
+        }
+        deferredBonuses.clear();
     }
 
     public void visitHandlingContact(HandlingContact o) {
