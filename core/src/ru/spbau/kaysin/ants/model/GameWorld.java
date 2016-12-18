@@ -55,6 +55,8 @@ public class GameWorld {
         this.stage = stage;
         stage.getRoot().setBounds(0, 0, stage.getWidth(), stage.getHeight());
 
+        handlingObjects = new ArrayList<HandlingContact>();
+
         // FONTS
         generator = Ants.getGenerator();
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -76,7 +78,7 @@ public class GameWorld {
         codomain = new AnthillCodomain(font12);
         anthills.addActor(codomain);
         codomain.init();
-
+        addHandling(codomain);
 
 
 
@@ -110,7 +112,6 @@ public class GameWorld {
         stage.addListener(new DragTheAntListener(this));
         stage.addListener(new TouchSourceListener(this));
 
-        handlingObjects = new ArrayList<HandlingContact>();
 
         lastBonusAppearingTime = System.currentTimeMillis();
     }
@@ -125,13 +126,13 @@ public class GameWorld {
     public void addApple(float x, float y) {
         Apple apple = new Apple(x, y, this);
         bonuses.addActor(apple);
-        apple.init();
+        addHandling(apple);
     }
 
     public void addBlueberry(float x, float y) {
         Blueberry blueberry = new Blueberry(x, y, this);
         bonuses.addActor(blueberry);
-        blueberry.init();
+        addHandling(blueberry);
     }
 
     public void draw() {
@@ -192,11 +193,11 @@ public class GameWorld {
 
     private void processContacts() {
 
-
         for (Ant ant: antList) {
             for (HandlingContact o: handlingObjects) {
-                if (ant.haveContact(o) && o.haveContact(ant)) {
+                if (o.haveContact(ant)) {
                     ant.visitHandlingContact(o);
+                    o.processContact(ant);
                 }
             }
         }

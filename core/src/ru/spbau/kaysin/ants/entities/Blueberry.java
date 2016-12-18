@@ -9,7 +9,6 @@ public class Blueberry extends Bonus {
     }
     @Override
     public void acceptContact(Ant ant) {
-        processContact(ant);
         ant.processContact(this);
     }
 }

@@ -94,6 +94,11 @@ public class Ant extends SteeringActor {
         world.setEnergyRecoverySpeed(world.getEnergyRecoverySpeed() * 1.5f);
     }
 
+    public void processContact(AnthillCodomain anthillCodomain) {
+        this.remove();
+        antWay.remove();
+    }
+
     public void visitHandlingContact(HandlingContact o) {
         o.acceptContact(this);
     }

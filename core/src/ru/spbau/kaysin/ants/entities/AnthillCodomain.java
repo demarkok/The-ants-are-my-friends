@@ -5,17 +5,19 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Align;
 
 import ru.spbau.kaysin.ants.Ants;
+import ru.spbau.kaysin.ants.model.HandlingContact;
 
 /**
  * Created by demarkok on 04-Dec-16.
  */
 
-public class AnthillCodomain extends Actor {
+public class AnthillCodomain extends Actor implements HandlingContact {
     private Sprite texture;
 
     private GlyphLayout textLayout;
@@ -47,4 +49,19 @@ public class AnthillCodomain extends Actor {
 
     }
 
+    @Override
+    public boolean haveContact(Ant ant) {
+        Rectangle rectangle = new Rectangle(getX(Align.bottomLeft), getY(Align.bottomLeft), getWidth(), getHeight());
+        return rectangle.contains(ant.getPosition());
+    }
+
+    @Override
+    public void acceptContact(Ant ant) {
+        ant.processContact(this);
+    }
+
+    @Override
+    public void processContact(Ant ant) {
+
+    }
 }

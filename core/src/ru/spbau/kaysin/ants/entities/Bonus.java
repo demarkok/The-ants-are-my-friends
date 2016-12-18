@@ -26,10 +26,6 @@ public abstract class Bonus extends Actor implements HandlingContact {
         setScale(3);
     }
 
-    public void init() {
-        world.addHandling(this);
-    }
-
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(texture, getX(), getY(), getOriginX(), getOriginY(),
