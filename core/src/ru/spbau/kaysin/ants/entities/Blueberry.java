@@ -7,4 +7,9 @@ public class Blueberry extends Bonus {
     public Blueberry(float x, float y, GameWorld world) {
         super(x, y, world, "blueberry");
     }
+    @Override
+    public void acceptContact(Ant ant) {
+        processContact(ant);
+        ant.processContact(this);
+    }
 }

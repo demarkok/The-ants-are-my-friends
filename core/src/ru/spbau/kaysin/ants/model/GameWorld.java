@@ -31,6 +31,7 @@ public class GameWorld {
     private Group hud;
     private Group bonuses;
 
+    private ArrayList<Ant> antList;
     private ArrayList<Apple> apples;
 
     private float energy = 0.9f;
@@ -48,7 +49,7 @@ public class GameWorld {
 
     private Stage stage;
 
-    private long lastBonusAppearingTime = 0;
+    private long lastBonusAppearingTime;
 
     public GameWorld(Stage stage) {
         this.stage = stage;
@@ -85,6 +86,7 @@ public class GameWorld {
         stage.addActor(bonuses);
 
 
+        antList = new ArrayList<Ant>();
         ants = new Group();
         ants.setBounds(0, 0, stage.getWidth(), stage.getHeight());
         ants.setTouchable(Touchable.childrenOnly);
@@ -109,10 +111,13 @@ public class GameWorld {
         stage.addListener(new TouchSourceListener(this));
 
         handlingObjects = new ArrayList<HandlingContact>();
+
+        lastBonusAppearingTime = System.currentTimeMillis();
     }
 
     public void addAnt(float x, float y) {
         Ant ant = new Ant(x, y, this);
+        antList.add(ant);
         ants.addActor(ant);
         ant.init();
     }
@@ -186,22 +191,14 @@ public class GameWorld {
     }
 
     private void processContacts() {
-        for (int i = 0; i < handlingObjects.size(); i++) {
-            HandlingContact first = handlingObjects.get(i);
-            if (first == null) {
-                continue;
-            }
-            for (int j = i + 1; j < handlingObjects.size(); j++) {
-                HandlingContact second = handlingObjects.get(j);
-                if (second == null) {
-                    continue;
-                }
-                if (first.haveContact(second) && second.haveContact(first)) {
-                    first.processContact(second);
-                    second.processContact(first);
+
+
+        for (Ant ant: antList) {
+            for (HandlingContact o: handlingObjects) {
+                if (ant.haveContact(o) && o.haveContact(ant)) {
+                    ant.visitHandlingContact(o);
                 }
             }
         }
     }
-
 }

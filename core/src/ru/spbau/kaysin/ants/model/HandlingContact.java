@@ -1,8 +1,9 @@
 package ru.spbau.kaysin.ants.model;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import ru.spbau.kaysin.ants.entities.Ant;
 
 public interface HandlingContact {
-    void processContact(HandlingContact actor);
-    boolean haveContact(HandlingContact actor);
+    boolean haveContact(Ant ant);
+    void acceptContact(Ant ant);
+    void processContact(Ant ant);
 }

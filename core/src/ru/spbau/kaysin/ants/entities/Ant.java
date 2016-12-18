@@ -11,16 +11,19 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Align;
 
+import java.util.ArrayList;
+
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.model.GameWorld;
 import ru.spbau.kaysin.ants.model.HandlingContact;
 
-public class Ant extends SteeringActor implements HandlingContact {
+public class Ant extends SteeringActor {
 
     // Constants
     public static final float START_MOVEMENT_FINE = 0.2f; // decrease the energy when the dragging starts
     public static final float ENERGY_CONSUMPTION = 0.001f;
 
+    private ArrayList<Bonus> globalBonuses; // bonuses that should be brought to the codomain for activation
     private GameWorld world;
     private AntWay antWay;
     // Animation
@@ -81,21 +84,20 @@ public class Ant extends SteeringActor implements HandlingContact {
     // TODO should fix it, init seems ugly
     public void init() {
         getStage().addActor(antWay);
-        world.addHandling(this);
     }
 
-    // TODO double dispatch
-    @Override
-    public void processContact(HandlingContact actor) {
-        if (actor instanceof Apple) {
-            setMaxLinearSpeed(getMaxLinearSpeed() + 20);
-        }
-        if (actor instanceof Blueberry) {
-            world.setEnergyRecoverySpeed(world.getEnergyRecoverySpeed() * 1.5f);
-        }
+    public void processContact(Apple apple) {
+        setMaxLinearSpeed(getMaxLinearSpeed() + 20);
     }
 
-    @Override
+    public void processContact(Blueberry blueberry) {
+        world.setEnergyRecoverySpeed(world.getEnergyRecoverySpeed() * 1.5f);
+    }
+
+    public void visitHandlingContact(HandlingContact o) {
+        o.acceptContact(this);
+    }
+
     public boolean haveContact(HandlingContact entity) {
         if (entity instanceof Actor) {
             Actor actor = (Actor)entity;

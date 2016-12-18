@@ -11,9 +11,6 @@ import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.model.GameWorld;
 import ru.spbau.kaysin.ants.model.HandlingContact;
 
-/**
- * Created by demarkok on 04-Dec-16.
- */
 
 public abstract class Bonus extends Actor implements HandlingContact {
 
@@ -26,7 +23,7 @@ public abstract class Bonus extends Actor implements HandlingContact {
         texture = new Sprite(Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegion(textureName));
         setBounds(x, y, texture.getWidth(), texture.getHeight());
         setOrigin(Align.center);
-        setScale(2);
+        setScale(3);
     }
 
     public void init() {
@@ -40,26 +37,26 @@ public abstract class Bonus extends Actor implements HandlingContact {
     }
 
     @Override
-    public void processContact(HandlingContact actor) {
-        if (actor instanceof Ant) {
-            captured = true;
-            remove();
-        }
+    public void processContact(Ant ant) {
+        captured = true;
+        remove();
     }
 
     @Override
-    public boolean haveContact(HandlingContact entity) {
+    public boolean haveContact(Ant ant) {
 
-        if (!captured && entity instanceof Actor) {
-            Actor actor = (Actor)entity;
-            Vector2 centerFirst = new Vector2(getX(Align.center), getY(Align.center));
-            Vector2 centerSecond = new Vector2(actor.getX(Align.center), actor.getY(Align.center));
-            float distance = centerFirst.dst(centerSecond);
-            return distance <= getWidth() * getScaleX();
+        if (captured) {
+            return false;
         }
 
-        return false;
+
+        Vector2 centerFirst = new Vector2(getX(Align.center), getY(Align.center));
+        Vector2 centerSecond = new Vector2(ant.getX(Align.center), ant.getY(Align.center));
+        float distance = centerFirst.dst(centerSecond);
+        return distance < getContactDistance();
     }
 
-
+    private float getContactDistance() {
+        return getWidth() * getScaleX();
+    }
 }

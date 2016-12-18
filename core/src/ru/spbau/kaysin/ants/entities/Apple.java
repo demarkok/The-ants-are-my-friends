@@ -6,4 +6,10 @@ public class Apple extends Bonus {
     public Apple(float x, float y, GameWorld world) {
         super(x, y, world, "apple2");
     }
+
+    @Override
+    public void acceptContact(Ant ant) {
+        processContact(ant);
+        ant.processContact(this);
+    }
 }
