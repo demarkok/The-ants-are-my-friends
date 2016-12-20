@@ -11,6 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.controls.DragTheAntListener;
@@ -31,8 +34,8 @@ public class GameWorld {
     private Group hud;
     private Group bonuses;
 
-    private ArrayList<Ant> antList;
-    private ArrayList<Apple> apples;
+    private List<Ant> antList;
+    private List<Apple> apples;
 
     private float energy = 0.9f;
     private float energyRecoverySpeed = 0.1f;
@@ -88,7 +91,7 @@ public class GameWorld {
         stage.addActor(bonuses);
 
 
-        antList = new ArrayList<Ant>();
+        antList = new LinkedList<Ant>();
         ants = new Group();
         ants.setBounds(0, 0, stage.getWidth(), stage.getHeight());
         ants.setTouchable(Touchable.childrenOnly);
@@ -123,6 +126,7 @@ public class GameWorld {
         ant.init();
     }
 
+
     public void addApple(float x, float y) {
         Apple apple = new Apple(x, y, this);
         bonuses.addActor(apple);
@@ -149,6 +153,7 @@ public class GameWorld {
             energyBar.shake();
         }
         processContacts();
+        cleanUp();
 
         // Just for demonstration
         if (System.currentTimeMillis() - lastBonusAppearingTime > 10000) { // 10 seconds
@@ -191,6 +196,15 @@ public class GameWorld {
         handlingObjects.add(actor);
     }
 
+    public void cleanUp() {
+        Iterator<Ant> it = antList.iterator();
+        while (it.hasNext()) {
+            if (!it.next().isAlive()) {
+                it.remove();
+            }
+        }
+    }
+
     private void processContacts() {
 
         for (Ant ant: antList) {
@@ -198,6 +212,19 @@ public class GameWorld {
                 if (o.haveContact(ant)) {
                     ant.visitHandlingContact(o);
                     o.processContact(ant);
+                }
+            }
+        }
+
+
+        int n = antList.size();
+        Ant[] antArray = new Ant[n];
+        antList.toArray(antArray);
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (antArray[i].haveContact(antArray[j]) && antArray[j].haveContact(antArray[i])) {
+                    antArray[i].processContact(antArray[j]);
+                    antArray[j].processContact(antArray[i]);
                 }
             }
         }

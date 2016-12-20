@@ -31,9 +31,12 @@ public class Ant extends SteeringActor {
     private TextureRegion animFrame;
     private float animTime = 0;
 
+    private boolean alive;
+
     public Ant(float x, float y, GameWorld world) {
         super(false);
 
+        alive = true;
         deferredBonuses = new ArrayList<DeferredBonus>();
 
         this.world = world;
@@ -42,7 +45,8 @@ public class Ant extends SteeringActor {
         animation.setPlayMode(Animation.PlayMode.LOOP);
         animFrame = animation.getKeyFrame(animTime);
 
-        setBounds(x, y, animFrame.getRegionWidth(), animFrame.getRegionHeight());
+        setSize(animFrame.getRegionWidth(), animFrame.getRegionHeight());
+        setPosition(x - getWidth() / 2, y - getHeight() / 2);
         setOrigin(Align.center);
         setScale(2);
 
@@ -89,6 +93,11 @@ public class Ant extends SteeringActor {
         getStage().addActor(antWay);
     }
 
+    public void processContact(Ant ant) {
+        world.getStage().addActor(new Explosion(this.getX(), this.getY()));
+        remove();
+    }
+
     public void processContact(Apple apple) {
         setMaxLinearSpeed(getMaxLinearSpeed() + 20);
     }
@@ -98,8 +107,7 @@ public class Ant extends SteeringActor {
     }
 
     public void processContact(AnthillCodomain anthillCodomain) {
-        this.remove();
-        antWay.remove();
+        remove();
         for (DeferredBonus bonus: deferredBonuses) {
             bonus.activate();
         }
@@ -110,16 +118,22 @@ public class Ant extends SteeringActor {
         o.acceptContact(this);
     }
 
-    public boolean haveContact(HandlingContact entity) {
-        if (entity instanceof Actor) {
-            Actor actor = (Actor)entity;
-            Vector2 centerFirst = new Vector2(getX(Align.center), getY(Align.center));
-            Vector2 centerSecond = new Vector2(actor.getX(Align.center), actor.getY(Align.center));
-            float distance = centerFirst.dst(centerSecond);
-            return distance <= getBoundingRadius();
-        }
-        else {
-            return false;
-        }
+    public boolean haveContact(Ant ant) {
+
+        Vector2 centerFirst = new Vector2(getX(Align.center), getY(Align.center));
+        Vector2 centerSecond = new Vector2(ant.getX(Align.center), ant.getY(Align.center));
+        float distance = centerFirst.dst(centerSecond);
+        return distance < getBoundingRadius() * getScaleX();
+    }
+
+    @Override
+    public boolean remove() {
+        alive = false;
+        antWay.remove();
+        return super.remove();
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 }

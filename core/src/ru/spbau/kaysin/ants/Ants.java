@@ -46,6 +46,7 @@ public class Ants extends Game {
 
         generator = new FreeTypeFontGenerator(Gdx.files.internal("FONTS/visitor1.ttf"));
         assets.load("pack.txt", TextureAtlas.class);
+        assets.load("explosion.txt", TextureAtlas.class);
         assets.finishLoading();
         assets.update();
 
