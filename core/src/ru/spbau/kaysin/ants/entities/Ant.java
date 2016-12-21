@@ -20,8 +20,8 @@ import ru.spbau.kaysin.ants.model.HandlingContact;
 public class Ant extends SteeringActor {
 
     // Constants
-    public static final float START_MOVEMENT_FINE = 0.2f; // decrease the energy when the dragging starts
-    public static final float ENERGY_CONSUMPTION = 0.001f;
+    public static final float START_MOVEMENT_FINE = 0.15f; // decrease the energy when the dragging starts
+    public static final float ENERGY_CONSUMPTION = 0.0005f;
 
     private ArrayList<DeferredBonus> deferredBonuses;
     private GameWorld world;
