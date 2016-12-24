@@ -15,10 +15,10 @@ public class Explosion extends Actor {
     private Animation animation;
     private TextureRegion animFrame;
     private float animTime = 0;
-    private final static float ANIMATION_SPEED = 0.8f;
+
 
     public Explosion(float x, float y) {
-        animation = new Animation(0.08f, Ants.getAssets().get("explosion.txt", TextureAtlas.class).findRegions("explosion"));
+        animation = new Animation(0.07f, Ants.getAssets().get("explosion.txt", TextureAtlas.class).findRegions("explosion"));
         animation.setPlayMode(Animation.PlayMode.NORMAL);
         animFrame = animation.getKeyFrame(animTime);
 
@@ -33,7 +33,7 @@ public class Explosion extends Actor {
 
     @Override
     public void act(float delta) {
-        animTime += delta * ANIMATION_SPEED;
+        animTime += delta;
         if (animTime > animation.getAnimationDuration()) {
             remove();
         }
