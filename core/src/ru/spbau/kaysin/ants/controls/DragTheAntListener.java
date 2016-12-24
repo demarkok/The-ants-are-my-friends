@@ -58,18 +58,19 @@ public class DragTheAntListener extends DragListener {
 
     @Override
     public void dragStop(InputEvent event, float x, float y, int pointer) {
-        if (!enabled || pathToFollow.size < 2) {
+        if (!enabled) {
             return;
         }
 
-        // TODO FollowPath algorithm have bug. Should substitute it to my own.
-        ant.setSteeringBehavior(
-                new FollowPath<Vector2, LinePath.LinePathParam>(
-                        ant,
-                        new LinePath<Vector2>(pathToFollow, true), 10)
-                        .setArrivalTolerance(0)
-                        .setDecelerationRadius(2));
-
+        if (pathToFollow.size >= 2) {
+            // TODO FollowPath algorithm have bug. Should substitute it to my own.
+            ant.setSteeringBehavior(
+                    new FollowPath<Vector2, LinePath.LinePathParam>(
+                            ant,
+                            new LinePath<Vector2>(pathToFollow, true), 10)
+                            .setArrivalTolerance(0)
+                            .setDecelerationRadius(2));
+        }
         world.setActiveRecovery(true);
         enabled = false;
     }
