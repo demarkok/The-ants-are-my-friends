@@ -22,17 +22,16 @@ public class Ants extends Game {
     private static AssetManager assets = new AssetManager();
     private static FreeTypeFontGenerator generator;
 
-    private static Ants instance = null;
-
     private Ants() {
     }
 
+    private static class SingletonHolder {
+        private static final Ants INSTANCE = new Ants();
+
+    }
+
     public static Ants getInstance() {
-        if (instance != null) {
-            return instance;
-        } else {
-            return new Ants();
-        }
+        return SingletonHolder.INSTANCE;
     }
 
     public static AssetManager getAssets() {
@@ -45,7 +44,6 @@ public class Ants extends Game {
 
     @Override
     public void create () {
-        instance = this;
 
         generator = new FreeTypeFontGenerator(Gdx.files.internal("FONTS/visitor1.ttf"));
         assets.load("pack.txt", TextureAtlas.class);
