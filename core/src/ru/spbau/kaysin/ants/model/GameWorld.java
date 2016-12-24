@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import aurelienribon.tweenengine.TweenManager;
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.controls.DragTheAntListener;
 import ru.spbau.kaysin.ants.controls.TouchSourceListener;
@@ -52,11 +53,16 @@ public class GameWorld {
 
     private Stage stage;
 
+    private TweenManager tweenManager;
+
+
     private long lastBonusAppearingTime;
 
     public GameWorld(Stage stage) {
         this.stage = stage;
         stage.getRoot().setBounds(0, 0, stage.getWidth(), stage.getHeight());
+
+        tweenManager = new TweenManager();
 
         handlingObjects = new ArrayList<HandlingContact>();
 
@@ -117,6 +123,8 @@ public class GameWorld {
 
 
         lastBonusAppearingTime = System.currentTimeMillis();
+
+
     }
 
     public void addAnt(float x, float y) {
@@ -145,6 +153,7 @@ public class GameWorld {
 
     public void update(float dt) {
         stage.act(dt);
+        tweenManager.update(dt);
         if (activeRecovery) {
             setEnergy(energy + energyRecoverySpeed * dt);
         }
@@ -229,4 +238,9 @@ public class GameWorld {
             }
         }
     }
+
+    public TweenManager getTweenManager() {
+        return tweenManager;
+    }
+
 }

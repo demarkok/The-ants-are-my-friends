@@ -5,8 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import aurelienribon.tweenengine.Tween;
 import ru.spbau.kaysin.ants.screens.MenuScreen;
+import ru.spbau.kaysin.ants.utils.TweenActor;
 
 // SINGLETON
 public class Ants extends Game {
@@ -49,6 +52,9 @@ public class Ants extends Game {
         assets.load("explosion.txt", TextureAtlas.class);
         assets.finishLoading();
         assets.update();
+
+        Tween.registerAccessor(Actor.class, new TweenActor());
+
 
         setScreen(new MenuScreen());
 	}
