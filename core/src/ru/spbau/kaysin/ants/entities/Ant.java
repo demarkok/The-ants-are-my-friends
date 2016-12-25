@@ -1,6 +1,7 @@
 package ru.spbau.kaysin.ants.entities;
 
 import com.badlogic.gdx.ai.steer.behaviors.FollowPath;
+import com.badlogic.gdx.ai.steer.utils.paths.LinePath;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.model.GameWorld;
 import ru.spbau.kaysin.ants.model.HandlingContact;
+import ru.spbau.kaysin.ants.network.Move;
 
 public class Ant extends SteeringActor {
 
@@ -24,7 +26,9 @@ public class Ant extends SteeringActor {
     public static final float ENERGY_CONSUMPTION = 0.0005f;
 
     private ArrayList<DeferredBonus> deferredBonuses;
-    protected GameWorld world;
+
+
+    private GameWorld world;
     private AntWay antWay;
     // Animation
     private Animation animation;
@@ -34,6 +38,8 @@ public class Ant extends SteeringActor {
     private boolean friendly;
 
     private boolean alive;
+
+    private boolean ready;
 
     public Ant(float x, float y, GameWorld world, boolean friendly) {
         super(false);
@@ -58,15 +64,14 @@ public class Ant extends SteeringActor {
         setBoundingRadius((getHeight() + getWidth()) / 4);
         setTouchable(Touchable.enabled);
 
-        antWay = new AntWay();
+        antWay = new AntWay(this);
     }
 
 
     @Override
     public void act(float delta) {
 
-
-        if (world.getState() == GameWorld.State.COLLECTION) {
+        if (world.getState() != GameWorld.State.PLAYBACK) {
             return;
         }
 
@@ -76,6 +81,7 @@ public class Ant extends SteeringActor {
         float animSpeed = MathUtils.clamp(getLinearVelocity().len() / 100, 0, 100);
         animTime += delta * animSpeed;
         if (getSteeringBehavior() instanceof FollowPath) {
+
             // erase near points from the antWay
             antWay.update(getPosition(), getBoundingRadius());
         }
@@ -98,8 +104,11 @@ public class Ant extends SteeringActor {
         return antWay;
     }
 
+    public GameWorld getWorld() {
+        return world;
+    }
 
-    // TODO should fix it, init seems ugly
+    // TODO should fix it, reset seems ugly
     public void init() {
         getStage().addActor(antWay);
     }
@@ -159,5 +168,32 @@ public class Ant extends SteeringActor {
 
     public boolean isFriendly() {
         return friendly;
+    }
+
+    public void clearWay() {
+        ready = false;
+        antWay.reset();
+        setSteeringBehavior(null);
+    }
+
+    public void startMovement() {
+        if (antWay.getPathToFollow().size >= 2) {
+            // TODO FollowPath algorithm have bug. Should substitute it to my own.
+            ready = true;
+            setSteeringBehavior(
+                    new FollowPath<Vector2, LinePath.LinePathParam>(
+                            this,
+                            new LinePath<Vector2>(antWay.getPathToFollow(), true), 10)
+                            .setArrivalTolerance(0)
+                            .setDecelerationRadius(2));
+        }
+    }
+
+    public boolean isReady() {
+        return ready;
+    }
+
+    public boolean isMoving() {
+        return getLinearVelocity().len2() > 0;
     }
 }

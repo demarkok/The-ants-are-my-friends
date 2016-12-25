@@ -90,6 +90,13 @@ project(":core") {
     dependencies {
         compile fileTree(dir: '../libs', include: '*.jar')
     }
+    
+    dependencies {
+        compile "com.esotericsoftware:kryo:3.0.1"
+        compile ("com.esotericsoftware:kryonet:2.22.0-RC1") {
+            exclude module : 'kryo'
+        }
+    }
 }
 
 project(":desktop") {

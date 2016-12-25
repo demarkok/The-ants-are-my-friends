@@ -51,16 +51,23 @@ apple
   orig: 19, 19
   offset: 0, 0
   index: -1
-default-round-down
+energyBar
   rotate: false
   xy: 0, 46
   size: 80, 13
   orig: 80, 13
   offset: 0, 0
   index: -1
-default-round
+backgroundBar
   rotate: false
   xy: 0, 61
+  size: 80, 13
+  orig: 80, 13
+  offset: 0, 0
+  index: -1
+recoveryBar
+  rotate: false
+  xy: 0, 128
   size: 80, 13
   orig: 80, 13
   offset: 0, 0

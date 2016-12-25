@@ -36,7 +36,7 @@ public class AnthillDomain extends Actor {
         setTouchable(Touchable.enabled);
     }
 
-    // TODO get rid of init
+    // TODO get rid of reset
     public void init() {
         setSize(texture.getWidth(), texture.getHeight());
 
@@ -65,5 +65,10 @@ public class AnthillDomain extends Actor {
             return null;
         }
         return super.hit(x, y, touchable);
+    }
+
+
+    public boolean isFriendly() {
+        return friendly;
     }
 }

@@ -1,28 +1,27 @@
 package ru.spbau.kaysin.ants.model;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import aurelienribon.tweenengine.TweenManager;
+import com.badlogic.gdx.utils.Array;
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.controls.DragTheAntListener;
 import ru.spbau.kaysin.ants.controls.TouchSourceListener;
 import ru.spbau.kaysin.ants.entities.*;
+import ru.spbau.kaysin.ants.network.GameClient;
+import ru.spbau.kaysin.ants.network.Move;
 import ru.spbau.kaysin.ants.screens.MenuScreen;
-import ru.spbau.kaysin.ants.screens.PlayScreen;
-import ru.spbau.kaysin.ants.utils.TextSpawner;
+
+import static java.lang.Math.min;
 
 public class GameWorld {
 
@@ -33,12 +32,15 @@ public class GameWorld {
     private Group hud;
     private Group bonuses;
 
-    private List<Ant> antList;
+
+    private HashMap<Integer, Ant> antMap;
+//    private List<Ant> antList;
     private List<Apple> apples;
 
     private float energy = 0.9f;
-    private float energyRecoverySpeed = 0.1f;
-    private boolean activeRecovery = true;
+    private float energyRecoverySpeed = 0.3f;
+    private boolean activeRecovery = false;
+
     private EnergyBar energyBar;
 
     private AnthillDomain domain;
@@ -49,14 +51,20 @@ public class GameWorld {
 
     private Stage stage;
     private TweenManager tweenManager;
-    private long lastBonusAppearingTime;
 
     private int lives;
     private int enemyLives;
 
-    State state = State.COLLECTION;
+    State state = State.CAPTURE;
+
+    private Move move;
+
+    private GameClient client;
 
     public GameWorld(Stage stage) {
+
+        MathUtils.random = new RandomXS128(239);
+
         this.stage = stage;
         stage.getRoot().setBounds(0, 0, stage.getWidth(), stage.getHeight());
 
@@ -64,6 +72,9 @@ public class GameWorld {
 
         handlingObjects = new ArrayList<HandlingContact>();
 
+        move = new Move();
+
+        client = new GameClient();
 
         lives = 3;
         enemyLives = 3;
@@ -84,7 +95,8 @@ public class GameWorld {
         stage.addActor(bonuses);
 
 
-        antList = new LinkedList<Ant>();
+//        antList = new LinkedList<Ant>();
+        antMap = new HashMap<Integer, Ant>();
         ants = new Group();
         ants.setBounds(0, 0, stage.getWidth(), stage.getHeight());
         ants.setTouchable(Touchable.childrenOnly);
@@ -108,14 +120,15 @@ public class GameWorld {
         stage.addListener(new DragTheAntListener(this));
         stage.addListener(new TouchSourceListener(this));
 
-        lastBonusAppearingTime = System.currentTimeMillis();
     }
 
-    public void addAnt(float x, float y) {
-        Ant ant = new Ant(x, y, this, true);
-        antList.add(ant);
+    public void addAnt(float x, float y, int id, boolean friendly) {
+        Ant ant = new Ant(x, y, this, friendly);
+//        antList.add(ant);
+        antMap.put(id, ant);
         ants.addActor(ant);
         ant.init();
+        move.addNewAnt(ant, id);
     }
 
     private void addApple(float x, float y) {
@@ -162,28 +175,44 @@ public class GameWorld {
     }
 
     public void update(float dt) {
+
+        if (state == State.PLAYBACK) {
+            boolean end = true;
+            for (Ant ant: antMap.values()) {
+                if (ant.isMoving()) {
+                    end = false;
+                    break;
+                }
+            }
+            if (end) {
+                switchState();
+            }
+        }
+
+        if (state == State.WAITING) {
+            Move move = client.getMove();
+            if (move != null) {
+                switchState();
+                processMove(move);
+            }
+        }
+
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            switchState();
+        }
+
+
         stage.act(dt);
         tweenManager.update(dt);
         if (activeRecovery) {
             setEnergy(energy + energyRecoverySpeed * dt);
         }
 
-        if (energy == 0) {
-            energyBar.shake();
-        }
         processContacts();
         cleanUp();
 
         // Just for demonstration
-        if (System.currentTimeMillis() - lastBonusAppearingTime > 10000) { // 10 seconds
-            lastBonusAppearingTime = System.currentTimeMillis();
-            Vector2 pos = new Vector2(MathUtils.random(bonuses.getWidth()), MathUtils.random(bonuses.getHeight()));
-            if (MathUtils.randomBoolean()) {
-                addApple(pos.x, pos.y);
-            } else {
-                addBlueberry(pos.x, pos.y);
-            }
-        }
     }
 
     public Stage getStage() {
@@ -218,12 +247,20 @@ public class GameWorld {
         handlingObjects.add(actor);
     }
 
+    public GameClient getClient() {
+        return client;
+    }
+
     public State getState() {
         return state;
     }
 
+    public EnergyBar getEnergyBar() {
+        return energyBar;
+    }
+
     public void cleanUp() {
-        Iterator<Ant> it = antList.iterator();
+        Iterator<Ant> it = antMap.values().iterator();
         while (it.hasNext()) {
             if (!it.next().isAlive()) {
                 it.remove();
@@ -233,7 +270,7 @@ public class GameWorld {
 
     private void processContacts() {
 
-        for (Ant ant: antList) {
+        for (Ant ant: antMap.values()) {
             for (HandlingContact o: handlingObjects) {
                 if (o.haveContact(ant)) {
                     ant.visitHandlingContact(o);
@@ -243,9 +280,9 @@ public class GameWorld {
         }
 
 
-        int n = antList.size();
+        int n = antMap.size();
         Ant[] antArray = new Ant[n];
-        antList.toArray(antArray);
+        antMap.values().toArray(antArray);
         for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) {
                 if (antArray[i].haveContact(antArray[j]) && antArray[j].haveContact(antArray[i])) {
@@ -278,8 +315,62 @@ public class GameWorld {
         Ants.getInstance().setScreen(new MenuScreen());
     }
 
-    public enum State {
-        COLLECTION, PLAYBACK;
 
+    public enum State {
+        CAPTURE, WAITING, PLAYBACK;
+    }
+
+    public void switchState() {
+        if (state == State.CAPTURE) { // CAPTURE -> WAITING
+            state = State.WAITING;
+            for (Map.Entry<Integer, Ant> entry: antMap.entrySet()) {
+                Ant ant = entry.getValue();
+                if (ant.isReady()) {
+                    move.addAntMovement(entry.getKey(), ant.getAntWay().getPathToFollow());
+                }
+            }
+            client.sendMove(move);
+//            client.sendMove(new Move());
+        } else if (state == State.WAITING) {// WAITING -> PLAYBACK
+            state = State.PLAYBACK;
+        } else { // PLAYBACK -> CAPTURE
+            state = State.CAPTURE;
+            energy = energy + energyRecoverySpeed;
+            energy = min(energy, 1);
+            for (Ant ant: antMap.values()) {
+                ant.clearWay();
+            }
+
+            Vector2 pos = new Vector2(MathUtils.random(bonuses.getWidth()), MathUtils.random(bonuses.getHeight()));
+            if (MathUtils.randomBoolean()) {
+                addApple(pos.x, pos.y);
+                addApple(Ants.WIDTH - pos.x, Ants.HEIGHT - pos.y);
+            } else {
+                addBlueberry(pos.x, pos.y);
+                addBlueberry(Ants.WIDTH - pos.x, Ants.HEIGHT - pos.y);
+            }
+
+
+
+            move = new Move();
+        }
+    }
+
+    public void processMove(Move move) {
+        for (Move.NewAnt newAnt: move.getAnts()) {
+            addAnt(Ants.WIDTH - newAnt.x, Ants.HEIGHT - newAnt.y, newAnt.antId, false);
+            System.out.println("add:" + newAnt.antId);
+        }
+        for (Move.AntMovement antMovement: move.getMovements()) {
+            System.out.println("move:" + antMovement.antId);
+            Ant ant = antMap.get(antMovement.antId);
+            Array<Vector2> pathToFollow = antMovement.pathToFollow;
+            for (Vector2 point: pathToFollow) {
+                point.set(Ants.WIDTH - point.x, Ants.HEIGHT - point.y);
+            }
+//            ant.getAntWay().setPathToFollow(antMovement.pathToFollow);
+            ant.getAntWay().setPathToFollow(pathToFollow);
+            ant.startMovement();
+        }
     }
 }
