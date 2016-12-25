@@ -23,8 +23,6 @@ ant
   orig: 19, 22
   offset: 0, 0
   index: 2
-
-
 redAnt
   rotate: false
   xy: 0, 100
@@ -46,8 +44,6 @@ redAnt
   orig: 19, 22
   offset: 0, 0
   index: 2
-
-
 apple
   rotate: false
   xy: 0, 23
