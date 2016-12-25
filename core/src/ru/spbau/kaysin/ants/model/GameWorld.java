@@ -38,11 +38,6 @@ public class GameWorld {
     private boolean activeRecovery = true;
     private EnergyBar energyBar;
 
-    // FONTS
-    private FreeTypeFontGenerator generator;
-    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    private BitmapFont font12;
-
     private AnthillDomain domain;
     private AnthillCodomain codomain;
 
@@ -61,28 +56,15 @@ public class GameWorld {
 
         handlingObjects = new ArrayList<HandlingContact>();
 
-        // FONTS
-        generator = Ants.getGenerator();
-        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 18;
-        parameter.color = Color.BLACK;
-        font12 = generator.generateFont(parameter);
-//        generator.dispose();
-
 
         anthills = new Group();
         anthills.setBounds(0, 0, stage.getWidth(), stage.getHeight());
         anthills.setTouchable(Touchable.childrenOnly);
         stage.addActor(anthills);
 
-        domain = new AnthillDomain(font12, true);
-        anthills.addActor(domain);
-        domain.init();
+        addFriendDomain();
 
-        codomain = new AnthillCodomain(font12, true);
-        anthills.addActor(codomain);
-        codomain.init();
-        addHandling(codomain);
+        addFriendCodomain();
 
 
 
@@ -130,17 +112,44 @@ public class GameWorld {
     }
 
 
-    public void addApple(float x, float y) {
+    private void addApple(float x, float y) {
         Apple apple = new Apple(x, y, this);
         bonuses.addActor(apple);
         addHandling(apple);
     }
 
-    public void addBlueberry(float x, float y) {
+    private void addBlueberry(float x, float y) {
         Blueberry blueberry = new Blueberry(x, y, this);
         bonuses.addActor(blueberry);
         addHandling(blueberry);
     }
+
+    private void addFriendDomain() {
+        domain = new AnthillDomain(true);
+        anthills.addActor(domain);
+        domain.init();
+    }
+
+    private void addFriendCodomain() {
+        codomain = new AnthillCodomain(true);
+        anthills.addActor(codomain);
+        codomain.init();
+        addHandling(codomain);
+    }
+
+    private void addEnemyDomain() {
+        domain = new AnthillDomain(false);
+        anthills.addActor(domain);
+        domain.init();
+    }
+
+    private void addEnemyCodomain() {
+        codomain = new AnthillCodomain(false);
+        anthills.addActor(codomain);
+        codomain.init();
+        addHandling(codomain);
+    }
+
 
     public void draw() {
         stage.draw();

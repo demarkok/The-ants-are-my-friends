@@ -1,10 +1,12 @@
 package ru.spbau.kaysin.ants.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.utils.Align;
 
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.model.HandlingContact;
+import ru.spbau.kaysin.ants.utils.FontUtils;
 
 /**
  * Created by demarkok on 04-Dec-16.
@@ -27,10 +30,12 @@ public class AnthillCodomain extends Actor implements HandlingContact {
     private boolean friendly;
 
 
-    public AnthillCodomain(BitmapFont font, boolean friendly) {
+    public AnthillCodomain(boolean friendly) {
+
+        font = FontUtils.getFont(Color.BLACK, 18);
+
         this.friendly = friendly;
 
-        this.font = font;
         textLayout = new GlyphLayout(font, text);
         texture = new Sprite(Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegion("anthill"));
         setTouchable(Touchable.enabled);

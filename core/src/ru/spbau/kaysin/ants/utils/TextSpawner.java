@@ -31,9 +31,8 @@ public class TextSpawner {
         float currentOffsetX = 0; // offset relatively posX
         float currentOffsetY = 0; // offset relatively posY
 
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 55;
-        BitmapFont font = Ants.getGenerator().generateFont(parameter);
+
+        BitmapFont font = FontUtils.getFont(Color.WHITE, 55);
         GlyphLayout layout = new GlyphLayout();
 
         Vector2 position = new Vector2();
