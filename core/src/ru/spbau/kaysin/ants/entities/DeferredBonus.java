@@ -9,5 +9,5 @@ public abstract class DeferredBonus extends Bonus {
         super(x, y, world, textureName);
     }
 
-    public abstract void activate();
+    public abstract void activate(boolean friendly);
 }

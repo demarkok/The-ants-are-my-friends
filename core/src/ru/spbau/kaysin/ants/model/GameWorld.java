@@ -20,6 +20,7 @@ import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.controls.DragTheAntListener;
 import ru.spbau.kaysin.ants.controls.TouchSourceListener;
 import ru.spbau.kaysin.ants.entities.*;
+import ru.spbau.kaysin.ants.utils.TextSpawner;
 
 public class GameWorld {
 
@@ -47,10 +48,16 @@ public class GameWorld {
 
     private TweenManager tweenManager;
 
-
     private long lastBonusAppearingTime;
 
+    private int lives;
+    private int enemyLives;
+
     public GameWorld(Stage stage) {
+
+        lives = 5;
+        enemyLives = 5;
+
         this.stage = stage;
         stage.getRoot().setBounds(0, 0, stage.getWidth(), stage.getHeight());
 
@@ -272,4 +279,27 @@ public class GameWorld {
     public void setEnemyActiveRecovery(boolean enemyActiveRecovery) {
         this.enemyActiveRecovery = enemyActiveRecovery;
     }
+
+    public void setEnemyEnergyRecoverySpeed(float enemyEnergyRecoverySpeed) {
+        this.enemyEnergyRecoverySpeed = enemyEnergyRecoverySpeed;
+    }
+
+    public float getEnemyEnergyRecoverySpeed() {
+        return enemyEnergyRecoverySpeed;
+    }
+
+    public void decreaseLives() {
+        lives--;
+        if (lives == 0) {
+            TextSpawner.spawnText("Red win!", stage.getWidth() / 2, stage.getHeight() / 2, this, Color.RED);
+        }
+    }
+
+    public void decreaseEnemyLives() {
+        enemyLives--;
+        if (enemyLives == 0) {
+            TextSpawner.spawnText("Brown win!", stage.getWidth() / 2, stage.getHeight() / 2, this, Color.BROWN);
+        }
+    }
+
 }
