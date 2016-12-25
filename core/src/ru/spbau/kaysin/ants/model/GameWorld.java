@@ -38,9 +38,6 @@ public class GameWorld {
     private boolean activeRecovery = true;
     private EnergyBar energyBar;
 
-    private AnthillDomain domain;
-    private AnthillCodomain codomain;
-
     private Stage stage;
 
     private TweenManager tweenManager;
@@ -63,8 +60,9 @@ public class GameWorld {
         stage.addActor(anthills);
 
         addFriendDomain();
-
         addFriendCodomain();
+        addEnemyDomain();
+        addEnemyCodomain();
 
 
 
@@ -104,8 +102,8 @@ public class GameWorld {
 
     }
 
-    public void addAnt(float x, float y) {
-        Ant ant = new Ant(x, y, this, true);
+    public void addAnt(float x, float y, boolean friendly) {
+        Ant ant = new Ant(x, y, this, friendly);
         antList.add(ant);
         ants.addActor(ant);
         ant.init();
@@ -125,26 +123,26 @@ public class GameWorld {
     }
 
     private void addFriendDomain() {
-        domain = new AnthillDomain(true);
+        AnthillDomain domain = new AnthillDomain(true);
         anthills.addActor(domain);
         domain.init();
     }
 
     private void addFriendCodomain() {
-        codomain = new AnthillCodomain(true);
+        AnthillCodomain codomain = new AnthillCodomain(true);
         anthills.addActor(codomain);
         codomain.init();
         addHandling(codomain);
     }
 
     private void addEnemyDomain() {
-        domain = new AnthillDomain(false);
+        AnthillDomain domain = new AnthillDomain(false);
         anthills.addActor(domain);
         domain.init();
     }
 
     private void addEnemyCodomain() {
-        codomain = new AnthillCodomain(false);
+        AnthillCodomain codomain = new AnthillCodomain(false);
         anthills.addActor(codomain);
         codomain.init();
         addHandling(codomain);

@@ -61,9 +61,12 @@ public class AnthillDomain extends Actor {
 
     @Override
     public Actor hit(float x, float y, boolean touchable) {
-        if (!friendly) {
-            return null;
-        }
         return super.hit(x, y, touchable);
     }
+
+
+    public boolean isFriendly() {
+        return friendly;
+    }
+
 }
