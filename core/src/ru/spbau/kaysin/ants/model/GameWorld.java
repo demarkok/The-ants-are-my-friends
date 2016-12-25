@@ -75,11 +75,11 @@ public class GameWorld {
         anthills.setTouchable(Touchable.childrenOnly);
         stage.addActor(anthills);
 
-        domain = new AnthillDomain(font12);
+        domain = new AnthillDomain(font12, true);
         anthills.addActor(domain);
         domain.init();
 
-        codomain = new AnthillCodomain(font12);
+        codomain = new AnthillCodomain(font12, true);
         anthills.addActor(codomain);
         codomain.init();
         addHandling(codomain);
@@ -161,7 +161,6 @@ public class GameWorld {
 
         // Just for demonstration
         if (System.currentTimeMillis() - lastBonusAppearingTime > 10000) { // 10 seconds
-//            System.out.println("FOO");
             lastBonusAppearingTime = System.currentTimeMillis();
             Vector2 pos = new Vector2(MathUtils.random(bonuses.getWidth()), MathUtils.random(bonuses.getHeight()));
             if (MathUtils.randomBoolean()) {

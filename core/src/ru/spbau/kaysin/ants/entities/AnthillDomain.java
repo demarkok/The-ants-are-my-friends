@@ -19,7 +19,12 @@ public class AnthillDomain extends Actor {
     private BitmapFont font;
     private final String text = "DOMAIN";
 
-    public AnthillDomain(BitmapFont font) {
+    private boolean friendly;
+
+
+    public AnthillDomain(BitmapFont font, boolean friendly) {
+        this.friendly = friendly;
+
         this.font = font;
         textLayout = new GlyphLayout(font, text);
         texture = new Sprite(Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegion("anthill"));
@@ -28,8 +33,13 @@ public class AnthillDomain extends Actor {
 
     // TODO get rid of init
     public void init() {
-        setBounds(0, 0, texture.getWidth(), texture.getHeight());
-        setOrigin(Align.bottomLeft);
+        setSize(texture.getWidth(), texture.getHeight());
+
+        if (friendly) {
+            setPosition(0, 0);
+        } else {
+            setPosition(getParent().getWidth() - getWidth(), getParent().getHeight() - getHeight());
+        }
 
     }
 
@@ -46,6 +56,9 @@ public class AnthillDomain extends Actor {
 
     @Override
     public Actor hit(float x, float y, boolean touchable) {
+        if (!friendly) {
+            return null;
+        }
         return super.hit(x, y, touchable);
     }
 }

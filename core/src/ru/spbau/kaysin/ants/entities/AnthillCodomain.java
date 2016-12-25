@@ -24,8 +24,12 @@ public class AnthillCodomain extends Actor implements HandlingContact {
     private BitmapFont font;
     private final String text = "CODOMAIN";
 
+    private boolean friendly;
 
-    public AnthillCodomain(BitmapFont font) {
+
+    public AnthillCodomain(BitmapFont font, boolean friendly) {
+        this.friendly = friendly;
+
         this.font = font;
         textLayout = new GlyphLayout(font, text);
         texture = new Sprite(Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegion("anthill"));
@@ -34,8 +38,13 @@ public class AnthillCodomain extends Actor implements HandlingContact {
 
     public void init() {
         setSize(texture.getWidth(), texture.getHeight());
-        setPosition(getParent().getWidth() - getWidth(), 0);
-        setOrigin(Align.bottomRight);
+
+        if (friendly) {
+            setPosition(getParent().getWidth() - getWidth(), 0);
+        } else {
+            setPosition(0, getParent().getHeight() - getHeight());
+        }
+
     }
 
     @Override
@@ -63,5 +72,9 @@ public class AnthillCodomain extends Actor implements HandlingContact {
     @Override
     public void processContact(Ant ant) {
 
+    }
+
+    public boolean isFriendly() {
+        return friendly;
     }
 }
