@@ -19,12 +19,7 @@ import aurelienribon.tweenengine.TweenManager;
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.controls.DragTheAntListener;
 import ru.spbau.kaysin.ants.controls.TouchSourceListener;
-import ru.spbau.kaysin.ants.entities.Ant;
-import ru.spbau.kaysin.ants.entities.AnthillCodomain;
-import ru.spbau.kaysin.ants.entities.AnthillDomain;
-import ru.spbau.kaysin.ants.entities.Apple;
-import ru.spbau.kaysin.ants.entities.Blueberry;
-import ru.spbau.kaysin.ants.entities.EnergyBar;
+import ru.spbau.kaysin.ants.entities.*;
 
 public class GameWorld {
 
@@ -128,7 +123,7 @@ public class GameWorld {
     }
 
     public void addAnt(float x, float y) {
-        Ant ant = new Ant(x, y, this);
+        Ant ant = new Ant(x, y, this, true);
         antList.add(ant);
         ants.addActor(ant);
         ant.init();

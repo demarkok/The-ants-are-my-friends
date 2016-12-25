@@ -24,16 +24,18 @@ public class Ant extends SteeringActor {
     public static final float ENERGY_CONSUMPTION = 0.0005f;
 
     private ArrayList<DeferredBonus> deferredBonuses;
-    private GameWorld world;
+    protected GameWorld world;
     private AntWay antWay;
     // Animation
     private Animation animation;
     private TextureRegion animFrame;
     private float animTime = 0;
 
+    private boolean friendly;
+
     private boolean alive;
 
-    public Ant(float x, float y, GameWorld world) {
+    public Ant(float x, float y, GameWorld world, boolean friendly) {
         super(false);
 
         alive = true;
@@ -41,7 +43,10 @@ public class Ant extends SteeringActor {
 
         this.world = world;
 
-        animation = new Animation(0.08f, Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegions("ant"));
+        this.friendly = friendly;
+        String textureName = friendly ? "ant" : "redAnt";
+
+        animation = new Animation(0.08f, Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegions(textureName));
         animation.setPlayMode(Animation.PlayMode.LOOP);
         animFrame = animation.getKeyFrame(animTime);
 
@@ -94,8 +99,10 @@ public class Ant extends SteeringActor {
     }
 
     public void processContact(Ant ant) {
-        world.getStage().addActor(new Explosion(this.getX(), this.getY()));
-        remove();
+        if (isFriendly() != ant.isFriendly()) {
+            world.getStage().addActor(new Explosion(this.getX(), this.getY()));
+            remove();
+        }
     }
 
     public void processContact(Apple apple) {
@@ -135,5 +142,9 @@ public class Ant extends SteeringActor {
 
     public boolean isAlive() {
         return alive;
+    }
+
+    public boolean isFriendly() {
+        return friendly;
     }
 }
