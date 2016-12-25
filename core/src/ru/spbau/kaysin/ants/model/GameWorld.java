@@ -38,6 +38,11 @@ public class GameWorld {
     private boolean activeRecovery = true;
     private EnergyBar energyBar;
 
+    private float enemyEnergy = 0.9f;
+    private float enemyEnergyRecoverySpeed = 0.1f;
+    private boolean enemyActiveRecovery = true;
+    private EnergyBar enemyEnergyBar;
+
     private Stage stage;
 
     private TweenManager tweenManager;
@@ -85,9 +90,13 @@ public class GameWorld {
         hud.setTouchable(Touchable.disabled);
         stage.addActor(hud);
 
-        energyBar = new EnergyBar(this);
+        energyBar = new EnergyBar(this, true);
         hud.addActor(energyBar);
         energyBar.init();
+
+        enemyEnergyBar = new EnergyBar(this, false);
+        hud.addActor(enemyEnergyBar);
+        enemyEnergyBar.init();
 
 
         // now the stage handle all the inputs
@@ -156,13 +165,21 @@ public class GameWorld {
     public void update(float dt) {
         stage.act(dt);
         tweenManager.update(dt);
+
         if (activeRecovery) {
             setEnergy(energy + energyRecoverySpeed * dt);
         }
-
         if (energy == 0) {
             energyBar.shake();
         }
+
+        if (enemyActiveRecovery) {
+            setEnemyEnergy(enemyEnergy + enemyEnergyRecoverySpeed * dt);
+        }
+        if (enemyEnergy == 0) {
+            enemyEnergyBar.shake();
+        }
+
         processContacts();
         cleanUp();
 
@@ -244,4 +261,15 @@ public class GameWorld {
         return tweenManager;
     }
 
+    public void setEnemyEnergy(float enemyEnergy) {
+        this.enemyEnergy = MathUtils.clamp(enemyEnergy, 0, 1);
+    }
+
+    public float getEnemyEnergy() {
+        return enemyEnergy;
+    }
+
+    public void setEnemyActiveRecovery(boolean enemyActiveRecovery) {
+        this.enemyActiveRecovery = enemyActiveRecovery;
+    }
 }

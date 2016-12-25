@@ -21,8 +21,10 @@ public class EnergyBar extends Actor {
     private float defaultX; // to shake the bar varying super.x
     private float shakeTimer = 0;
 
+    boolean friendly;
 
-    public EnergyBar(GameWorld world) {
+    public EnergyBar(GameWorld world, boolean friendly) {
+        this.friendly = friendly;
         this.world = world;
         TextureAtlas skinAtlas = new TextureAtlas(Gdx.files.internal("pack.txt"));
         NinePatch loadingBarBackgroundPatch = new NinePatch(skinAtlas.findRegion("default-round"), 0, 0, 0, 0);
@@ -34,15 +36,26 @@ public class EnergyBar extends Actor {
     // we don't know our parent in constructor
     // TODO: get rid of init
     public void init() {
-        setPosition(20, 200);
-        setSize(7, getParent().getHeight() - 2 * getY());
+        if (friendly) {
+            setPosition(20, 200);
+            setSize(7, getParent().getHeight() - 2 * getY());
+        } else {
+            setPosition(getParent().getWidth() - 20, getParent().getHeight() - 200);
+            setSize(7, getParent().getHeight() - 2 * getY());
+        }
         defaultX = getX();
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        float energy;
+        if (friendly) {
+            energy = world.getEnergy();
+        } else {
+            energy = world.getEnemyEnergy();
+        }
         loadingBarBackground.draw(batch, getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
-        loadingBar.draw(batch, getX(), getY(), getWidth() * getScaleX(), world.getEnergy() * getHeight() * getScaleY());
+        loadingBar.draw(batch, getX(), getY(), getWidth() * getScaleX(), energy * getHeight() * getScaleY());
     }
 
     @Override

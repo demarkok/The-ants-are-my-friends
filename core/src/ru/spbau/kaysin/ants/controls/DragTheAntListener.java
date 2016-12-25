@@ -38,8 +38,14 @@ public class DragTheAntListener extends DragListener {
         ant.setSteeringBehavior(null);
         pathToFollow = new Array<Vector2>();
         ant.getAntWay().init();
-        world.setActiveRecovery(false);
-        world.setEnergy(world.getEnergy() - Ant.START_MOVEMENT_FINE);
+
+        if (ant.isFriendly()) {
+            world.setActiveRecovery(false);
+            world.setEnergy(world.getEnergy() - Ant.START_MOVEMENT_FINE);
+        } else {
+            world.setEnemyActiveRecovery(false);
+            world.setEnemyEnergy(world.getEnemyEnergy() - Ant.START_MOVEMENT_FINE);
+        }
     }
 
     @Override
@@ -50,7 +56,11 @@ public class DragTheAntListener extends DragListener {
         Vector2 newPoint = new Vector2(x, y);
         if (pathToFollow.size > 0) {
             float segmentLen = newPoint.dst(pathToFollow.get(pathToFollow.size - 1));
-            world.setEnergy(world.getEnergy() - Ant.ENERGY_CONSUMPTION * segmentLen);
+            if (ant.isFriendly()) {
+                world.setEnergy(world.getEnergy() - Ant.ENERGY_CONSUMPTION * segmentLen);
+            } else {
+                world.setEnemyEnergy(world.getEnemyEnergy() - Ant.ENERGY_CONSUMPTION * segmentLen);
+            }
         }
         pathToFollow.add(newPoint);
         ant.getAntWay().pushPoint(newPoint);
@@ -71,7 +81,11 @@ public class DragTheAntListener extends DragListener {
                             .setArrivalTolerance(0)
                             .setDecelerationRadius(2));
         }
-        world.setActiveRecovery(true);
+        if (ant.isFriendly()) {
+            world.setActiveRecovery(true);
+        } else {
+            world.setEnemyActiveRecovery(true);
+        }
         enabled = false;
     }
 }
