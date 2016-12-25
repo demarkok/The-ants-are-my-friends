@@ -64,6 +64,12 @@ public class Ant extends SteeringActor {
 
     @Override
     public void act(float delta) {
+
+
+        if (world.getState() == GameWorld.State.COLLECTION) {
+            return;
+        }
+
         super.act(delta);
 
         // update animTime to choose correct animFrame
@@ -114,11 +120,18 @@ public class Ant extends SteeringActor {
     }
 
     public void processContact(AnthillCodomain anthillCodomain) {
-        remove();
-        for (DeferredBonus bonus: deferredBonuses) {
-            bonus.activate();
+
+        if (anthillCodomain.isFriendly()) {
+            remove();
+            for (DeferredBonus bonus: deferredBonuses) {
+                bonus.activate();
+            }
+            deferredBonuses.clear();
+        } else {
+            remove();
+            world.decEnemyLives();
         }
-        deferredBonuses.clear();
+
     }
 
     public void visitHandlingContact(HandlingContact o) {

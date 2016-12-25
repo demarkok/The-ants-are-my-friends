@@ -18,6 +18,11 @@ public class TouchSourceListener extends ClickListener {
 
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+        if (world.getState() == GameWorld.State.PLAYBACK) {
+            return false;
+        }
+
         Actor actor = world.getStage().hit(x, y, true);
         if (actor instanceof AnthillDomain) {
             world.addAnt(x, y);

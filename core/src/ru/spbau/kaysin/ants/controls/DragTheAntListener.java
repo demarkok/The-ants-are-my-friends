@@ -24,6 +24,12 @@ public class DragTheAntListener extends DragListener {
 
     @Override
     public void dragStart(InputEvent event, float x, float y, int pointer) {
+
+        if (world.getState() == GameWorld.State.PLAYBACK) {
+            return;
+        }
+
+
         Actor actor = world.getStage().hit(getTouchDownX(), getTouchDownY(), true);
         if (actor instanceof Ant) {
             init((Ant)actor);

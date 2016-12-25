@@ -20,6 +20,9 @@ import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.controls.DragTheAntListener;
 import ru.spbau.kaysin.ants.controls.TouchSourceListener;
 import ru.spbau.kaysin.ants.entities.*;
+import ru.spbau.kaysin.ants.screens.MenuScreen;
+import ru.spbau.kaysin.ants.screens.PlayScreen;
+import ru.spbau.kaysin.ants.utils.TextSpawner;
 
 public class GameWorld {
 
@@ -40,13 +43,18 @@ public class GameWorld {
 
     private AnthillDomain domain;
     private AnthillCodomain codomain;
+    private AnthillDomain enemyDomain;
+    private AnthillCodomain enemyCodomain;
+
 
     private Stage stage;
-
     private TweenManager tweenManager;
-
-
     private long lastBonusAppearingTime;
+
+    private int lives;
+    private int enemyLives;
+
+    State state = State.COLLECTION;
 
     public GameWorld(Stage stage) {
         this.stage = stage;
@@ -57,16 +65,18 @@ public class GameWorld {
         handlingObjects = new ArrayList<HandlingContact>();
 
 
+        lives = 3;
+        enemyLives = 3;
+
         anthills = new Group();
         anthills.setBounds(0, 0, stage.getWidth(), stage.getHeight());
         anthills.setTouchable(Touchable.childrenOnly);
         stage.addActor(anthills);
 
         addFriendDomain();
-
         addFriendCodomain();
-
-
+        addEnemyDomain();
+        addEnemyCodomain();
 
         bonuses = new Group();
         bonuses.setBounds(0, 0, stage.getWidth(), stage.getHeight());
@@ -98,10 +108,7 @@ public class GameWorld {
         stage.addListener(new DragTheAntListener(this));
         stage.addListener(new TouchSourceListener(this));
 
-
         lastBonusAppearingTime = System.currentTimeMillis();
-
-
     }
 
     public void addAnt(float x, float y) {
@@ -110,7 +117,6 @@ public class GameWorld {
         ants.addActor(ant);
         ant.init();
     }
-
 
     private void addApple(float x, float y) {
         Apple apple = new Apple(x, y, this);
@@ -138,16 +144,16 @@ public class GameWorld {
     }
 
     private void addEnemyDomain() {
-        domain = new AnthillDomain(false);
-        anthills.addActor(domain);
-        domain.init();
+        enemyDomain = new AnthillDomain(false);
+        anthills.addActor(enemyDomain);
+        enemyDomain.init();
     }
 
     private void addEnemyCodomain() {
-        codomain = new AnthillCodomain(false);
-        anthills.addActor(codomain);
-        codomain.init();
-        addHandling(codomain);
+        enemyCodomain = new AnthillCodomain(false);
+        anthills.addActor(enemyCodomain);
+        enemyCodomain.init();
+        addHandling(enemyCodomain);
     }
 
 
@@ -204,8 +210,16 @@ public class GameWorld {
         this.activeRecovery = activeRecovery;
     }
 
+    public TweenManager getTweenManager() {
+        return tweenManager;
+    }
+
     public void addHandling(HandlingContact actor) {
         handlingObjects.add(actor);
+    }
+
+    public State getState() {
+        return state;
     }
 
     public void cleanUp() {
@@ -242,8 +256,30 @@ public class GameWorld {
         }
     }
 
-    public TweenManager getTweenManager() {
-        return tweenManager;
+    public void decLives() {
+        lives--;
+        if (lives == 0) {
+            lose();
+        }
     }
 
+    public void decEnemyLives() {
+        enemyLives--;
+        if (enemyLives == 0) {
+            win();
+        }
+    }
+
+    private void lose() {
+        Ants.getInstance().setScreen(new MenuScreen());
+    }
+
+    private void win() {
+        Ants.getInstance().setScreen(new MenuScreen());
+    }
+
+    public enum State {
+        COLLECTION, PLAYBACK;
+
+    }
 }
