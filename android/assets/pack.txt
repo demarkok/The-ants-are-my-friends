@@ -93,6 +93,13 @@ blueberry
   orig: 14, 12
   offset: 0, 0
   index: -1
+heart
+  rotate: false
+  xy: 0, 145
+  size: 27, 30
+  orig: 27, 30
+  offset: 0, 0
+  index: -1
 
 
 

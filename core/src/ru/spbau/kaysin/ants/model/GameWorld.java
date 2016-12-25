@@ -76,8 +76,6 @@ public class GameWorld {
         addEnemyDomain();
         addEnemyCodomain();
 
-
-
         bonuses = new Group();
         bonuses.setBounds(0, 0, stage.getWidth(), stage.getHeight());
         bonuses.setTouchable(Touchable.disabled);
@@ -104,6 +102,10 @@ public class GameWorld {
         enemyEnergyBar = new EnergyBar(this, false);
         hud.addActor(enemyEnergyBar);
         enemyEnergyBar.init();
+
+
+        hud.addActor(new LivesMonitor(this, true));
+        hud.addActor(new LivesMonitor(this, false));
 
 
         // now the stage handle all the inputs
@@ -302,4 +304,11 @@ public class GameWorld {
         }
     }
 
+    public int getEnemyLives() {
+        return enemyLives;
+    }
+
+    public int getLives() {
+        return lives;
+    }
 }
