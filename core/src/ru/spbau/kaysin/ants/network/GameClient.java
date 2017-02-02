@@ -12,6 +12,7 @@ import java.io.IOException;
  * Created by demarkok on 25-Dec-16.
  */
 public class GameClient {
+    private GameWorld gameWorld;
     Client client;
     Move move;
     private boolean valid;
@@ -27,6 +28,10 @@ public class GameClient {
             @Override
             public void received(Connection connection, Object object) {
                 if (object instanceof Move) {
+                    if (gameWorld.getState() == GameWorld.State.WAITING) {
+                        gameWorld.processMove((Move)object);
+                        gameWorld.switchState();
+                    }
                     valid = true;
                     move = (Move)object;
                 }
@@ -67,5 +72,9 @@ public class GameClient {
         int result = client.getID() * index;
         index++;
         return result;
+    }
+
+    public void init(GameWorld gameWorld) {
+        this.gameWorld = gameWorld;
     }
 }

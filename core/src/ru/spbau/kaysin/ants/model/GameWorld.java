@@ -75,6 +75,7 @@ public class GameWorld {
         move = new Move();
 
         client = new GameClient();
+        client.init(this);
 
         lives = 3;
         enemyLives = 3;

@@ -24,6 +24,10 @@ public class Network {
         kryo.register(ArrayList.class);
         kryo.register(Object[].class);
         kryo.register(com.badlogic.gdx.math.Vector2.class);
+        kryo.register(Ready.class);
+    }
+
+    static public class Ready {
     }
 
     static public class GetNewIndex {

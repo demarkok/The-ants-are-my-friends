@@ -6,6 +6,7 @@ import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Created by demarkok on 25-Dec-16.
@@ -13,6 +14,8 @@ import java.io.IOException;
 public class GameServer {
     int counter;
     Server server;
+    HashMap<Integer, Move> map;
+
     public GameServer() throws IOException {
         counter = 0;
         server = new Server() {
