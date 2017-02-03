@@ -65,7 +65,7 @@ public class GameServer {
         int id = 0;
 
         @Override
-        public int getId() {
+        synchronized public int getId() {
             return id++;
         }
 
