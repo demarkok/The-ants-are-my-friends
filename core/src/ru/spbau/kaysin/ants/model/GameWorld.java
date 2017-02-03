@@ -190,13 +190,13 @@ public class GameWorld {
             }
         }
 
-        if (state == State.WAITING) {
-            Move move = client.getMove();
-            if (move != null) {
-                switchState();
-                processMove(move);
-            }
-        }
+//        if (state == State.WAITING) {
+//            Move move = client.getMove();
+//            if (move != null) {
+//                switchState();
+//                processMove(move);
+//            }
+//        }
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -318,7 +318,7 @@ public class GameWorld {
 
 
     public enum State {
-        CAPTURE, WAITING, PLAYBACK;
+        CAPTURE, WAITING, PLAYBACK
     }
 
     public void switchState() {

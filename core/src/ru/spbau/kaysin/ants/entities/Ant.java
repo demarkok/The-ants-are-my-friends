@@ -194,6 +194,7 @@ public class Ant extends SteeringActor {
     }
 
     public boolean isMoving() {
-        return getLinearVelocity().len2() > 0;
+//        return getLinearVelocity().len2() > 0;
+        return getSteeringBehavior().isEnabled();
     }
 }

@@ -3,6 +3,7 @@ package ru.spbau.kaysin.ants.network;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.esotericsoftware.kryonet.rmi.ObjectSpace;
 import com.esotericsoftware.minlog.Log;
 
 import java.io.IOException;
@@ -12,36 +13,39 @@ import java.util.HashMap;
  * Created by demarkok on 25-Dec-16.
  */
 public class GameServer {
-    int counter;
     Server server;
     HashMap<Integer, Move> map;
+    IIdGenerator generator;
 
     public GameServer() throws IOException {
-        counter = 0;
+        generator = new IdGenerator();
+
         server = new Server() {
             @Override
             protected Connection newConnection () {
-                return new GameConnection();
+                GameConnection connection = new GameConnection();
+                new ObjectSpace(connection).register(1, generator);
+                return connection;
             }
         };
         Network.register(server);
+
         server.addListener(new Listener() {
 
             @Override
             public void received(Connection c, Object object) {
-                    GameConnection connection = (GameConnection)c;
+                GameConnection connection = (GameConnection)c;
 
                 if (object instanceof Move) {
                     server.sendToAllExceptTCP(c.getID(), object);
-                }
-                if (object instanceof Network.GetNewIndex) {
-                    server.sendToTCP(c.getID(), new Network.NewIndex(++counter));
                 }
             }
 
         });
         server.bind(Network.port);
         server.start();
+
+        new ObjectSpace();
     }
 
     static class GameConnection extends Connection {
@@ -51,5 +55,19 @@ public class GameServer {
     public static void main (String[] args) throws IOException {
         Log.set(Log.LEVEL_DEBUG);
         new GameServer();
+    }
+
+    public interface IIdGenerator {
+        int getId();
+    }
+
+    public class IdGenerator implements IIdGenerator {
+        int id = 0;
+
+        @Override
+        public int getId() {
+            return id++;
+        }
+
     }
 }

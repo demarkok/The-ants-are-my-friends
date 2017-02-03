@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.rmi.ObjectSpace;
 import ru.spbau.kaysin.ants.model.GameWorld;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ public class GameClient {
     Move move;
     private boolean valid;
     int index;
+    GameServer.IIdGenerator generator;
 
     public GameClient() {
         index = 1;
@@ -24,6 +26,7 @@ public class GameClient {
         client = new Client();
         client.start();
         Network.register(client);
+
         client.addListener(new Listener() {
             @Override
             public void received(Connection connection, Object object) {
@@ -35,9 +38,7 @@ public class GameClient {
                     valid = true;
                     move = (Move)object;
                 }
-                if (object instanceof Network.NewIndex) {
-                    index = ((Network.NewIndex) object).index;
-                }
+
             }
         });
 
@@ -52,6 +53,8 @@ public class GameClient {
                 }
             }
         }.start();
+
+        generator = ObjectSpace.getRemoteObject(client,1, GameServer.IIdGenerator.class);
     }
 
     public Move getMove() {
@@ -69,9 +72,7 @@ public class GameClient {
     }
 
     public int getNewIndex() {
-        int result = client.getID() * index;
-        index++;
-        return result;
+        return generator.getId();
     }
 
     public void init(GameWorld gameWorld) {
