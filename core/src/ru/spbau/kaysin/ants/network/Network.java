@@ -26,6 +26,7 @@ public class Network {
         kryo.register(Object[].class);
         kryo.register(com.badlogic.gdx.math.Vector2.class);
         kryo.register(Ready.class);
+        kryo.register(com.badlogic.gdx.utils.Array.ArrayIterable.class);
     }
 
     static public class Ready {

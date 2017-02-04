@@ -41,6 +41,8 @@ public class Ant extends SteeringActor {
 
     private boolean ready;
 
+    private float stopTime = 0;
+
     public Ant(float x, float y, GameWorld world, boolean friendly) {
         super(false);
 
@@ -70,6 +72,12 @@ public class Ant extends SteeringActor {
 
     @Override
     public void act(float delta) {
+
+        if (getLinearVelocity().len2() <= 0.01) {
+            stopTime += delta;
+        } else {
+            stopTime = 0;
+        }
 
         if (world.getState() != GameWorld.State.PLAYBACK) {
             return;
@@ -194,7 +202,8 @@ public class Ant extends SteeringActor {
     }
 
     public boolean isMoving() {
+        return stopTime < 1;
 //        return getLinearVelocity().len2() > 0;
-        return getSteeringBehavior().isEnabled();
+//        return  getSteeringBehavior() != null && getSteeringBehavior().isEnabled();
     }
 }

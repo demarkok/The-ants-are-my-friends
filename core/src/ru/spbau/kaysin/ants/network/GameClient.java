@@ -15,14 +15,14 @@ import java.io.IOException;
 public class GameClient {
     private GameWorld gameWorld;
     Client client;
+
     Move move;
+
     private boolean valid;
     int index;
     GameServer.IIdGenerator generator;
-
     public GameClient() {
         index = 1;
-        valid = false;
         client = new Client();
         client.start();
         Network.register(client);
@@ -31,12 +31,16 @@ public class GameClient {
             @Override
             public void received(Connection connection, Object object) {
                 if (object instanceof Move) {
-                    if (gameWorld.getState() == GameWorld.State.WAITING) {
-                        gameWorld.processMove((Move)object);
-                        gameWorld.switchState();
-                    }
-                    valid = true;
-                    move = (Move)object;
+//                    gameWorld.getMove().merge((Move)object);
+//                    gameWorld.processMove((Move)object);
+//                    gameWorld.switchState();
+//                    if (gameWorld.getState() == GameWorld.State.WAITING) {
+//                        gameWorld.processMove((Move)object);
+//                        gameWorld.switchState();
+//                    }
+
+                    move = (Move) object;
+
                 }
 
             }
@@ -58,14 +62,13 @@ public class GameClient {
     }
 
     public Move getMove() {
-        if (!valid) {
-            return null;
-        }
-        else {
-            valid = false;
-            return move;
-        }
+        return move;
     }
+
+    public void setMove(Move move) {
+        this.move = move;
+    }
+
 
     public void sendMove(Move move) {
         client.sendTCP(move);

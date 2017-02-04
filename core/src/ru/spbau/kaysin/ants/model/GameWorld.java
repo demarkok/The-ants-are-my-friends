@@ -190,13 +190,13 @@ public class GameWorld {
             }
         }
 
-//        if (state == State.WAITING) {
-//            Move move = client.getMove();
-//            if (move != null) {
-//                switchState();
-//                processMove(move);
-//            }
-//        }
+        if (state == State.WAITING) {
+            Move eMove = client.getMove();
+            if (eMove != null) {
+                processMove(eMove);
+                switchState();
+            }
+        }
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -259,6 +259,12 @@ public class GameWorld {
     public EnergyBar getEnergyBar() {
         return energyBar;
     }
+
+    public Move getMove() {
+        return move;
+    }
+
+
 
     public void cleanUp() {
         Iterator<Ant> it = antMap.values().iterator();
@@ -333,6 +339,8 @@ public class GameWorld {
             client.sendMove(move);
 //            client.sendMove(new Move());
         } else if (state == State.WAITING) {// WAITING -> PLAYBACK
+            client.setMove(null);
+//            processMove(move);
             state = State.PLAYBACK;
         } else { // PLAYBACK -> CAPTURE
             state = State.CAPTURE;
@@ -358,20 +366,22 @@ public class GameWorld {
     }
 
     public void processMove(Move move) {
-        for (Move.NewAnt newAnt: move.getAnts()) {
-            addAnt(Ants.WIDTH - newAnt.x, Ants.HEIGHT - newAnt.y, newAnt.antId, false);
-            System.out.println("add:" + newAnt.antId);
-        }
-        for (Move.AntMovement antMovement: move.getMovements()) {
-            System.out.println("move:" + antMovement.antId);
-            Ant ant = antMap.get(antMovement.antId);
-            Array<Vector2> pathToFollow = antMovement.pathToFollow;
-            for (Vector2 point: pathToFollow) {
-                point.set(Ants.WIDTH - point.x, Ants.HEIGHT - point.y);
-            }
+        synchronized (move) {
+                for (Move.NewAnt newAnt : move.getAnts()) {
+                    addAnt(Ants.WIDTH - newAnt.x, Ants.HEIGHT - newAnt.y, newAnt.antId, false);
+                    System.out.println("add:" + newAnt.antId);
+                }
+                for (Move.AntMovement antMovement : move.getMovements()) {
+                    System.out.println("move:" + antMovement.antId);
+                    Ant ant = antMap.get(antMovement.antId);
+                    Array<Vector2> pathToFollow = antMovement.pathToFollow;
+                    for (Vector2 point : pathToFollow) {
+                        point.set(Ants.WIDTH - point.x, Ants.HEIGHT - point.y);
+                    }
 //            ant.getAntWay().setPathToFollow(antMovement.pathToFollow);
-            ant.getAntWay().setPathToFollow(pathToFollow);
-            ant.startMovement();
+                    ant.getAntWay().setPathToFollow(pathToFollow);
+                    ant.startMovement();
+                }
         }
     }
 }

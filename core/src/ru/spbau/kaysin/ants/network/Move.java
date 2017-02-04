@@ -41,6 +41,12 @@ public class Move {
         movements.add(new AntMovement(antId, pathToFollow));
     }
 
+    public void merge(Move other) {
+        ants.addAll(other.getAnts());
+        movements.addAll(other.getMovements());
+        System.out.println("merged");
+    }
+
     public static class NewAnt {
         public int antId;
         public float x, y;
@@ -67,6 +73,5 @@ public class Move {
             this.pathToFollow = pathToFollow;
         }
     }
-
 
 }
