@@ -61,6 +61,8 @@ public class GameWorld {
 
     private GameClient client;
 
+    private float playbackTimer;
+
     public GameWorld(Stage stage) {
 
         MathUtils.random = new RandomXS128(239);
@@ -176,8 +178,10 @@ public class GameWorld {
     }
 
     public void update(float dt) {
+        playbackTimer += dt;
 
-        if (state == State.PLAYBACK) {
+        if (state == State.PLAYBACK && playbackTimer > 5) { // check if the action ended
+            System.out.println(playbackTimer);
             boolean end = true;
             for (Ant ant: antMap.values()) {
                 if (ant.isMoving()) {
@@ -338,10 +342,13 @@ public class GameWorld {
             }
             client.sendMove(move);
 //            client.sendMove(new Move());
+            System.out.println("CAPTURE -> WAITING");
         } else if (state == State.WAITING) {// WAITING -> PLAYBACK
             client.setMove(null);
 //            processMove(move);
             state = State.PLAYBACK;
+            playbackTimer = 0;
+            System.out.println("WAITING -> PLAYBACK");
         } else { // PLAYBACK -> CAPTURE
             state = State.CAPTURE;
             energy = energy + energyRecoverySpeed;
@@ -362,6 +369,7 @@ public class GameWorld {
 
 
             move = new Move();
+            System.out.println("PLAYBACK -> CAPTURE");
         }
     }
 
