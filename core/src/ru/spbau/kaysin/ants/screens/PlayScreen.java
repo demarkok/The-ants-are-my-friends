@@ -3,6 +3,7 @@ package ru.spbau.kaysin.ants.screens;
 import com.badlogic.gdx.Screen;
 
 import ru.spbau.kaysin.ants.model.GameWorld;
+import ru.spbau.kaysin.ants.network.GameClient;
 import ru.spbau.kaysin.ants.view.WorldRenderer;
 
 public class PlayScreen implements Screen {
@@ -17,9 +18,9 @@ public class PlayScreen implements Screen {
     private static final float TIME_STEP = 1 / 60f;
 
 
-    public PlayScreen() {
+    public PlayScreen(GameClient client) {
         renderer = new WorldRenderer();
-        gameWorld = new GameWorld(renderer.getStage());
+        gameWorld = new GameWorld(renderer.getStage(), client);
         renderer.setWorld(gameWorld);
     }
 

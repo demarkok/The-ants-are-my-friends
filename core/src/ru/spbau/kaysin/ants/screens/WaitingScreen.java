@@ -15,8 +15,9 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.spbau.kaysin.ants.Ants;
+import ru.spbau.kaysin.ants.network.GameClient;
 
-public class MenuScreen implements Screen {
+public class WaitingScreen implements Screen {
 
     private SpriteBatch batch;
     private Texture bg;
@@ -25,14 +26,15 @@ public class MenuScreen implements Screen {
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private BitmapFont font12;
-    private GlyphLayout layout;
-    private final String text = "Click to continue";
+    private State loadingState;
 
     private OrthographicCamera cam;
     private Viewport viewport;
 
-    public MenuScreen() {
-        //TODO change viewport
+    GameClient client;
+
+    public WaitingScreen() {
+
         cam = new OrthographicCamera(Ants.WIDTH, Ants.HEIGHT);
         viewport = new ExtendViewport(Ants.WIDTH, Ants.HEIGHT, cam);
 
@@ -46,10 +48,10 @@ public class MenuScreen implements Screen {
         parameter.color = Color.WHITE;
         font12 = generator.generateFont(parameter);
 
-        layout = new GlyphLayout(font12, text);
+        loadingState  = State.CONNECTING;
 
-//        choose = new Texture(Gdx.files.internal("singleMulti.png"));
-//        choose.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        client = new GameClient();
+        client.connect("192.168.56.101");
     }
 
 
@@ -67,11 +69,20 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         batch.draw(bg, 0, 0, Ants.WIDTH, Ants.HEIGHT);
+        GlyphLayout layout = new GlyphLayout(font12, loadingState.getText());
         font12.draw(batch, layout, Ants.WIDTH / 2 - layout.width / 2, Ants.HEIGHT * 3 / 4);
         batch.end();
 
+        if (loadingState == State.CONNECTING && client.isConnected()) {
+            loadingState = State.MATCHING;
+        }
+//        else if (loadingState == State.MATCHING && client.isMatched()) {
+//            Ants.getInstance().setScreen(new PlayScreen(client));
+//        }
+
+
         if (Gdx.input.justTouched()) {
-            Ants.getInstance().setScreen(new WaitingScreen());
+            Ants.getInstance().setScreen(new PlayScreen(client));
         }
     }
 
@@ -99,5 +110,19 @@ public class MenuScreen implements Screen {
     public void dispose() {
         batch.dispose();
         bg.dispose();
+    }
+
+    private enum State {
+        CONNECTING ("connecting..."),
+        MATCHING ("matching...");
+
+        private String text;
+        State(String text) {
+            this.text = text;
+        }
+
+        public String getText() {
+            return text;
+        }
     }
 }

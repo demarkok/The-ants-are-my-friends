@@ -8,12 +8,15 @@ import com.esotericsoftware.minlog.Log;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Set;
 
 
 public class GameServer {
     Server server;
     HashMap<Integer, Move> map;
     IIdGenerator generator;
+
+    Set<Connection> pool;
 
     public GameServer() throws IOException {
         generator = new IdGenerator();

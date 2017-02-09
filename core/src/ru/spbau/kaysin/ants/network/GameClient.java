@@ -4,7 +4,10 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.rmi.ObjectSpace;
+import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.model.GameWorld;
+import ru.spbau.kaysin.ants.screens.MenuScreen;
+import ru.spbau.kaysin.ants.screens.PlayScreen;
 
 import java.io.IOException;
 
@@ -38,23 +41,35 @@ public class GameClient {
                     move = (Move) object;
 
                 }
+            }
 
+            @Override
+            public void connected(Connection connection) {
+                generator = ObjectSpace.getRemoteObject(client,1, GameServer.IIdGenerator.class);
             }
         });
 
+
+
+//        generator = ObjectSpace.getRemoteObject(client,1, GameServer.IIdGenerator.class);
+    }
+
+    public void connect(final String host) {
         new Thread("Connect") {
             public void run () {
                 try {
-                    client.connect(5000, "localhost", Network.port);
+                    client.connect(5000, host, Network.port);
                     // Server communication after connection can go here, or in Listener#connected().
                 } catch (IOException ex) {
                     ex.printStackTrace();
                     System.exit(1);
+//                    Ants.getInstance().setScreen(new MenuScreen());
                 }
             }
         }.start();
-
-        generator = ObjectSpace.getRemoteObject(client,1, GameServer.IIdGenerator.class);
+    }
+    public boolean isConnected() {
+        return client.isConnected();
     }
 
     public Move getMove() {
@@ -77,4 +92,5 @@ public class GameClient {
     public void init(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
     }
+
 }

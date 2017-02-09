@@ -63,7 +63,7 @@ public class GameWorld {
 
     private float playbackTimer;
 
-    public GameWorld(Stage stage) {
+    public GameWorld(Stage stage, GameClient client) {
 
         MathUtils.random = new RandomXS128(239);
 
@@ -76,8 +76,8 @@ public class GameWorld {
 
         move = new Move();
 
-        client = new GameClient();
-        client.init(this);
+        this.client = client;
+        this.client.init(this);
 
         lives = 3;
         enemyLives = 3;
