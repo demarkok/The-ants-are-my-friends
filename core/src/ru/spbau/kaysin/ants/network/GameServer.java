@@ -9,9 +9,7 @@ import com.esotericsoftware.minlog.Log;
 import java.io.IOException;
 import java.util.HashMap;
 
-/**
- * Created by demarkok on 25-Dec-16.
- */
+
 public class GameServer {
     Server server;
     HashMap<Integer, Move> map;

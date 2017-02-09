@@ -1,6 +1,5 @@
 package ru.spbau.kaysin.ants.network;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -9,9 +8,6 @@ import ru.spbau.kaysin.ants.model.GameWorld;
 
 import java.io.IOException;
 
-/**
- * Created by demarkok on 25-Dec-16.
- */
 public class GameClient {
     private GameWorld gameWorld;
     Client client;
