@@ -17,7 +17,8 @@ public class Network {
     static public void register(EndPoint endPoint) {
         Kryo kryo = endPoint.getKryo();
         ObjectSpace.registerClasses(kryo);
-        kryo.register(ru.spbau.kaysin.ants.network.GameServer.IIdGenerator.class);
+        kryo.register(GameServer.IIdGenerator.class);
+        kryo.register(GameServer.IPool.class);
         kryo.register(Move.class);
         kryo.register(Move.AntMovement.class);
         kryo.register(Move.NewAnt.class);
