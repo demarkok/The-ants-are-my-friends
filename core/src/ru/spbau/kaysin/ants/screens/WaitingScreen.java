@@ -33,6 +33,9 @@ public class WaitingScreen implements Screen {
 
     GameClient client;
 
+    private static final float POLLING_TIME = 5;
+    private float timer = 0;
+
     public WaitingScreen() {
 
         cam = new OrthographicCamera(Ants.WIDTH, Ants.HEIGHT);
@@ -51,7 +54,9 @@ public class WaitingScreen implements Screen {
         loadingState  = State.CONNECTING;
 
         client = new GameClient();
-        client.connect("192.168.56.101");
+//        client.connect("192.168.56.101");
+        client.connect("138.201.158.54");
+//        client.connect("localhost");
     }
 
 
@@ -62,6 +67,7 @@ public class WaitingScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        timer += delta;
         cam.update();
         batch.setProjectionMatrix(cam.combined);
 
@@ -79,7 +85,16 @@ public class WaitingScreen implements Screen {
 //        else if (loadingState == State.MATCHING && client.isMatched()) {
 //            Ants.getInstance().setScreen(new PlayScreen(client));
 //        }
-
+        if (loadingState == State.MATCHING) {
+            if (client.getEnemyId() != -1) {
+                Ants.getInstance().setScreen(new PlayScreen(client));
+            } else {
+                if (timer >= POLLING_TIME) {
+                    timer = 0;
+                    client.tryToMatch();
+                }
+            }
+        }
 
         if (Gdx.input.justTouched()) {
             Ants.getInstance().setScreen(new PlayScreen(client));

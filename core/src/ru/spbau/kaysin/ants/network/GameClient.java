@@ -13,15 +13,16 @@ import java.io.IOException;
 
 public class GameClient {
     private GameWorld gameWorld;
-    Client client;
+    private Client client;
+    private Move move;
+    private int enemyId;
 
-    Move move;
-
-    private boolean valid;
-    int index;
     GameServer.IIdGenerator generator;
+    GameServer.IPool pool;
     public GameClient() {
-        index = 1;
+
+        enemyId = -1;
+
         client = new Client();
         client.start();
         Network.register(client);
@@ -46,6 +47,12 @@ public class GameClient {
             @Override
             public void connected(Connection connection) {
                 generator = ObjectSpace.getRemoteObject(client,1, GameServer.IIdGenerator.class);
+                pool = ObjectSpace.getRemoteObject(client, 2, GameServer.IPool.class);
+            }
+
+            @Override
+            public void idle(Connection connection) {
+                super.idle(connection);
             }
         });
 
@@ -93,4 +100,13 @@ public class GameClient {
         this.gameWorld = gameWorld;
     }
 
+    public void tryToMatch() {
+        if (pool != null) {
+            enemyId = pool.match(client.getID());
+        }
+    }
+
+    public int getEnemyId() {
+        return enemyId;
+    }
 }
