@@ -16,7 +16,7 @@ public class ButtonGenerator {
         textButtonStyle.up = skin.getDrawable("energyBar");
         textButtonStyle.down = skin.getDrawable("backgroundBar");
         TextButton button = new TextButton(text, textButtonStyle);
-        button.setPosition(posX - button.getWidth() / 2, posY - button.getHeight() / 2);
+        button.setPosition(posX - button.getWidth() / 2, posY);
         return button;
     }
 }

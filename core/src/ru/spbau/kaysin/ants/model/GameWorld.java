@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -12,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import java.util.*;
 
 import aurelienribon.tweenengine.TweenManager;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.controls.DragTheAntListener;
@@ -20,6 +23,7 @@ import ru.spbau.kaysin.ants.entities.*;
 import ru.spbau.kaysin.ants.network.GameClient;
 import ru.spbau.kaysin.ants.network.Move;
 import ru.spbau.kaysin.ants.screens.MenuScreen;
+import ru.spbau.kaysin.ants.utils.ButtonGenerator;
 
 import static java.lang.Math.min;
 
@@ -62,6 +66,8 @@ public class GameWorld {
     private GameClient client;
 
     private float playbackTimer;
+
+    private TextButton doneButton;
 
     public GameWorld(Stage stage, GameClient client) {
 
@@ -117,11 +123,22 @@ public class GameWorld {
         energyBar.init();
 
 
+        doneButton = ButtonGenerator.generateButton("done", 50, stage.getWidth() / 2, 0);
+        doneButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                switchState();
+            }
+        });
+        stage.addActor(doneButton);
+
         // now the stage handle all the inputs
         Gdx.input.setInputProcessor(stage);
 
         stage.addListener(new DragTheAntListener(this));
         stage.addListener(new TouchSourceListener(this));
+
+
 
     }
 
@@ -333,6 +350,8 @@ public class GameWorld {
 
     public void switchState() {
         if (state == State.CAPTURE) { // CAPTURE -> WAITING
+            doneButton.setTouchable(Touchable.disabled);
+
             state = State.WAITING;
             for (Map.Entry<Integer, Ant> entry: antMap.entrySet()) {
                 Ant ant = entry.getValue();
@@ -341,15 +360,13 @@ public class GameWorld {
                 }
             }
             client.sendMove(move);
-//            client.sendMove(new Move());
-            System.out.println("CAPTURE -> WAITING");
-        } else if (state == State.WAITING) {// WAITING -> PLAYBACK
+        } else if (state == State.WAITING) { // WAITING -> PLAYBACK
             client.setMove(null);
-//            processMove(move);
             state = State.PLAYBACK;
             playbackTimer = 0;
-            System.out.println("WAITING -> PLAYBACK");
         } else { // PLAYBACK -> CAPTURE
+            doneButton.setTouchable(Touchable.enabled);
+
             state = State.CAPTURE;
             energy = energy + energyRecoverySpeed;
             energy = min(energy, 1);
