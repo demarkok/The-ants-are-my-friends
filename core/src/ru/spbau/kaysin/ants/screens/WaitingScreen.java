@@ -55,8 +55,8 @@ public class WaitingScreen implements Screen {
 
         client = new GameClient();
 //        client.connect("192.168.56.101");
-//        client.connect("138.201.158.54");
-        client.connect("localhost");
+        client.connect("138.201.158.54");
+//        client.connect("localhost");
     }
 
 
