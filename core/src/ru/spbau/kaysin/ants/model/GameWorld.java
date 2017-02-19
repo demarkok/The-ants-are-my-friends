@@ -72,7 +72,6 @@ public class GameWorld {
 
     public GameWorld(Stage stage, GameClient client) {
 
-        MathUtils.random = new RandomXS128(239);
 
         this.stage = stage;
         stage.getRoot().setBounds(0, 0, stage.getWidth(), stage.getHeight());
@@ -122,6 +121,14 @@ public class GameWorld {
         energyBar = new EnergyBar(this);
         hud.addActor(energyBar);
         energyBar.init();
+
+        enemyEnergyBar = new EnergyBar(this, false);
+        hud.addActor(enemyEnergyBar);
+        enemyEnergyBar.init();
+
+
+        hud.addActor(new LivesMonitor(this, true));
+        hud.addActor(new LivesMonitor(this, false));
 
 
         doneButton = ButtonGenerator.generateButton("done", 50, stage.getWidth() / 2, 0);
@@ -229,7 +236,6 @@ public class GameWorld {
         processContacts();
         cleanUp();
 
-        // Just for demonstration
     }
 
     public Stage getStage() {
