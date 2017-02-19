@@ -1,6 +1,7 @@
 package ru.spbau.kaysin.ants.utils;
 
 import com.badlogic.gdx.math.Vector2;
+import ru.spbau.kaysin.ants.Ants;
 
 public final class MyMathUtils {
 
@@ -15,5 +16,9 @@ public final class MyMathUtils {
         outVector.x = -(float)Math.sin(angle);
         outVector.y = (float)Math.cos(angle);
         return outVector;
+    }
+
+    public static Vector2 reflect(Vector2 vector) {
+        return new Vector2(Ants.WIDTH - vector.x, Ants.HEIGHT - vector.y);
     }
 }
