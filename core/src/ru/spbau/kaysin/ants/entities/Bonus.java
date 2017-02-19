@@ -18,10 +18,12 @@ public abstract class Bonus extends Actor implements HandlingContact {
     private GameWorld world;
     private boolean captured = false;
 
-    public Bonus(float x, float y, GameWorld world, String textureName) {
-        this.world = world;
-        texture = new Sprite(Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegion(textureName));
-        setBounds(x, y, texture.getWidth(), texture.getHeight());
+    private String textureName;
+
+
+    public Bonus(float x, float y, String textureName) {
+        this.textureName = textureName;
+        setPosition(x, y);
         setOrigin(Align.center);
         setScale(3);
     }
@@ -54,6 +56,12 @@ public abstract class Bonus extends Actor implements HandlingContact {
 
     private float getContactDistance() {
         return getWidth() * getScaleX();
+    }
+
+    public void initialize(GameWorld world) {
+        texture = new Sprite(Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegion(textureName));
+        setSize(texture.getWidth(), texture.getHeight());
+        this.world = world;
     }
 
     public GameWorld getWorld() {

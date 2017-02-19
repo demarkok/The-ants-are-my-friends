@@ -26,6 +26,7 @@ import ru.spbau.kaysin.ants.screens.MenuScreen;
 import ru.spbau.kaysin.ants.utils.ButtonGenerator;
 
 import static java.lang.Math.min;
+import static ru.spbau.kaysin.ants.utils.MyMathUtils.reflect;
 
 public class GameWorld {
 
@@ -138,8 +139,6 @@ public class GameWorld {
         stage.addListener(new DragTheAntListener(this));
         stage.addListener(new TouchSourceListener(this));
 
-
-
     }
 
     public void addAnt(float x, float y, int id, boolean friendly) {
@@ -151,16 +150,12 @@ public class GameWorld {
         move.addNewAnt(ant, id);
     }
 
-    private void addApple(float x, float y) {
-        Apple apple = new Apple(x, y, this);
-        bonuses.addActor(apple);
-        addHandling(apple);
-    }
 
-    private void addBlueberry(float x, float y) {
-        Blueberry blueberry = new Blueberry(x, y, this);
-        bonuses.addActor(blueberry);
-        addHandling(blueberry);
+    private void addBonus(Bonus bonus) {
+        bonus.initialize(this);
+        addHandling(bonus);
+        bonuses.addActor(bonus);
+
     }
 
     private void addFriendDomain() {
@@ -374,16 +369,9 @@ public class GameWorld {
                 ant.clearWay();
             }
 
-            Vector2 pos = new Vector2(MathUtils.random(bonuses.getWidth()), MathUtils.random(bonuses.getHeight()));
-            if (MathUtils.randomBoolean()) {
-                addApple(pos.x, pos.y);
-                addApple(Ants.WIDTH - pos.x, Ants.HEIGHT - pos.y);
-            } else {
-                addBlueberry(pos.x, pos.y);
-                addBlueberry(Ants.WIDTH - pos.x, Ants.HEIGHT - pos.y);
-            }
 
 
+            addBonus(client.generateRandomBonus());
 
             move = new Move();
             System.out.println("PLAYBACK -> CAPTURE");
@@ -391,22 +379,20 @@ public class GameWorld {
     }
 
     public void processMove(Move move) {
-        synchronized (move) {
-                for (Move.NewAnt newAnt : move.getAnts()) {
-                    addAnt(Ants.WIDTH - newAnt.x, Ants.HEIGHT - newAnt.y, newAnt.antId, false);
-                    System.out.println("add:" + newAnt.antId);
-                }
-                for (Move.AntMovement antMovement : move.getMovements()) {
-                    System.out.println("move:" + antMovement.antId);
-                    Ant ant = antMap.get(antMovement.antId);
-                    Array<Vector2> pathToFollow = antMovement.pathToFollow;
-                    for (Vector2 point : pathToFollow) {
-                        point.set(Ants.WIDTH - point.x, Ants.HEIGHT - point.y);
-                    }
-//            ant.getAntWay().setPathToFollow(antMovement.pathToFollow);
-                    ant.getAntWay().setPathToFollow(pathToFollow);
-                    ant.startMovement();
-                }
+        for (Move.NewAnt newAnt : move.getAnts()) {
+            Vector2 position = new Vector2(newAnt.x, newAnt.y);
+            Vector2 rightPosition = reflect(position);
+            addAnt(rightPosition.x, rightPosition.y, newAnt.antId, false);
+        }
+        for (Move.AntMovement antMovement : move.getMovements()) {
+            System.out.println("move:" + antMovement.antId);
+            Ant ant = antMap.get(antMovement.antId);
+            Array<Vector2> pathToFollow = antMovement.pathToFollow;
+            for (Vector2 point : pathToFollow) {
+                point.set(reflect(point));
+            }
+            ant.getAntWay().setPathToFollow(pathToFollow);
+            ant.startMovement();
         }
     }
 }

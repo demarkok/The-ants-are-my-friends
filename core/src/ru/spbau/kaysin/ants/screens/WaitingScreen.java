@@ -33,7 +33,7 @@ public class WaitingScreen implements Screen {
 
     GameClient client;
 
-    private static final float POLLING_TIME = 5;
+    private static final float POLLING_TIME = 1;
     private float timer = 0;
 
     public WaitingScreen() {
@@ -55,8 +55,8 @@ public class WaitingScreen implements Screen {
 
         client = new GameClient();
 //        client.connect("192.168.56.101");
-        client.connect("138.201.158.54");
-//        client.connect("localhost");
+//        client.connect("138.201.158.54");
+        client.connect("localhost");
     }
 
 

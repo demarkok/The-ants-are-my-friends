@@ -19,6 +19,7 @@ public class Network {
         ObjectSpace.registerClasses(kryo);
         kryo.register(GameServer.IIdGenerator.class);
         kryo.register(GameServer.IPool.class);
+        kryo.register(IGameSession.class);
         kryo.register(Move.class);
         kryo.register(Move.AntMovement.class);
         kryo.register(Move.NewAnt.class);
@@ -28,6 +29,14 @@ public class Network {
         kryo.register(com.badlogic.gdx.math.Vector2.class);
         kryo.register(Ready.class);
         kryo.register(com.badlogic.gdx.utils.Array.ArrayIterable.class);
+
+//        kryo.register(ru.spbau.kaysin.ants.entities.Apple.class);
+//        kryo.register(ru.spbau.kaysin.ants.entities.Blueberry.class);
+//        kryo.register(com.badlogic.gdx.utils.DelayedRemovalArray.class);
+//        kryo.register(com.badlogic.gdx.utils.IntArray.class);
+//        kryo.register(int[].class);
+//        kryo.register(com.badlogic.gdx.graphics.Color.class);
+//        kryo.register(com.badlogic.gdx.scenes.scene2d.Touchable.class);
     }
 
     static public class Ready {

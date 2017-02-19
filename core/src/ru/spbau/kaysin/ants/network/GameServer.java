@@ -17,21 +17,23 @@ public class GameServer {
     IIdGenerator generator;
     Pool pool;
     Map<Integer, GameConnection> activePlayers;
+    Map<Integer, GameSession> activeGames;
+    Map<Integer, ObjectSpace> objectSpaceMap;
+
 
 
     public GameServer() throws IOException {
         generator = new IdGenerator();
         pool = new Pool();
         activePlayers = new HashMap<Integer, GameConnection>();
+        objectSpaceMap = new HashMap<Integer, ObjectSpace>();
+        activeGames = new HashMap<Integer, GameSession>();
 
         server = new Server() {
             @Override
             protected Connection newConnection () {
                 GameConnection connection = new GameConnection();
-                ObjectSpace os = new ObjectSpace(connection);
-                os.register(1, generator);
-                os.register(2, pool);
-//                pool.addPlayer(connection);
+
                 return connection;
             }
         };
@@ -51,6 +53,12 @@ public class GameServer {
             @Override
             public void connected(Connection connection) {
                 pool.addPlayer((GameConnection) connection);
+
+                ObjectSpace os = new ObjectSpace(connection);
+                os.register(1, generator); // TODO constant variable
+                os.register(2, pool);
+                objectSpaceMap.put(connection.getID(), os);
+
             }
 
             @Override
@@ -61,7 +69,6 @@ public class GameServer {
         server.bind(Network.port);
         server.start();
 
-        new ObjectSpace();
     }
 
     static class GameConnection extends Connection {
@@ -136,6 +143,15 @@ public class GameServer {
             enemy.setEnemyId(id);
             activePlayers.put(id, c);
             activePlayers.put(enemyId, enemy);
+
+            GameSession game = new GameSession(enemyId, id);
+            activeGames.put(id, game);
+            activeGames.put(enemyId, game);
+
+            objectSpaceMap.get(id).register(3, game); // TODO constant variable
+            objectSpaceMap.get(enemyId).register(3, game);
+
+
             return enemyId;
         }
     }

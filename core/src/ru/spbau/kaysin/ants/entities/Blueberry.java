@@ -6,8 +6,8 @@ import ru.spbau.kaysin.ants.utils.TextSpawner;
 
 
 public class Blueberry extends DeferredBonus {
-    public Blueberry(float x, float y, GameWorld world) {
-        super(x, y, world, "blueberry");
+    public Blueberry(float x, float y) {
+        super(x, y, "blueberry");
     }
     @Override
     public void acceptContact(Ant ant) {

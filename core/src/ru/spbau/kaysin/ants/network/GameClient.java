@@ -1,10 +1,14 @@
 package ru.spbau.kaysin.ants.network;
 
+import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.rmi.ObjectSpace;
 import ru.spbau.kaysin.ants.Ants;
+import ru.spbau.kaysin.ants.entities.Apple;
+import ru.spbau.kaysin.ants.entities.Blueberry;
+import ru.spbau.kaysin.ants.entities.Bonus;
 import ru.spbau.kaysin.ants.model.GameWorld;
 import ru.spbau.kaysin.ants.screens.MenuScreen;
 import ru.spbau.kaysin.ants.screens.PlayScreen;
@@ -17,6 +21,7 @@ public class GameClient {
     private Move move;
     private int enemyId;
 
+    private IGameSession game;
     GameServer.IIdGenerator generator;
     GameServer.IPool pool;
     public GameClient() {
@@ -75,6 +80,11 @@ public class GameClient {
             }
         }.start();
     }
+
+    public int getID() {
+        return client.getID();
+    }
+
     public boolean isConnected() {
         return client.isConnected();
     }
@@ -87,9 +97,9 @@ public class GameClient {
         this.move = move;
     }
 
-
     public void sendMove(Move move) {
         client.sendTCP(move);
+        game.endOfTurn(client.getID());
     }
 
     public int getNewIndex() {
@@ -103,10 +113,31 @@ public class GameClient {
     public void tryToMatch() {
         if (pool != null) {
             enemyId = pool.match(client.getID());
+            if (enemyId != -1) {
+                game = ObjectSpace.getRemoteObject(client, 3, IGameSession.class);
+            }
         }
     }
 
     public int getEnemyId() {
         return enemyId;
+    }
+
+    public IGameSession getGame() {
+        return game;
+    }
+
+    public Bonus generateRandomBonus() {
+        Vector2 position = game.generateRandomPosition(getID());
+        Bonus result = null;
+        switch (game.generateRandomBonusType(getID())){
+            case 0:
+                result = new Apple(position.x, position.y);
+                break;
+            case 1:
+                result = new Blueberry(position.x, position.y);
+                break;
+        }
+        return result;
     }
 }
