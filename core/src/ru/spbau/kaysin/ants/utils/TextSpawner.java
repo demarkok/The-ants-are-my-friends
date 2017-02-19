@@ -24,7 +24,7 @@ public class TextSpawner {
     private static Vector2 downVector = new Vector2(1 ,0);
 
 
-    public static void spawnText(String text, float posX, float posY, GameWorld gameWorld) {
+    public static void spawnText(String text, float posX, float posY, GameWorld gameWorld, Color color) {
 
         final ArrayList<CharEntity> charEntities = new ArrayList<CharEntity>(); // for removing chars after showing message
 
@@ -72,7 +72,7 @@ public class TextSpawner {
                 }
 
 
-                CharEntity charEnt = new CharEntity(String.valueOf(c), enterPosition.x, enterPosition.y, font, Color.WHITE);
+                CharEntity charEnt = new CharEntity(String.valueOf(c), enterPosition.x, enterPosition.y, font, color);
                 charEntities.add(charEnt);
 
                 Timeline.createSequence()

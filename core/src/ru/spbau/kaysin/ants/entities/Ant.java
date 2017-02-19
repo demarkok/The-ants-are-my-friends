@@ -138,15 +138,20 @@ public class Ant extends SteeringActor {
 
     public void processContact(AnthillCodomain anthillCodomain) {
 
-        if (anthillCodomain.isFriendly()) {
+        if (anthillCodomain.isFriendly() && friendly) { // a friend in the friendly anthill
             remove();
             for (DeferredBonus bonus: deferredBonuses) {
                 bonus.activate();
             }
             deferredBonuses.clear();
-        } else {
+        } else if (anthillCodomain.isFriendly()) { // an enemy in the friendly anthill
+            remove();
+            world.decLives();
+        } else if (friendly) { // a friend in the enemy anthill
             remove();
             world.decEnemyLives();
+        } else { // an enemy in the enemy anthill
+            remove();
         }
 
     }

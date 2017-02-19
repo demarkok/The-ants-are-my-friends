@@ -2,6 +2,7 @@ package ru.spbau.kaysin.ants;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import aurelienribon.tweenengine.Tween;
 import ru.spbau.kaysin.ants.screens.MenuScreen;
+import ru.spbau.kaysin.ants.screens.PlayScreen;
 import ru.spbau.kaysin.ants.utils.TweenActor;
 
 // SINGLETON
@@ -68,4 +70,11 @@ public class Ants extends Game {
         generator.dispose();
     }
 
+    @Override
+    public void setScreen(Screen screen) {
+        if (this.screen instanceof PlayScreen) {
+            this.screen.dispose();
+        }
+        super.setScreen(screen);
+    }
 }

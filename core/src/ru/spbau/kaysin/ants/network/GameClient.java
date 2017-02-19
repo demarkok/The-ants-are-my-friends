@@ -133,4 +133,13 @@ public class GameClient {
         }
         return result;
     }
+
+    public void dispose() {
+        try {
+            client.dispose();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
 }

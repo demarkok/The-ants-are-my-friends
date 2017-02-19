@@ -1,7 +1,10 @@
 package ru.spbau.kaysin.ants.model;
 
+import aurelienribon.tweenengine.Timeline;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.math.Vector2;
@@ -10,12 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
+import java.util.Timer;
 
 import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.*;
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.controls.DragTheAntListener;
 import ru.spbau.kaysin.ants.controls.TouchSourceListener;
@@ -24,6 +30,7 @@ import ru.spbau.kaysin.ants.network.GameClient;
 import ru.spbau.kaysin.ants.network.Move;
 import ru.spbau.kaysin.ants.screens.MenuScreen;
 import ru.spbau.kaysin.ants.utils.ButtonGenerator;
+import ru.spbau.kaysin.ants.utils.TextSpawner;
 
 import static java.lang.Math.min;
 import static ru.spbau.kaysin.ants.utils.MyMathUtils.reflect;
@@ -72,7 +79,6 @@ public class GameWorld {
 
     public GameWorld(Stage stage, GameClient client) {
 
-        MathUtils.random = new RandomXS128(239);
 
         this.stage = stage;
         stage.getRoot().setBounds(0, 0, stage.getWidth(), stage.getHeight());
@@ -86,8 +92,8 @@ public class GameWorld {
         this.client = client;
         this.client.init(this);
 
-        lives = 3;
-        enemyLives = 3;
+        lives = 2;
+        enemyLives = 2;
 
         anthills = new Group();
         anthills.setBounds(0, 0, stage.getWidth(), stage.getHeight());
@@ -122,6 +128,9 @@ public class GameWorld {
         energyBar = new EnergyBar(this);
         hud.addActor(energyBar);
         energyBar.init();
+
+
+        hud.addActor(new LivesMonitor(this));
 
 
         doneButton = ButtonGenerator.generateButton("done", 50, stage.getWidth() / 2, 0);
@@ -229,7 +238,6 @@ public class GameWorld {
         processContacts();
         cleanUp();
 
-        // Just for demonstration
     }
 
     public Stage getStage() {
@@ -331,11 +339,28 @@ public class GameWorld {
     }
 
     private void lose() {
-        Ants.getInstance().setScreen(new MenuScreen());
+        TextSpawner.spawnText("defeat!", Ants.WIDTH / 2, Ants.HEIGHT / 2, this, Color.BLACK);
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            @Override
+            public void run() {
+
+                Ants.getInstance().setScreen(new MenuScreen());
+            }
+        }, 4);
     }
 
     private void win() {
-        Ants.getInstance().setScreen(new MenuScreen());
+        TextSpawner.spawnText("victory!", Ants.WIDTH / 2, Ants.HEIGHT / 2, this, Color.BLACK);
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            @Override
+            public void run() {
+                Ants.getInstance().setScreen(new MenuScreen());
+            }
+        }, 4);
+    }
+
+    public int getLives() {
+        return lives;
     }
 
 
@@ -395,4 +420,5 @@ public class GameWorld {
             ant.startMovement();
         }
     }
+
 }

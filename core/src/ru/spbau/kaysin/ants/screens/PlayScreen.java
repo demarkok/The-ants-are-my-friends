@@ -70,5 +70,8 @@ public class PlayScreen implements Screen {
     @Override
     public void dispose() {
         renderer.dispose();
+//        gameWorld.getClient().dispose();
     }
+
+
 }
