@@ -11,10 +11,20 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+
 import ru.spbau.kaysin.ants.Ants;
+import ru.spbau.kaysin.ants.utils.ButtonGenerator;
+
+import static ru.spbau.kaysin.ants.G.WIDTH_PADDING;
 
 public class MenuScreen implements Screen {
 
@@ -30,6 +40,7 @@ public class MenuScreen implements Screen {
 
     private OrthographicCamera cam;
     private Viewport viewport;
+    private Stage stage;
 
     public MenuScreen() {
         //TODO change viewport
@@ -55,6 +66,51 @@ public class MenuScreen implements Screen {
 
     @Override
     public void show() {
+        stage = new Stage();
+//        stage.clear();
+        Gdx.input.setInputProcessor(stage);
+
+
+
+        Table table = new Table();
+        table.setBounds(WIDTH_PADDING, Ants.HEIGHT / 2, Ants.WIDTH - WIDTH_PADDING * 2, Ants.HEIGHT / 2);
+        table.left();
+
+//        table.debug();
+
+
+
+
+
+        TextButton playButton = ButtonGenerator.generateButton("play", 50, Ants.WIDTH / 2, Ants.HEIGHT / 2);
+        playButton.addListener(new ChangeListener(){
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Ants.getInstance().setScreen(new ConnectingScreen());
+            }
+        });
+
+        TextButton exitButton = ButtonGenerator.generateButton("exit", 50, Ants.WIDTH / 2, Ants.HEIGHT / 2);
+        exitButton.addListener(new ChangeListener(){
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit();
+            }
+        });
+
+//        final float buttonWidth = playButton.getWidth();
+//        exitButton.setWidth(buttonWidth);
+
+
+        table.add(playButton).left().spaceBottom(30);
+        table.row();
+        table.add(exitButton).left();
+
+
+        Image bgImage = new Image(bg);
+        bgImage.setBounds(0, 0, Ants.WIDTH, Ants.HEIGHT);
+        stage.addActor(bgImage);
+        stage.addActor(table);
 
     }
 
@@ -62,17 +118,15 @@ public class MenuScreen implements Screen {
     public void render(float delta) {
         cam.update();
         batch.setProjectionMatrix(cam.combined);
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        batch.draw(bg, 0, 0, Ants.WIDTH, Ants.HEIGHT);
-        font12.draw(batch, layout, Ants.WIDTH / 2 - layout.width / 2, Ants.HEIGHT * 3 / 4);
-        batch.end();
 
-        if (Gdx.input.justTouched()) {
-            Ants.getInstance().setScreen(new WaitingScreen());
-        }
+        stage.act(delta);
+
+        batch.begin();
+        stage.draw();
+//        batch.draw(bg, 0, 0, Ants.WIDTH, Ants.HEIGHT);
+        batch.end();
     }
 
     @Override

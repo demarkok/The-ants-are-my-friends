@@ -11,11 +11,15 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.network.GameClient;
+import ru.spbau.kaysin.ants.network.Network;
+
+import java.io.IOException;
 
 public class WaitingScreen implements Screen {
 
@@ -55,8 +59,20 @@ public class WaitingScreen implements Screen {
 
         client = new GameClient();
 //        client.connect("192.168.56.101");
-        client.connect("138.201.158.54");
+//        client.connect("138.201.158.54");
 //        client.connect("localhost");
+        client.connect("46.101.228.47", new GameClient.ConnectionFailureListener() {
+            @Override
+            public void onFailure() {
+                loadingState = WaitingScreen.State.ERROR;
+                com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+                    @Override
+                    public void run() {
+                        Ants.getInstance().setScreen(new MenuScreen());
+                    }
+                }, 2);
+            }
+        });
     }
 
 
@@ -76,7 +92,7 @@ public class WaitingScreen implements Screen {
         batch.begin();
         batch.draw(bg, 0, 0, Ants.WIDTH, Ants.HEIGHT);
         GlyphLayout layout = new GlyphLayout(font12, loadingState.getText());
-        font12.draw(batch, layout, Ants.WIDTH / 2 - layout.width / 2, Ants.HEIGHT * 3 / 4);
+        font12.draw(batch, layout, Ants.WIDTH / 2 - layout.width / 2, Ants.HEIGHT * 1 / 4);
         batch.end();
 
         if (loadingState == State.CONNECTING && client.isConnected()) {
@@ -96,9 +112,6 @@ public class WaitingScreen implements Screen {
             }
         }
 
-        if (Gdx.input.justTouched()) {
-            Ants.getInstance().setScreen(new PlayScreen(client));
-        }
     }
 
     @Override
@@ -129,7 +142,8 @@ public class WaitingScreen implements Screen {
 
     private enum State {
         CONNECTING ("connecting..."),
-        MATCHING ("matching...");
+        MATCHING ("matching..."),
+        ERROR ("connection error");
 
         private String text;
         State(String text) {
