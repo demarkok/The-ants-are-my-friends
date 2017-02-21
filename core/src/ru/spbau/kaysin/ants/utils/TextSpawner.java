@@ -1,21 +1,15 @@
 package ru.spbau.kaysin.ants.utils;
 
+import aurelienribon.tweenengine.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
-
-import java.util.ArrayList;
-
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Timeline;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.TweenEquations;
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.entities.CharEntity;
 import ru.spbau.kaysin.ants.model.GameWorld;
+
+import java.util.ArrayList;
 
 
 public class TextSpawner {
@@ -28,8 +22,8 @@ public class TextSpawner {
 
         final ArrayList<CharEntity> charEntities = new ArrayList<CharEntity>(); // for removing chars after showing message
 
-        float currentOffsetX = 0; // offset relatively posX
-        float currentOffsetY = 0; // offset relatively posY
+        float currentOffsetX; // offset relatively posX
+        float currentOffsetY; // offset relatively posY
 
 
         BitmapFont font = FontUtils.getFont(Color.WHITE, 55);

@@ -1,13 +1,10 @@
 package ru.spbau.kaysin.ants.controls;
 
-import com.badlogic.gdx.ai.steer.behaviors.FollowPath;
-import com.badlogic.gdx.ai.steer.utils.paths.LinePath;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
-import com.badlogic.gdx.utils.Array;
-
+import ru.spbau.kaysin.ants.G;
 import ru.spbau.kaysin.ants.entities.Ant;
 import ru.spbau.kaysin.ants.model.GameWorld;
 
@@ -47,7 +44,7 @@ public class DragTheAntListener extends DragListener {
 
         ant.getAntWay().reset();
 //        world.setActiveRecovery(false);
-        world.setEnergy(world.getEnergy() - Ant.START_MOVEMENT_FINE);
+        world.setEnergy(world.getEnergy() - G.START_MOVEMENT_FINE);
     }
 
     @Override

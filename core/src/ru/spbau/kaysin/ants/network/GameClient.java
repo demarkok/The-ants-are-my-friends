@@ -5,13 +5,10 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.rmi.ObjectSpace;
-import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.entities.Apple;
 import ru.spbau.kaysin.ants.entities.Blueberry;
 import ru.spbau.kaysin.ants.entities.Bonus;
 import ru.spbau.kaysin.ants.model.GameWorld;
-import ru.spbau.kaysin.ants.screens.MenuScreen;
-import ru.spbau.kaysin.ants.screens.WaitingScreen;
 
 import java.io.IOException;
 
@@ -22,8 +19,9 @@ public class GameClient {
     private int enemyId;
 
     private IGameSession game;
-    GameServer.IIdGenerator generator;
-    GameServer.IPool pool;
+    private GameServer.IIdGenerator generator;
+    private GameServer.IPool pool;
+
     public GameClient() {
 
         enemyId = -1;
@@ -54,9 +52,6 @@ public class GameClient {
             }
         });
 
-
-
-//        generator = ObjectSpace.getRemoteObject(client,1, GameServer.IIdGenerator.class);
     }
 
     public void connect(final String host, final ConnectionFailureListener callback) {
@@ -113,10 +108,6 @@ public class GameClient {
         return enemyId;
     }
 
-    public IGameSession getGame() {
-        return game;
-    }
-
     public Bonus generateRandomBonus() {
         Vector2 position = game.generateRandomPosition(getID());
         Bonus result = null;
@@ -131,16 +122,7 @@ public class GameClient {
         return result;
     }
 
-    public void dispose() {
-        try {
-            client.dispose();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-    }
-
     public interface ConnectionFailureListener {
-        public void onFailure();
+        void onFailure();
     }
 }

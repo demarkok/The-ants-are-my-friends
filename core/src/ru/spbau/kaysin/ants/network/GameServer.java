@@ -9,16 +9,15 @@ import com.esotericsoftware.minlog.Log;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 
 public class GameServer {
-    Server server;
-    IIdGenerator generator;
-    Pool pool;
-    Map<Integer, GameConnection> activePlayers;
-    Map<Integer, GameSession> activeGames;
-    Map<Integer, ObjectSpace> objectSpaceMap;
+    private Server server;
+    private IIdGenerator generator;
+    private Pool pool;
+    private Map<Integer, GameConnection> activePlayers;
+    private Map<Integer, GameSession> activeGames;
+    private Map<Integer, ObjectSpace> objectSpaceMap;
 
 
 
@@ -32,9 +31,7 @@ public class GameServer {
         server = new Server() {
             @Override
             protected Connection newConnection () {
-                GameConnection connection = new GameConnection();
-
-                return connection;
+                return new GameConnection();
             }
         };
         Network.register(server);
@@ -43,7 +40,6 @@ public class GameServer {
 
             @Override
             public void received(Connection c, Object object) {
-                GameConnection connection = (GameConnection)c;
                 if (object instanceof Move) {
                     server.sendToTCP(((GameConnection) c).getEnemyId(), object);
 //                    server.sendToAllExceptTCP(c.getID(), object);
@@ -103,7 +99,7 @@ public class GameServer {
 
 
     public interface IPool {
-        public int match(int id);
+        int match(int id);
     }
 
     public class Pool implements IPool {

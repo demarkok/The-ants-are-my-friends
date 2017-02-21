@@ -1,23 +1,20 @@
 package ru.spbau.kaysin.ants.entities;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.ai.steer.utils.paths.LinePath;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-
 import com.badlogic.gdx.utils.Array;
 import ru.spbau.kaysin.ants.Ants;
+import ru.spbau.kaysin.ants.G;
 import ru.spbau.kaysin.ants.model.GameWorld;
+
+import java.util.LinkedList;
 
 public class AntWay extends Actor {
     private static final float distance = 16; // distance between points we draw
-    Sprite dot;
+    private Sprite dot;
     private LinkedList<Vector2> points;
 
     private Array<Vector2> pathToFollow;
@@ -40,7 +37,7 @@ public class AntWay extends Actor {
 
         if (pathToFollow.size > 0) {
             float segmentLen = point.dst(pathToFollow.get(pathToFollow.size - 1));
-            world.setEnergy(world.getEnergy() - Ant.ENERGY_CONSUMPTION * segmentLen);
+            world.setEnergy(world.getEnergy() - G.ENERGY_CONSUMPTION * segmentLen);
         }
         pathToFollow.add(point);
 
@@ -50,13 +47,10 @@ public class AntWay extends Actor {
     }
 
     public void reset() {
-        if (pathToFollow != null && pathToFollow.size >= 2 && !done) {
-//            world.setEnergy(world.getEnergy() + new LinePath<Vector2>(pathToFollow).getLength() + Ant.START_MOVEMENT_FINE);
-        }
+
         pathToFollow = new Array<Vector2>();
         points = new LinkedList<Vector2>();
 
-//        world.setEnergy(world.getEnergy() - Ant.START_MOVEMENT_FINE);
         done = false;
     }
 

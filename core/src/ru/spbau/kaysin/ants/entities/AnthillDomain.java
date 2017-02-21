@@ -1,16 +1,10 @@
 package ru.spbau.kaysin.ants.entities;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Align;
-
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.utils.FontUtils;
 
@@ -30,7 +24,6 @@ public class AnthillDomain extends Actor {
 
         this.friendly = friendly;
 
-        this.font = font;
         textLayout = new GlyphLayout(font, text);
         texture = new Sprite(Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegion("anthill"));
         setTouchable(Touchable.enabled);

@@ -5,9 +5,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import ru.spbau.kaysin.ants.Ants;
 
-/**
- * Created by demarkok on 25-Dec-16.
- */
 public final class FontUtils {
     public static BitmapFont getFont(Color color, int size) {
         // font

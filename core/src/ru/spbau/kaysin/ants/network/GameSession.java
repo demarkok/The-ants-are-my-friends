@@ -3,11 +3,8 @@ package ru.spbau.kaysin.ants.network;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import ru.spbau.kaysin.ants.Ants;
-import ru.spbau.kaysin.ants.entities.Apple;
-import ru.spbau.kaysin.ants.entities.Blueberry;
-import ru.spbau.kaysin.ants.entities.Bonus;
 
-import static ru.spbau.kaysin.ants.utils.MyMathUtils.reflect;
+import static ru.spbau.kaysin.ants.utils.GameMathUtils.reflect;
 
 public class GameSession implements IGameSession {
     private int first, second;

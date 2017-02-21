@@ -1,7 +1,6 @@
 package ru.spbau.kaysin.ants.screens;
 
 import com.badlogic.gdx.Screen;
-
 import ru.spbau.kaysin.ants.model.GameWorld;
 import ru.spbau.kaysin.ants.network.GameClient;
 import ru.spbau.kaysin.ants.view.WorldRenderer;
@@ -70,7 +69,8 @@ public class PlayScreen implements Screen {
     @Override
     public void dispose() {
         renderer.dispose();
-//        gameWorld.getClient().dispose();
+
+
     }
 
 

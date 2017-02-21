@@ -3,9 +3,9 @@ package ru.spbau.kaysin.ants.utils;
 import com.badlogic.gdx.math.Vector2;
 import ru.spbau.kaysin.ants.Ants;
 
-public final class MyMathUtils {
+public final class GameMathUtils {
 
-    private MyMathUtils() {
+    private GameMathUtils() {
     }
 
     public static float vectorToAngle(Vector2 vector) {

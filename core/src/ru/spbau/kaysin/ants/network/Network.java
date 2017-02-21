@@ -7,9 +7,6 @@ import com.esotericsoftware.kryonet.rmi.ObjectSpace;
 
 import java.util.ArrayList;
 
-/**
- * Created by demarkok on 25-Dec-16.
- */
 public class Network {
     static public final int port = 54555;
 
@@ -27,19 +24,8 @@ public class Network {
         kryo.register(ArrayList.class);
         kryo.register(Object[].class);
         kryo.register(com.badlogic.gdx.math.Vector2.class);
-        kryo.register(Ready.class);
         kryo.register(com.badlogic.gdx.utils.Array.ArrayIterable.class);
-
-//        kryo.register(ru.spbau.kaysin.ants.entities.Apple.class);
-//        kryo.register(ru.spbau.kaysin.ants.entities.Blueberry.class);
-//        kryo.register(com.badlogic.gdx.utils.DelayedRemovalArray.class);
-//        kryo.register(com.badlogic.gdx.utils.IntArray.class);
-//        kryo.register(int[].class);
-//        kryo.register(com.badlogic.gdx.graphics.Color.class);
-//        kryo.register(com.badlogic.gdx.scenes.scene2d.Touchable.class);
     }
 
-    static public class Ready {
-    }
 }
 

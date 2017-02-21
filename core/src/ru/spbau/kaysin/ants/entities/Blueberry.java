@@ -2,7 +2,6 @@ package ru.spbau.kaysin.ants.entities;
 
 import com.badlogic.gdx.graphics.Color;
 import ru.spbau.kaysin.ants.Ants;
-import ru.spbau.kaysin.ants.model.GameWorld;
 import ru.spbau.kaysin.ants.utils.TextSpawner;
 
 

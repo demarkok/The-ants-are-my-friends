@@ -11,19 +11,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Align;
-
-import java.util.ArrayList;
-
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.model.GameWorld;
 import ru.spbau.kaysin.ants.model.HandlingContact;
-import ru.spbau.kaysin.ants.network.Move;
+
+import java.util.ArrayList;
 
 public class Ant extends SteeringActor {
-
-    // Constants
-    public static final float START_MOVEMENT_FINE = 0.15f; // decrease the energy when the dragging starts
-    public static final float ENERGY_CONSUMPTION = 0.0005f;
 
     private ArrayList<DeferredBonus> deferredBonuses;
 

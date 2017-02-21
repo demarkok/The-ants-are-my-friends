@@ -6,9 +6,6 @@ import ru.spbau.kaysin.ants.entities.Ant;
 
 import java.util.ArrayList;
 
-/**
- * Created by demarkok on 25-Dec-16.
- */
 public class Move {
 
     private ArrayList<NewAnt> ants;
@@ -39,12 +36,6 @@ public class Move {
 
     public void addAntMovement(int antId, Array<Vector2> pathToFollow){
         movements.add(new AntMovement(antId, pathToFollow));
-    }
-
-    public void merge(Move other) {
-        ants.addAll(other.getAnts());
-        movements.addAll(other.getMovements());
-        System.out.println("merged");
     }
 
     public static class NewAnt {

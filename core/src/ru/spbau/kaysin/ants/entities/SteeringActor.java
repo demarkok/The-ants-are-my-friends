@@ -9,8 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
-
-import ru.spbau.kaysin.ants.utils.MyMathUtils;
+import ru.spbau.kaysin.ants.utils.GameMathUtils;
 import ru.spbau.kaysin.ants.utils.Scene2dLocation;
 
 
@@ -97,12 +96,12 @@ public abstract class SteeringActor extends Actor implements Steerable<Vector2> 
 
     @Override
     public float vectorToAngle (Vector2 vector) {
-        return MyMathUtils.vectorToAngle(vector);
+        return GameMathUtils.vectorToAngle(vector);
     }
 
     @Override
     public Vector2 angleToVector (Vector2 outVector, float angle) {
-        return MyMathUtils.angleToVector(outVector, angle);
+        return GameMathUtils.angleToVector(outVector, angle);
     }
 
     @Override
@@ -150,14 +149,6 @@ public abstract class SteeringActor extends Actor implements Steerable<Vector2> 
     @Override
     public void setZeroLinearSpeedThreshold (float value) {
         throw new UnsupportedOperationException();
-    }
-
-    public boolean isIndependentFacing () {
-        return independentFacing;
-    }
-
-    public void setIndependentFacing (boolean independentFacing) {
-        this.independentFacing = independentFacing;
     }
 
     public SteeringBehavior<Vector2> getSteeringBehavior () {

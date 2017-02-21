@@ -1,7 +1,5 @@
 package ru.spbau.kaysin.ants.entities;
 
-import ru.spbau.kaysin.ants.model.GameWorld;
-
 
 public class Apple extends Bonus {
     public Apple(float x, float y) {
