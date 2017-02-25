@@ -9,21 +9,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import ru.spbau.kaysin.ants.Ants;
-import ru.spbau.kaysin.ants.G;
 import ru.spbau.kaysin.ants.network.GameClient;
 import ru.spbau.kaysin.ants.utils.ButtonGenerator;
-import ru.spbau.kaysin.ants.utils.FontUtils;
 
 import static ru.spbau.kaysin.ants.G.HEIGHT_PADDING;
 import static ru.spbau.kaysin.ants.G.WIDTH_PADDING;
@@ -74,11 +70,11 @@ public class ConnectingScreen implements Screen {
     public void show() {
 
 
-        stage = new Stage();
+        stage = new Stage(viewport);
 //        stage.clear();
         Gdx.input.setInputProcessor(stage);
 
-        Skin skin = new Skin(Gdx.files.internal("holo/Holo-Dark-hdpi.json"));
+        Skin skin = new Skin(Gdx.files.internal("holo/Holo-dark-hdpi.json"));
 //        skin.addRegions(Ants.getAssets().get("holo/Holo-Dark-hdpi.atlas", TextureAtlas.class));
 //        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
 
@@ -163,7 +159,7 @@ public class ConnectingScreen implements Screen {
                         client.tryToMatch();
                     }
                 }
-            },0,1);
+            },0,0.5f);
         }
     }
 

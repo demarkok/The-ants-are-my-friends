@@ -327,10 +327,9 @@ public class GameWorld {
         com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
             @Override
             public void run() {
-
                 Ants.getInstance().setScreen(new MenuScreen());
             }
-        }, 4);
+        }, 3);
     }
 
     private void win() {
@@ -340,7 +339,7 @@ public class GameWorld {
             public void run() {
                 Ants.getInstance().setScreen(new MenuScreen());
             }
-        }, 4);
+        }, 3);
     }
 
     public int getLives() {

@@ -1,5 +1,6 @@
 package ru.spbau.kaysin.ants;
 
+import aurelienribon.tweenengine.Tween;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -7,8 +8,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-
-import aurelienribon.tweenengine.Tween;
 import ru.spbau.kaysin.ants.screens.MenuScreen;
 import ru.spbau.kaysin.ants.screens.PlayScreen;
 import ru.spbau.kaysin.ants.utils.TweenActor;
@@ -50,7 +49,7 @@ public class Ants extends Game {
         generator = new FreeTypeFontGenerator(Gdx.files.internal("FONTS/visitor1.ttf"));
         assets.load("pack.txt", TextureAtlas.class);
         assets.load("explosion.txt", TextureAtlas.class);
-        assets.load("holo/Holo-Dark-hdpi.atlas", TextureAtlas.class);
+//        assets.load("./holo/Holo-Dark-hdpi.atlas", TextureAtlas.class);
         assets.finishLoading();
         assets.update();
 

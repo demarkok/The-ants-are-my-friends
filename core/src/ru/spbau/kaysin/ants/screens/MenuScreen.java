@@ -19,8 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.utils.ButtonGenerator;
 
@@ -66,7 +64,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void show() {
-        stage = new Stage();
+        stage = new Stage(viewport);
 //        stage.clear();
         Gdx.input.setInputProcessor(stage);
 
