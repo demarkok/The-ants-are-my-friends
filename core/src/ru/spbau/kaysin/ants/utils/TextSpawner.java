@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 public class TextSpawner {
 
-    private static Vector2 upVector = new Vector2(-1, 0);
-    private static Vector2 downVector = new Vector2(1 ,0);
+    private static final Vector2 UP_VECTOR = new Vector2(-1, 0);
+    private static final Vector2 DOWN_VECTOR = new Vector2(1 ,0);
 
 
     public static void spawnText(String text, float posX, float posY, GameWorld gameWorld, Color color) {
@@ -54,15 +54,15 @@ public class TextSpawner {
                 Vector2 currVector = new Vector2();
 
                 if (i % 2 == 0) {
-                    enterPosition.set(upVector).scl(Ants.HEIGHT / 2 * 1.5f).add(position);
-                    exitPosition.set(downVector).scl(Ants.HEIGHT / 2 * 1.5f).add(position);
+                    enterPosition.set(UP_VECTOR).scl(Ants.HEIGHT / 2 * 1.5f).add(position);
+                    exitPosition.set(DOWN_VECTOR).scl(Ants.HEIGHT / 2 * 1.5f).add(position);
 
-                    currVector.set(upVector);
+                    currVector.set(UP_VECTOR);
                 } else {
-                    enterPosition.set(downVector).scl(Ants.HEIGHT / 2 * 1.5f).add(position);
-                    exitPosition.set(upVector).scl(Ants.HEIGHT / 2 * 1.5f).add(position);
+                    enterPosition.set(DOWN_VECTOR).scl(Ants.HEIGHT / 2 * 1.5f).add(position);
+                    exitPosition.set(UP_VECTOR).scl(Ants.HEIGHT / 2 * 1.5f).add(position);
 
-                    currVector.set(downVector);
+                    currVector.set(DOWN_VECTOR);
                 }
 
 

@@ -46,23 +46,15 @@ public class Ant extends SteeringActor {
         this.world = world;
 
         this.friendly = friendly;
-        String textureName = friendly ? "ant" : "redAnt";
 
-        animation = new Animation(0.08f, Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegions(textureName));
-        animation.setPlayMode(Animation.PlayMode.LOOP);
-        animFrame = animation.getKeyFrame(animTime);
+        configureAnimation();
 
-        setSize(animFrame.getRegionWidth(), animFrame.getRegionHeight());
-        setPosition(x - getWidth() / 2, y - getHeight() / 2);
-        setOrigin(Align.center);
-        setScale(2);
+        configureGeomParamters(x, y);
 
-        setBoundingRadius((getHeight() + getWidth()) / 4);
         setTouchable(Touchable.enabled);
 
         antWay = new AntWay(this);
     }
-
 
     @Override
     public void act(float delta) {
@@ -88,6 +80,7 @@ public class Ant extends SteeringActor {
             antWay.update(getPosition(), getBoundingRadius());
         }
     }
+
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
@@ -185,7 +178,7 @@ public class Ant extends SteeringActor {
 
     public void startMovement() {
         if (antWay.getPathToFollow().size >= 2) {
-            // TODO FollowPath algorithm have bug. Should substitute it to my own.
+            // TODO FollowPath algorithm has a bug. Should substitute it to my own.
             ready = true;
             setSteeringBehavior(
                     new FollowPath<Vector2, LinePath.LinePathParam>(
@@ -204,5 +197,22 @@ public class Ant extends SteeringActor {
         return stopTime < 0.5;
 //        return getLinearVelocity().len2() > 0;
 //        return  getSteeringBehavior() != null && getSteeringBehavior().isEnabled();
+    }
+
+    private void configureAnimation() {
+        String textureName = friendly ? "ant" : "redAnt";
+        animation = new Animation(0.08f, Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegions(textureName));
+        animation.setPlayMode(Animation.PlayMode.LOOP);
+        animFrame = animation.getKeyFrame(animTime);
+    }
+
+
+    private void configureGeomParamters(float x, float y) {
+        setSize(animFrame.getRegionWidth(), animFrame.getRegionHeight());
+        setPosition(x - getWidth() / 2, y - getHeight() / 2);
+        setOrigin(Align.center);
+        setScale(2);
+
+        setBoundingRadius((getHeight() + getWidth()) / 4);
     }
 }
