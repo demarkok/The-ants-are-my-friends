@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import ru.spbau.kaysin.ants.Ants;
-import ru.spbau.kaysin.ants.G;
+import ru.spbau.kaysin.ants.Constants;
 import ru.spbau.kaysin.ants.model.GameWorld;
 
 import java.util.LinkedList;
@@ -37,7 +37,7 @@ public class AntWay extends Actor {
 
         if (pathToFollow.size > 0) {
             float segmentLen = point.dst(pathToFollow.get(pathToFollow.size - 1));
-            world.setEnergy(world.getEnergy() - G.ENERGY_CONSUMPTION * segmentLen);
+            world.setEnergy(world.getEnergy() - Constants.ENERGY_CONSUMPTION * segmentLen);
         }
         pathToFollow.add(point);
 

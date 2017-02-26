@@ -121,6 +121,7 @@ public abstract class SteeringActor extends Actor implements Steerable<Vector2> 
 
     @Override
     public void setMaxLinearAcceleration (float maxLinearAcceleration) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -130,6 +131,7 @@ public abstract class SteeringActor extends Actor implements Steerable<Vector2> 
 
     @Override
     public void setMaxAngularSpeed (float maxAngularSpeed) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -139,6 +141,7 @@ public abstract class SteeringActor extends Actor implements Steerable<Vector2> 
 
     @Override
     public void setMaxAngularAcceleration (float maxAngularAcceleration) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

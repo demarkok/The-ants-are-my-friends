@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Align;
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.model.GameWorld;
-import ru.spbau.kaysin.ants.model.HandlingContact;
+import ru.spbau.kaysin.ants.model.IHandlingContact;
 
 import java.util.ArrayList;
 
@@ -143,7 +143,7 @@ public class Ant extends SteeringActor {
 
     }
 
-    public void visitHandlingContact(HandlingContact o) {
+    public void visitHandlingContact(IHandlingContact o) {
         o.acceptContact(this);
     }
 
