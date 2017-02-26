@@ -11,14 +11,35 @@ ant
   index: 0
 ant
   rotate: false
-  xy: 19, 0
+  xy: 23, 0
   size: 19, 22
   orig: 19, 22
   offset: 0, 0
   index: 1
 ant
   rotate: false
-  xy: 38, 0
+  xy: 46, 0
+  size: 19, 22
+  orig: 19, 22
+  offset: 0, 0
+  index: 2
+redAnt
+  rotate: false
+  xy: 0, 100
+  size: 19, 22
+  orig: 19, 22
+  offset: 0, 0
+  index: 0
+redAnt
+  rotate: false
+  xy: 23, 100
+  size: 19, 22
+  orig: 19, 22
+  offset: 0, 0
+  index: 1
+redAnt
+  rotate: false
+  xy: 46, 100
   size: 19, 22
   orig: 19, 22
   offset: 0, 0
@@ -30,16 +51,23 @@ apple
   orig: 19, 19
   offset: 0, 0
   index: -1
-default-round-down
+energyBar
   rotate: false
   xy: 0, 46
   size: 80, 13
   orig: 80, 13
   offset: 0, 0
   index: -1
-default-round
+backgroundBar
   rotate: false
   xy: 0, 61
+  size: 80, 13
+  orig: 80, 13
+  offset: 0, 0
+  index: -1
+recoveryBar
+  rotate: false
+  xy: 0, 128
   size: 80, 13
   orig: 80, 13
   offset: 0, 0
@@ -51,14 +79,34 @@ dot
   orig: 8, 8
   offset: 0, 0
   index: -1
-source
+anthill
   rotate: false
   xy: 97, 3
   size: 102, 102
   orig: 102, 102
   offset: 0, 0
   index: -1
-
+apple2
+  rotate: false
+  xy: 2, 183
+  size: 27, 27
+  orig: 27, 27
+  offset: 0, 0
+  index: -1
+blueberry
+  rotate: false
+  xy: 39, 184
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+heart
+  rotate: false
+  xy: 0, 145
+  size: 27, 30
+  orig: 27, 30
+  offset: 0, 0
+  index: -1
 
 
 

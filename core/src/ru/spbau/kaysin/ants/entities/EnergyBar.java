@@ -10,11 +10,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import ru.spbau.kaysin.ants.model.GameWorld;
 
+import static java.lang.Math.min;
+
 public class EnergyBar extends Actor {
 
     private GameWorld world;
-    private NinePatchDrawable loadingBarBackground;
-    private NinePatchDrawable loadingBar;
+    private NinePatchDrawable backgroundBar;
+    private NinePatchDrawable recoveryBar;
+    private NinePatchDrawable energyBar;
 
     private static final float SHAKE_TIME = 0.1f;
     private static final float SHAKE_DEVIATION = 3;
@@ -25,14 +28,16 @@ public class EnergyBar extends Actor {
     public EnergyBar(GameWorld world) {
         this.world = world;
         TextureAtlas skinAtlas = new TextureAtlas(Gdx.files.internal("pack.txt"));
-        NinePatch loadingBarBackgroundPatch = new NinePatch(skinAtlas.findRegion("default-round"), 0, 0, 0, 0);
-        NinePatch loadingBarPatch = new NinePatch(skinAtlas.findRegion("default-round-down"), 0, 0, 0, 0);
-        loadingBar = new NinePatchDrawable(loadingBarPatch);
-        loadingBarBackground = new NinePatchDrawable(loadingBarBackgroundPatch);
+        NinePatch backgroundBarPatch = new NinePatch(skinAtlas.findRegion("backgroundBar"), 0, 0, 0, 0);
+        NinePatch energyBarPatch = new NinePatch(skinAtlas.findRegion("energyBar"), 0, 0, 0, 0);
+        NinePatch recoveryBarPatch = new NinePatch(skinAtlas.findRegion("recoveryBar"), 0, 0, 0, 0);
+        energyBar = new NinePatchDrawable(energyBarPatch);
+        backgroundBar = new NinePatchDrawable(backgroundBarPatch);
+        recoveryBar = new NinePatchDrawable(recoveryBarPatch);
     }
 
     // we don't know our parent in constructor
-    // TODO: get rid of init
+    // TODO: get rid of reset
     public void init() {
         setPosition(20, 200);
         setSize(7, getParent().getHeight() - 2 * getY());
@@ -41,8 +46,12 @@ public class EnergyBar extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        loadingBarBackground.draw(batch, getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
-        loadingBar.draw(batch, getX(), getY(), getWidth() * getScaleX(), world.getEnergy() * getHeight() * getScaleY());
+        float backgroundHeight = getHeight() * getScaleY();
+        backgroundBar.draw(batch, getX(), getY(), getWidth() * getScaleX(), backgroundHeight);
+        float energyHeight = world.getEnergy() * backgroundHeight;
+        energyBar.draw(batch, getX(), getY(), getWidth() * getScaleX(), energyHeight);
+        float recoveryHeight = min(backgroundHeight - energyHeight, backgroundHeight * world.getEnergyRecoverySpeed());
+        recoveryBar.draw(batch, getX(), getY() + energyHeight, getWidth() * getScaleX(), recoveryHeight);
     }
 
     @Override

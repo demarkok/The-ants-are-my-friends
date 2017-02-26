@@ -62,6 +62,10 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86_64"
     }
+
+    dependencies {
+        compile fileTree(dir: '../libs', include: '*.jar')
+    }
 }
 
 project(":core") {
@@ -81,6 +85,17 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+    }
+
+    dependencies {
+        compile fileTree(dir: '../libs', include: '*.jar')
+    }
+    
+    dependencies {
+        compile "com.esotericsoftware:kryo:3.0.1"
+        compile ("com.esotericsoftware:kryonet:2.22.0-RC1") {
+            exclude module : 'kryo'
+        }
     }
 }
 

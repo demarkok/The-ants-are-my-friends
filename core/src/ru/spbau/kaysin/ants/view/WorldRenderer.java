@@ -1,15 +1,18 @@
 package ru.spbau.kaysin.ants.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.model.GameWorld;
+
+import static ru.spbau.kaysin.ants.Constants.CAPTURE_COLOR;
+import static ru.spbau.kaysin.ants.Constants.PLAYBACK_COLOR;
 
 public class WorldRenderer {
 
@@ -36,7 +39,15 @@ public class WorldRenderer {
     }
 
     public void render() {
-        Gdx.gl.glClearColor(189 / 255f, 194 / 248f, 155 / 222f, 1);
+        Color bgColor;
+
+        if (gameWorld.getState() == GameWorld.State.CAPTURE) {
+            bgColor = CAPTURE_COLOR;
+        }
+        else {
+            bgColor = PLAYBACK_COLOR;
+        }
+        Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         gameWorld.draw();

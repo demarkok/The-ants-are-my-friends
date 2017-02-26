@@ -1,35 +1,43 @@
 package ru.spbau.kaysin.ants.entities;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Align;
-
 import ru.spbau.kaysin.ants.Ants;
+import ru.spbau.kaysin.ants.utils.FontUtils;
 
 
-public class AnthillSource extends Actor {
+public class AnthillDomain extends Actor {
     private Sprite texture;
 
     private GlyphLayout textLayout;
     private BitmapFont font;
-    private final String text = "NEW ANT";
+    private final String text = "DOMAIN";
 
-    public AnthillSource(BitmapFont font) {
-        this.font = font;
+    private boolean friendly;
+
+
+    public AnthillDomain(boolean friendly) {
+        font = FontUtils.getFont(Color.BLACK, 18);
+
+        this.friendly = friendly;
+
         textLayout = new GlyphLayout(font, text);
-        texture = new Sprite(Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegion("source"));
+        texture = new Sprite(Ants.getAssets().get("pack.txt", TextureAtlas.class).findRegion("anthill"));
         setTouchable(Touchable.enabled);
     }
 
-    // TODO get rid of init
+    // TODO get rid of reset
     public void init() {
-        setBounds(0, 0, texture.getWidth(), texture.getHeight());
-        setOrigin(Align.bottomLeft);
+        setSize(texture.getWidth(), texture.getHeight());
+
+        if (friendly) {
+            setPosition(0, 0);
+        } else {
+            setPosition(getParent().getWidth() - getWidth(), getParent().getHeight() - getHeight());
+        }
 
     }
 
@@ -46,6 +54,14 @@ public class AnthillSource extends Actor {
 
     @Override
     public Actor hit(float x, float y, boolean touchable) {
+        if (!friendly) {
+            return null;
+        }
         return super.hit(x, y, touchable);
+    }
+
+
+    public boolean isFriendly() {
+        return friendly;
     }
 }

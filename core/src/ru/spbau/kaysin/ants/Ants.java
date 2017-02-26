@@ -1,12 +1,16 @@
 package ru.spbau.kaysin.ants;
 
+import aurelienribon.tweenengine.Tween;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import ru.spbau.kaysin.ants.screens.MenuScreen;
+import ru.spbau.kaysin.ants.screens.PlayScreen;
+import ru.spbau.kaysin.ants.utils.TweenActor;
 
 // SINGLETON
 public class Ants extends Game {
@@ -44,8 +48,13 @@ public class Ants extends Game {
 
         generator = new FreeTypeFontGenerator(Gdx.files.internal("FONTS/visitor1.ttf"));
         assets.load("pack.txt", TextureAtlas.class);
+        assets.load("explosion.txt", TextureAtlas.class);
+//        assets.load("./holo/Holo-Dark-hdpi.atlas", TextureAtlas.class);
         assets.finishLoading();
         assets.update();
+
+        Tween.registerAccessor(Actor.class, new TweenActor());
+
 
         setScreen(new MenuScreen());
 	}
@@ -61,4 +70,11 @@ public class Ants extends Game {
         generator.dispose();
     }
 
+    @Override
+    public void setScreen(Screen screen) {
+        if (this.screen instanceof PlayScreen) {
+            this.screen.dispose();
+        }
+        super.setScreen(screen);
+    }
 }

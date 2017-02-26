@@ -46,12 +46,12 @@ public class Scene2dLocation implements Location<Vector2> {
 
 	@Override
 	public float vectorToAngle (Vector2 vector) {
-		return MyMathUtils.vectorToAngle(vector);
+		return GameMathUtils.vectorToAngle(vector);
 	}
 
 	@Override
 	public Vector2 angleToVector (Vector2 outVector, float angle) {
-		return MyMathUtils.angleToVector(outVector, angle);
+		return GameMathUtils.angleToVector(outVector, angle);
 	}
 
 }
