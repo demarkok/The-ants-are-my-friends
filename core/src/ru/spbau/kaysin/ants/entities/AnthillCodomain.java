@@ -7,11 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Align;
 import ru.spbau.kaysin.ants.Ants;
-import ru.spbau.kaysin.ants.model.HandlingContact;
+import ru.spbau.kaysin.ants.model.IHandlingContact;
 import ru.spbau.kaysin.ants.utils.FontUtils;
 
 
-public class AnthillCodomain extends Actor implements HandlingContact {
+public class AnthillCodomain extends Actor implements IHandlingContact {
     private Sprite texture;
 
     private GlyphLayout textLayout;
@@ -62,7 +62,9 @@ public class AnthillCodomain extends Actor implements HandlingContact {
 
     @Override
     public void acceptContact(Ant ant) {
-        ant.processContact(this);
+        if (ant.isAlive()) {
+            ant.processContact(this);
+        }
     }
 
 

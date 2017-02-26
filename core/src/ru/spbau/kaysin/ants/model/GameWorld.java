@@ -30,7 +30,7 @@ import static ru.spbau.kaysin.ants.utils.GameMathUtils.reflect;
 
 public class GameWorld {
 
-    private ArrayList<HandlingContact> handlingObjects;
+    private ArrayList<IHandlingContact> handlingObjects;
 
     private Group anthills;
     private Group ants;
@@ -42,7 +42,7 @@ public class GameWorld {
 //    private List<Ant> antList;
     private List<Apple> apples;
 
-    private float energy = 0.9f;
+    private float energy = 0.6f;
     private float energyRecoverySpeed = 0.3f;
     private boolean activeRecovery = false;
 
@@ -78,7 +78,7 @@ public class GameWorld {
 
         tweenManager = new TweenManager();
 
-        handlingObjects = new ArrayList<HandlingContact>();
+        handlingObjects = new ArrayList<IHandlingContact>();
 
         move = new Move();
 
@@ -140,9 +140,7 @@ public class GameWorld {
 
         stage.addListener(new DragTheAntListener(this));
         stage.addListener(new TouchSourceListener(this));
-
     }
-
     public void addAnt(float x, float y, int id, boolean friendly) {
         Ant ant = new Ant(x, y, this, friendly);
 //        antList.add(ant);
@@ -257,7 +255,7 @@ public class GameWorld {
         return tweenManager;
     }
 
-    public void addHandling(HandlingContact actor) {
+    public void addHandling(IHandlingContact actor) {
         handlingObjects.add(actor);
     }
 
@@ -286,7 +284,7 @@ public class GameWorld {
     private void processContacts() {
 
         for (Ant ant: antMap.values()) {
-            for (HandlingContact o: handlingObjects) {
+            for (IHandlingContact o: handlingObjects) {
                 if (o.haveContact(ant)) {
                     ant.visitHandlingContact(o);
                     o.acceptContact(ant);
@@ -296,13 +294,12 @@ public class GameWorld {
 
 
         int n = antMap.size();
-        Ant[] antArray = new Ant[n];
-        antMap.values().toArray(antArray);
+        List<Ant> antList = new ArrayList<Ant>(antMap.values());
         for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) {
-                if (antArray[i].haveContact(antArray[j]) && antArray[j].haveContact(antArray[i])) {
-                    antArray[i].processContact(antArray[j]);
-                    antArray[j].processContact(antArray[i]);
+                if (antList.get(i).haveContact(antList.get(j)) && antList.get(j).haveContact(antList.get(i))) {
+                    antList.get(i).processContact(antList.get(j));
+                    antList.get(j).processContact(antList.get(i));
                 }
             }
         }
@@ -382,7 +379,7 @@ public class GameWorld {
             addBonus(client.generateRandomBonus());
 
             move = new Move();
-            System.out.println("PLAYBACK -> CAPTURE");
+//            System.out.println("PLAYBACK -> CAPTURE");
         }
     }
 
@@ -393,7 +390,7 @@ public class GameWorld {
             addAnt(rightPosition.x, rightPosition.y, newAnt.antId, false);
         }
         for (Move.AntMovement antMovement : move.getMovements()) {
-            System.out.println("move:" + antMovement.antId);
+//            System.out.println("move:" + antMovement.antId);
             Ant ant = antMap.get(antMovement.antId);
             Array<Vector2> pathToFollow = antMovement.pathToFollow;
             for (Vector2 point : pathToFollow) {

@@ -21,8 +21,7 @@ import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.network.GameClient;
 import ru.spbau.kaysin.ants.utils.ButtonGenerator;
 
-import static ru.spbau.kaysin.ants.G.HEIGHT_PADDING;
-import static ru.spbau.kaysin.ants.G.WIDTH_PADDING;
+import static ru.spbau.kaysin.ants.Constants.*;
 
 
 public class ConnectingScreen implements Screen {
@@ -79,11 +78,10 @@ public class ConnectingScreen implements Screen {
 //        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
 
 
-        final TextField addressText = new TextField("46.101.228.47", skin);
+        final TextField addressText = new TextField(DEFAULT_HOST_IP, skin);
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
         style.font = font12;
         style.fontColor = Color.WHITE;
-//        style.cursor = skin.getDrawable("textfield_cursor");
         addressText.setStyle(style);
         addressText.setWidth(300);
 
@@ -96,12 +94,12 @@ public class ConnectingScreen implements Screen {
         table.row();
 
 
-        TextButton connectButton = ButtonGenerator.generateButton("connect", 50, Ants.WIDTH / 2, Ants.HEIGHT / 2);
+        TextButton connectButton = ButtonGenerator.generateButton("connect", MENU_TEXT_SIZE, Ants.WIDTH / 2, Ants.HEIGHT / 2);
         connectButton.addListener(new ChangeListener(){
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 loadingState = State.CONNECTING;
-                client.connect(addressText.getText(), new GameClient.ConnectionFailureListener() {
+                client.connect(addressText.getText(), new GameClient.IConnectionFailureListener() {
                     @Override
                     public void onFailure() {
                         loadingState = State.ERROR;

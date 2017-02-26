@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Align;
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.model.GameWorld;
-import ru.spbau.kaysin.ants.model.HandlingContact;
+import ru.spbau.kaysin.ants.model.IHandlingContact;
 
 import java.util.ArrayList;
 
@@ -49,7 +49,7 @@ public class Ant extends SteeringActor {
 
         configureAnimation();
 
-        configureGeomParamters(x, y);
+        configureGeomParameters(x, y);
 
         setTouchable(Touchable.enabled);
 
@@ -143,7 +143,7 @@ public class Ant extends SteeringActor {
 
     }
 
-    public void visitHandlingContact(HandlingContact o) {
+    public void visitHandlingContact(IHandlingContact o) {
         o.acceptContact(this);
     }
 
@@ -207,7 +207,7 @@ public class Ant extends SteeringActor {
     }
 
 
-    private void configureGeomParamters(float x, float y) {
+    private void configureGeomParameters(float x, float y) {
         setSize(animFrame.getRegionWidth(), animFrame.getRegionHeight());
         setPosition(x - getWidth() / 2, y - getHeight() / 2);
         setOrigin(Align.center);
