@@ -24,12 +24,12 @@ public abstract class Bonus extends Actor implements IHandlingContact {
         this.textureName = textureName;
         setPosition(x, y);
         setOrigin(Align.center);
-        setScale(3);
+        setScale(1);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(texture, getX(), getY(), getOriginX(), getOriginY(),
+        batch.draw(texture, getX() - getWidth() / 2, getY() - getHeight() / 2, getOriginX(), getOriginY(),
                 getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 

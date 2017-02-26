@@ -140,9 +140,7 @@ public class GameWorld {
 
         stage.addListener(new DragTheAntListener(this));
         stage.addListener(new TouchSourceListener(this));
-
     }
-
     public void addAnt(float x, float y, int id, boolean friendly) {
         Ant ant = new Ant(x, y, this, friendly);
 //        antList.add(ant);
