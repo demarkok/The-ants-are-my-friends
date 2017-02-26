@@ -24,7 +24,7 @@ public abstract class Bonus extends Actor implements IHandlingContact {
         this.textureName = textureName;
         setPosition(x, y);
         setOrigin(Align.center);
-        setScale(1);
+        setScale(1.5f);
     }
 
     @Override
