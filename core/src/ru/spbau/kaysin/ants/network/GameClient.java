@@ -54,7 +54,7 @@ public class GameClient {
 
     }
 
-    public void connect(final String host, final ConnectionFailureListener callback) {
+    public void connect(final String host, final IConnectionFailureListener callback) {
         new Thread("Connect") {
             public void run () {
                 try {
@@ -122,7 +122,7 @@ public class GameClient {
         return result;
     }
 
-    public interface ConnectionFailureListener {
+    public interface IConnectionFailureListener {
         void onFailure();
     }
 }

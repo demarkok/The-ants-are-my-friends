@@ -8,9 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.model.GameWorld;
+
+import static ru.spbau.kaysin.ants.Constants.CAPTURE_COLOR;
+import static ru.spbau.kaysin.ants.Constants.PLAYBACK_COLOR;
 
 public class WorldRenderer {
 
@@ -40,10 +42,10 @@ public class WorldRenderer {
         Color bgColor;
 
         if (gameWorld.getState() == GameWorld.State.CAPTURE) {
-            bgColor = new Color(189 / 255f, 194 / 248f, 155 / 222f, 1);
+            bgColor = CAPTURE_COLOR;
         }
         else {
-            bgColor = new Color(200 / 255f, 194 / 248f, 155 / 222f, 1);
+            bgColor = PLAYBACK_COLOR;
         }
         Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

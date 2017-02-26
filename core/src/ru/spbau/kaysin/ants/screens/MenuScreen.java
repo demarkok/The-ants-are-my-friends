@@ -22,7 +22,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.utils.ButtonGenerator;
 
-import static ru.spbau.kaysin.ants.G.WIDTH_PADDING;
+import static ru.spbau.kaysin.ants.Constants.MENU_TEXT_SIZE;
+import static ru.spbau.kaysin.ants.Constants.WIDTH_PADDING;
 
 public class MenuScreen implements Screen {
 
@@ -80,7 +81,7 @@ public class MenuScreen implements Screen {
 
 
 
-        TextButton playButton = ButtonGenerator.generateButton("play", 50, Ants.WIDTH / 2, Ants.HEIGHT / 2);
+        TextButton playButton = ButtonGenerator.generateButton("play", MENU_TEXT_SIZE, Ants.WIDTH / 2, Ants.HEIGHT / 2);
         playButton.addListener(new ChangeListener(){
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -88,7 +89,7 @@ public class MenuScreen implements Screen {
             }
         });
 
-        TextButton exitButton = ButtonGenerator.generateButton("exit", 50, Ants.WIDTH / 2, Ants.HEIGHT / 2);
+        TextButton exitButton = ButtonGenerator.generateButton("exit", MENU_TEXT_SIZE, Ants.WIDTH / 2, Ants.HEIGHT / 2);
         exitButton.addListener(new ChangeListener(){
             @Override
             public void changed(ChangeEvent event, Actor actor) {

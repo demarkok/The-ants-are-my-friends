@@ -8,10 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.model.GameWorld;
-import ru.spbau.kaysin.ants.model.HandlingContact;
+import ru.spbau.kaysin.ants.model.IHandlingContact;
 
 
-public abstract class Bonus extends Actor implements HandlingContact {
+public abstract class Bonus extends Actor implements IHandlingContact {
 
     private Sprite texture;
     private GameWorld world;
