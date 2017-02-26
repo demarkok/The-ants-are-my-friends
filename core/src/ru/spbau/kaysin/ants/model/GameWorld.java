@@ -289,7 +289,7 @@ public class GameWorld {
             for (HandlingContact o: handlingObjects) {
                 if (o.haveContact(ant)) {
                     ant.visitHandlingContact(o);
-                    o.processContact(ant);
+                    o.acceptContact(ant);
                 }
             }
         }

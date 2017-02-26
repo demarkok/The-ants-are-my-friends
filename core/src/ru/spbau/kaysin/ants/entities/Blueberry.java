@@ -11,6 +11,7 @@ public class Blueberry extends DeferredBonus {
     }
     @Override
     public void acceptContact(Ant ant) {
+        super.acceptContact(ant);
         ant.processContact(this);
     }
 

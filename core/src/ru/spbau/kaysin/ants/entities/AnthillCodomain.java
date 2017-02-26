@@ -65,10 +65,6 @@ public class AnthillCodomain extends Actor implements HandlingContact {
         ant.processContact(this);
     }
 
-    @Override
-    public void processContact(Ant ant) {
-
-    }
 
     public boolean isFriendly() {
         return friendly;

@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
-
 import ru.spbau.kaysin.ants.Ants;
 import ru.spbau.kaysin.ants.model.GameWorld;
 import ru.spbau.kaysin.ants.model.HandlingContact;
@@ -35,7 +34,7 @@ public abstract class Bonus extends Actor implements HandlingContact {
     }
 
     @Override
-    public void processContact(Ant ant) {
+    public void acceptContact(Ant ant) {
         captured = true;
         remove();
     }

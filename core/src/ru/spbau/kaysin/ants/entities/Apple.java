@@ -8,6 +8,7 @@ public class Apple extends Bonus {
 
     @Override
     public void acceptContact(Ant ant) {
+        super.acceptContact(ant);
         ant.processContact(this);
     }
 }

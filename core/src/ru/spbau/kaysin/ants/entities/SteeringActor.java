@@ -120,8 +120,16 @@ public abstract class SteeringActor extends Actor implements Steerable<Vector2> 
     }
 
     @Override
+    public void setMaxLinearAcceleration (float maxLinearAcceleration) {
+    }
+
+    @Override
     public float getMaxAngularSpeed () {
         return speed;
+    }
+
+    @Override
+    public void setMaxAngularSpeed (float maxAngularSpeed) {
     }
 
     @Override
@@ -129,6 +137,9 @@ public abstract class SteeringActor extends Actor implements Steerable<Vector2> 
         return 1;
     }
 
+    @Override
+    public void setMaxAngularAcceleration (float maxAngularAcceleration) {
+    }
 
     @Override
     public float getZeroLinearSpeedThreshold () {
