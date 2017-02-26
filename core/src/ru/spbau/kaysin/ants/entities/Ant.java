@@ -49,7 +49,7 @@ public class Ant extends SteeringActor {
 
         configureAnimation();
 
-        configureGeomParamters(x, y);
+        configureGeomParameters(x, y);
 
         setTouchable(Touchable.enabled);
 
@@ -207,7 +207,7 @@ public class Ant extends SteeringActor {
     }
 
 
-    private void configureGeomParamters(float x, float y) {
+    private void configureGeomParameters(float x, float y) {
         setSize(animFrame.getRegionWidth(), animFrame.getRegionHeight());
         setPosition(x - getWidth() / 2, y - getHeight() / 2);
         setOrigin(Align.center);

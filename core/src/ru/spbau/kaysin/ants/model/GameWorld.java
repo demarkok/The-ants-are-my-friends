@@ -42,7 +42,7 @@ public class GameWorld {
 //    private List<Ant> antList;
     private List<Apple> apples;
 
-    private float energy = 0.9f;
+    private float energy = 0.6f;
     private float energyRecoverySpeed = 0.3f;
     private boolean activeRecovery = false;
 

@@ -62,7 +62,9 @@ public class AnthillCodomain extends Actor implements IHandlingContact {
 
     @Override
     public void acceptContact(Ant ant) {
-        ant.processContact(this);
+        if (ant.isAlive()) {
+            ant.processContact(this);
+        }
     }
 
 
