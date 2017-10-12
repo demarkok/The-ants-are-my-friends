@@ -2,6 +2,10 @@
 # The ants are my friends
 Game for android (educational project)
 
+# Demo
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/DGIbSgFiTdk/0.jpg)](https://www.youtube.com/watch?v=DGIbSgFiTdk)
+
 ## What I use
 * [libgdx](https://github.com/libgdx/libgdx)
 * [gdxAI](https://github.com/libgdx/gdx-ai)
